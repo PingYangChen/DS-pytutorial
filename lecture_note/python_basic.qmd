@@ -288,22 +288,23 @@ import numpy as np
 
 ```{python}
 #| eval: false
-
 # 一維陣列
 np1 = np.array([1, 2, 3])
 np2 = np.array([3, 4, 5])
 
 # 陣列相加
-print(np1 + np2) # [4 6 8]
+#print(np1 + np2) # [4 6 8]
 
 # 二維陣列
 np3 = np.array([[1.1, 1.2, 1.3], [2.1, 2.2, 2.3]])
-print(np3)
-print(np3[0,2]) #顯示陣列中(0,2)位置的值
+#print(np3)
+#print(np3[0,2]) #顯示陣列中(0,2)位置的值
 
 # 顯示陣列相關資訊
-print(np1.ndim, np1.shape, np1.dtype) # 1 (3,) int64 => 一維陣列, 三個元素, 資料型別
-
+print(np1.ndim, np1.shape, np1.dtype) # 1 (3,) int64 => 一維陣列, 3 個元素, 資料型別
+print(np3.ndim, np3.shape, np3.dtype) # 1 (3,) int64 => 二維陣列, 2 x 3 個元素, 資料型別
+```
+```{python}
 #建立陣列
 #建立填滿 0 或 1 的陣列
 np4 = np.zeros([2, 3]) # array([[ 0.,  0.,  0.], [ 0.,  0.,  0.]])
@@ -324,15 +325,31 @@ print(r2)
 ```
 
 
+### 隨機生成
 
-# Today's Practice
-
+隨機產生數據。完整功能請參考 https://numpy.org/doc/stable/reference/random/index.html
 ```{python}
-import numpy as np
+# 從數字 1 到 13 中，隨機抽取三個數字，連抽三次
+print(np.random.randint(low = 1, high = 13, size = (3, )))
+print(np.random.randint(low = 1, high = 13, size = (3, )))
+print(np.random.randint(low = 1, high = 13, size = (3, )))
+```
 
+**固定隨機種子**，再隨機產生數據
+```{python}
+# 從數字 1 到 13 中，隨機抽取三個數字，連抽三次
 np.random.seed(1)
-a = np.random.permutation(np.arange(1,9))
-print(a)
+print(np.random.randint(low = 1, high = 13, size = (3, )))
+np.random.seed(1)
+print(np.random.randint(low = 1, high = 13, size = (3, )))
+np.random.seed(1)
+print(np.random.randint(low = 1, high = 13, size = (3, )))
+```
 
-np.random.normal
+### 隨機排序
+```{python}
+# 將數字 1 到 9999 隨機排序，取前 20 個數字相加
+perm_sample = np.random.permutation(np.arange(1, 10000))
+print(perm_sample[:20])
+print(np.sum(perm_sample[:20]))
 ```
