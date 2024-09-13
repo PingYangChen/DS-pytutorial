@@ -96,74 +96,193 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="課程-python-語言環境設定" class="level1">
-<h1>課程 Python 語言環境設定</h1>
-<section id="安裝程式" class="level2">
-<h2 class="anchored" data-anchor-id="安裝程式">安裝程式</h2>
+<section id="課程-python-語言環境設定" class="level2">
+<h2 class="anchored" data-anchor-id="課程-python-語言環境設定">課程 Python 語言環境設定</h2>
+<section id="安裝程式" class="level3">
+<h3 class="anchored" data-anchor-id="安裝程式">安裝程式</h3>
 <ol type="1">
 <li>下載並安裝 Python https://www.python.org/downloads/</li>
 <li>下載並安裝 VSCode https://code.visualstudio.com/download</li>
 <li>下載並安裝 Quarto https://quarto.org/docs/get-started/</li>
 </ol>
 </section>
+<section id="在-vscode-建立-python-虛擬環境" class="level3">
+<h3 class="anchored" data-anchor-id="在-vscode-建立-python-虛擬環境">在 VSCode 建立 Python 虛擬環境</h3>
+<p>官方說明文件 https://code.visualstudio.com/docs/python/environments</p>
+<p>步驟如下</p>
+<ol type="1">
+<li>於本機端建立資料夾，作為專案的根目錄 (root)</li>
+<li>開啟 VSCode，於上方功能列選 <strong>File -&gt; Open Folder…</strong>，選擇剛才建立的資料夾</li>
+<li>開啟 VSCode Command Palette (鍵盤操作 <code>Ctrl + Shift + P</code>)</li>
+<li>尋找功能選項 <code>Python: Create Environment</code> (可輸入前幾個字元縮小尋找範圍)</li>
+<li>選擇環境類型 (environment types) <code>Venv</code> 或 <code>Conda</code>
+<ul>
+<li>若選 <code>Venv</code>，下一步為選擇<strong>本機已安裝的</strong>Python 路徑，VSCode 將依照所選路徑，創造對應的虛擬環境。</li>
+<li>若選 <code>Conda</code>，下一步為選擇 Python 版本，VSCode 將依照所選版本，在專案資料夾內安裝該版本的 python。</li>
+</ul></li>
+<li>完成</li>
+</ol>
 </section>
-<section id="numpy" class="level1">
-<h1>Numpy</h1>
-<div id="3f95a6b9" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 引入 numpy 模組</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 一維陣列</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>np1 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>np2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 陣列相加</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np1 <span class="op">+</span> np2) <span class="co"># [4 6 8]</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 二維陣列</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>np3 <span class="op">=</span> np.array([[<span class="fl">1.1</span>, <span class="fl">1.2</span>, <span class="fl">1.3</span>], [<span class="fl">2.1</span>, <span class="fl">2.2</span>, <span class="fl">2.3</span>]])</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np3)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np3[<span class="dv">0</span>,<span class="dv">2</span>]) <span class="co">#顯示陣列中(0,2)位置的值</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示陣列相關資訊</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np1.ndim, np1.shape, np1.dtype) <span class="co"># 1 (3,) int64 =&gt; 一維陣列, 三個元素, 資料型別</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#建立陣列</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#建立填滿 0 或 1 的陣列</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>np4 <span class="op">=</span> np.zeros([<span class="dv">2</span>, <span class="dv">3</span>]) <span class="co"># array([[ 0.,  0.,  0.], [ 0.,  0.,  0.]])</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np4)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>np5 <span class="op">=</span> np.ones([<span class="dv">2</span>, <span class="dv">3</span>]) <span class="co"># array([[ 1.,  1.,  1.], [ 1.,  1.,  1.]])</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np5)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">## Arange</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>r1 <span class="op">=</span> np.arange(<span class="dv">25</span>, <span class="dv">30</span>, <span class="fl">.5</span>) <span class="co">#從25到30(不包含30)，每0.5為間隔</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r1)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">## Linspace</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> np.linspace(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">9</span>) <span class="co">#從3到5(包含5)，等距離切9個點</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r2)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="安裝-python-套件" class="level3">
+<h3 class="anchored" data-anchor-id="安裝-python-套件">安裝 Python 套件</h3>
+<ol type="1">
+<li>於 VSCode 上方功能列選 <strong>Terminal -&gt; New Terminal</strong></li>
+<li>於 terminal，透過 <code>pip install</code> 安裝所需套件，以下為 pip 的常用指令</li>
+</ol>
+<div id="7c6f4ac3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 安裝最近版本 latest version</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pip install SomePackage</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># specific version，安裝套件的指定版本，下方程式碼為安裝 1.0.4 版本</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pip install SomePackage<span class="op">==</span><span class="fl">1.0.4</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># minimum version，安裝套件時指定可接受的最低版本，下方程式碼為安裝 1.0.4 以上的版本</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pip install SomePackage<span class="op">&gt;=</span><span class="fl">1.0.4</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 查詢套件版本與其他詳細資料</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>pip show SomePackage</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 移除套件</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>pip uninstall SomePackage</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5a4e4348" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if else </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (a<span class="op">&gt;</span><span class="dv">0</span>):</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'yes'</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'no'</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#for loop</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>( i<span class="op">%</span><span class="dv">10</span><span class="op">==</span><span class="dv">0</span> ):</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(i)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># while loop        </span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span>                 </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> count <span class="op">&lt;</span> <span class="dv">3</span>:       </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(count)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> count<span class="op">+</span><span class="dv">1</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>先安裝幾個課程常使用的套件</li>
+</ol>
+<div id="82835ef5" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 資料分析需要的基本套件</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pip install numpy pandas scikit<span class="op">-</span>learn xgboost</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Quarto 文件以及視覺化需要的套件</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pip install jupyter matplotlib plotly</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="基礎-python-語法" class="level2">
+<h2 class="anchored" data-anchor-id="基礎-python-語法">基礎 Python 語法</h2>
+<section id="基本變數型態" class="level3">
+<h3 class="anchored" data-anchor-id="基本變數型態">基本變數型態</h3>
+<div id="3694973f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">### 單個變數</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>int_var <span class="op">=</span> <span class="dv">100</span> <span class="co"># 整數</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># print(type(int_var)) ## &lt;class 'int'&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>float_var <span class="op">=</span> <span class="fl">100.0</span> <span class="co"># 浮點數</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(type(float_var)) ## &lt;class 'float'&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>string_var <span class="op">=</span> <span class="st">'20240914'</span> <span class="co"># 字串</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># print(type(string_var)) ## &lt;class 'str'&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">### 容器變數</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>tuple_var <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">4</span>) <span class="co"># 元組</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>list_var <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">4</span>] <span class="co"># 串列</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>list_var_2 <span class="op">=</span> [<span class="st">'2'</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="st">'4'</span>, <span class="dv">0</span>, <span class="st">'9'</span>, <span class="dv">1</span>, <span class="dv">4</span>] <span class="co"># 串列(盡量別這麼做)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>dict_var <span class="op">=</span> { <span class="co"># 字典</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item'</span>: <span class="st">'冰美式'</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'price'</span>: <span class="dv">100</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>dict_var_2 <span class="op">=</span> { <span class="co"># 字典</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item'</span>: [<span class="st">'冰美式'</span>, <span class="st">'冰拿鐵'</span>],</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'price'</span>: [<span class="dv">100</span>, <span class="dv">150</span>]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>list_of_list <span class="op">=</span> [ <span class="co"># 複合串列</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>]</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>list_of_dict <span class="op">=</span> [ <span class="co"># 字典串列(常見格式)</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    { </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: <span class="st">'冰美式'</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">'price'</span>: <span class="dv">100</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    { </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: <span class="st">'冰拿鐵'</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">'price'</span>: <span class="dv">150</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="串列變數內容取用法" class="level3">
+<h3 class="anchored" data-anchor-id="串列變數內容取用法">串列變數內容取用法</h3>
+<p>串列內容物取用的常用指令如下，在後續使用 <code>numpy</code> 操作向量及矩陣時，也使用邏輯操作。</p>
+<div id="81b4aceb" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>list_var[<span class="dv">0</span>]  <span class="co"># list 內第 1 個變數</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>list_var[<span class="dv">5</span>]  <span class="co"># list 內第 6 個變數</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>list_var[<span class="op">-</span><span class="dv">1</span>] <span class="co"># list 內最後一個變數</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>list_var[<span class="dv">1</span>:<span class="dv">4</span>] <span class="co"># list 內第 2 個到第 4 個變數</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>list_var[:<span class="dv">4</span>]  <span class="co"># list 內前四個變數</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>list_var[<span class="op">-</span><span class="dv">4</span>:] <span class="co"># list 內最後四個變數</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>list_var <span class="op">+</span> [<span class="dv">1310</span>, <span class="dv">1600</span>] <span class="co"># 在原有 list 加入新的內容於後方</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>list_of_list[<span class="dv">0</span>]      <span class="co"># 外層 list 內第 1 個 list</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>list_of_list[<span class="dv">0</span>:<span class="dv">2</span>]    <span class="co"># 外層 list 內前兩個 list</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>list_of_list[<span class="dv">0</span>][<span class="dv">0</span>:<span class="dv">2</span>] <span class="co"># 外層 list 內第 1 個 list 的前兩個變數</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="字串內容取用法" class="level3">
+<h3 class="anchored" data-anchor-id="字串內容取用法">字串內容取用法</h3>
+<p>一個字串為一些字母或文字構成的串列</p>
+<div id="5aa70aee" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>str_1 <span class="op">=</span> <span class="st">'data mining'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(str_1[<span class="dv">2</span>])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(str_1[<span class="dv">2</span>:<span class="dv">8</span>])</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>str_2 <span class="op">=</span> <span class="st">'This is '</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(str_2 <span class="op">+</span> str_1 <span class="op">+</span> <span class="st">' class'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 其他字串輸入格式</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>str_dq <span class="op">=</span> <span class="st">"hahahahaha"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>str_tsq <span class="op">=</span> <span class="st">'''hahahahaha'''</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>str_tdq <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">hahahahahahahahaha</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">這種格式可以接受輸入時斷行</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">hahahahahahahahahahahaha</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="字串內嵌入其他變數" class="level3">
+<h3 class="anchored" data-anchor-id="字串內嵌入其他變數">字串內嵌入其他變數</h3>
+<p>可透過指定要嵌入變數的 format，來決定變數成為字串時的樣子。 Format Specifiers in C: https://www.geeksforgeeks.org/format-specifiers-in-c/</p>
+<div id="31dca4d9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>int_num <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>float_num <span class="op">=</span> <span class="fl">100.0</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%d</span><span class="st"> 元'</span> <span class="op">%</span> (int_num))   <span class="co"># 嵌入時改為整數</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%d</span><span class="st"> 元'</span> <span class="op">%</span> (float_num)) <span class="co"># 嵌入時改為整數</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%f</span><span class="st"> 元'</span> <span class="op">%</span> (int_num))   <span class="co"># 嵌入時改為浮點數</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%f</span><span class="st"> 元'</span> <span class="op">%</span> (float_num)) <span class="co"># 嵌入時改為浮點數</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%s</span><span class="st"> 元'</span> <span class="op">%</span> (int_num))   <span class="co"># 嵌入時改為字串</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%s</span><span class="st"> 元'</span> <span class="op">%</span> (float_num)) <span class="co"># 嵌入時改為字串</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>yes
-0
+<pre><code>冰美式一杯 100 元
+冰美式一杯 100 元
+冰美式一杯 100.000000 元
+冰美式一杯 100.000000 元
+冰美式一杯 100 元
+冰美式一杯 100.0 元</code></pre>
+</div>
+</div>
+<div id="b39fc55f" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 嵌入多個變數時，按照順序寫入 % 後方括號內</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>str_var <span class="op">=</span> <span class="st">'請先結帳'</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'冰美式一杯 </span><span class="sc">%d</span><span class="st"> 元，</span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (int_num, str_var)) </span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>冰美式一杯 100 元，請先結帳</code></pre>
+</div>
+</div>
+</section>
+<section id="控制邏輯語法" class="level3">
+<h3 class="anchored" data-anchor-id="控制邏輯語法">控制邏輯語法</h3>
+<div id="3e0c4873" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if else </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (a<span class="op">&gt;</span><span class="dv">0</span>):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'yes'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'no'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>yes</code></pre>
+</div>
+</div>
+<div id="0dc73074" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#for loop</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>( i<span class="op">%</span><span class="dv">10</span><span class="op">==</span><span class="dv">0</span> ):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(i)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
 10
 20
 30
@@ -172,75 +291,128 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 60
 70
 80
-90
-0
+90</code></pre>
+</div>
+</div>
+<div id="6040d59f" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># while loop        </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span>                 </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> count <span class="op">&lt;</span> <span class="dv">3</span>:       </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(count)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> count<span class="op">+</span><span class="dv">1</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
 1
 2</code></pre>
 </div>
 </div>
 </section>
-<section id="pandas" class="level1">
-<h1>Pandas</h1>
-<p>Pandas ：資料前處理 (建資料集、插補)、敘述統計</p>
-<div id="8cd31de7" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="op">=</span> pd.read_csv(<span class="st">'../sample_data/iris.csv'</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(tmp))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="pandas" class="level2">
+<h2 class="anchored" data-anchor-id="pandas">Pandas</h2>
+<div id="7cad3775" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 引入 pandas 模組</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="dataframe-變數" class="level3">
+<h3 class="anchored" data-anchor-id="dataframe-變數">Dataframe 變數</h3>
+<p>令串列變數為 Dataframe</p>
+<div id="2067b488" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>list_of_list <span class="op">=</span> [</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>,  <span class="dv">2</span>,  <span class="dv">3</span>,  <span class="dv">4</span>],</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">5</span>,  <span class="dv">6</span>,  <span class="dv">7</span>,  <span class="dv">8</span>],</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立 Dataframe</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>df_0 <span class="op">=</span> pd.DataFrame(list_of_list)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 命名欄位</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>df_0.columns <span class="op">=</span> [<span class="st">'Column A'</span>, <span class="st">'Column B'</span>, <span class="st">'Column C'</span>, <span class="st">'Column D'</span>]</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_0)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>150</code></pre>
+<pre><code>   Column A  Column B  Column C  Column D
+0         1         2         3         4
+1         5         6         7         8
+2         9        10        11        12</code></pre>
 </div>
 </div>
-<p>Pandas 也提供基礎統計圖表功能</p>
-<div id="e07969e8" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 引入 pandas 模組</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="vs">r'../sample_data/iris.csv'</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(path, sep<span class="op">=</span><span class="st">','</span>, na_values<span class="op">=</span><span class="st">"."</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 資料結構</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>df.shape <span class="co"># dim (150,5)</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>df.dtypes <span class="co"># 各變數的結構(數值、文字..)</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>df.columns <span class="co"># 欄位名稱</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<p>Dataframe 相關操作</p>
+<div id="01938563" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 在最後新增一欄</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>new_col_1 <span class="op">=</span> [<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">400</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df_0[<span class="st">'Add New'</span>] <span class="op">=</span> new_col_1</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 嵌入新欄位至第二欄</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>new_col_2 <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.05</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>df_0.insert(loc <span class="op">=</span> <span class="dv">1</span>, column <span class="op">=</span> <span class="st">'Insert New'</span>, value <span class="op">=</span> new_col_2)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_0)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Column A  Insert New  Column B  Column C  Column D  Add New
+0         1        0.10         2         3         4      100
+1         5        0.20         6         7         8      200
+2         9        0.05        10        11        12      400</code></pre>
+</div>
+</div>
+</section>
+<section id="資料讀取與相關操作" class="level3">
+<h3 class="anchored" data-anchor-id="資料讀取與相關操作">資料讀取與相關操作</h3>
+<p>資料儲存格式五花八門，基本上 pandas 應能處理絕大部分的資料格式，請參考 https://pandas.pydata.org/docs/user_guide/io.html。以下示範以 <code>pandas.read_csv()</code> 讀取 CSV 表格資料。</p>
+<div id="2d9fc421" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#path = '../sample_data/iris.csv' # 指定本機的檔案路徑</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/main/sample_data/iris.csv'</span> <span class="co"># 指定檔案網址</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(path)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Number of the observation is </span><span class="sc">%d</span><span class="st">'</span> <span class="op">%</span> (<span class="bu">len</span>(df)))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.head(<span class="dv">5</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of the observation is 150
+   Sepal.Length  Sepal.Width  Petal.Length  Petal.Width Species
+0           5.1          3.5           1.4          0.2  setosa
+1           4.9          3.0           1.4          0.2  setosa
+2           4.7          3.2           1.3          0.2  setosa
+3           4.6          3.1           1.5          0.2  setosa
+4           5.0          3.6           1.4          0.2  setosa</code></pre>
+</div>
+</div>
+<div id="a07bfeb1" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 資料結構</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df.shape <span class="co"># dim (150,5)</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>df.dtypes <span class="co"># 各變數的結構(數值、文字..)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns) <span class="co"># 欄位名稱</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>Index(['Sepal.Length', 'Sepal.Width', 'Petal.Length', 'Petal.Width',
        'Species'],
       dtype='object')</code></pre>
 </div>
 </div>
-<div id="9dcefaff" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 變數欄位取得</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.loc[:, [<span class="st">'Sepal.Length'</span>,<span class="st">'Species'</span>]]) <span class="co"># 使用變數名稱取得column</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.iloc[:, [<span class="dv">0</span>, <span class="dv">4</span>]]) <span class="co"># 使用Index取得column</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 資料欄位取得</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.loc[<span class="dv">0</span>:<span class="dv">2</span>,]) <span class="co"># 取得Row 0~2的資料</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.loc[<span class="dv">0</span>:<span class="dv">2</span>, [<span class="st">'Sepal.Length'</span>,<span class="st">'Species'</span>]]) <span class="co"># 取得Row 0~2特定變數名稱的資料</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.iloc[<span class="dv">0</span>:<span class="dv">2</span>, [<span class="dv">0</span>, <span class="dv">4</span>]]) <span class="co"># 使用Index取得column</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續變數的統計量</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>iris_conti_vars <span class="op">=</span> [<span class="st">'Sepal.Length'</span>, <span class="st">'Sepal.Width'</span>, <span class="st">'Petal.Length'</span>, <span class="st">'Petal.Width'</span>]</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].<span class="bu">sum</span>()) <span class="co"># 各變數總和</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].mean())  <span class="co"># 各變數平均</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].median()) <span class="co"># 各變數中位數</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].describe()) <span class="co"># 統計量(n,mean,std,min,Q1,median,Q3,max)</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 離散變數的統計量</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>((df.Species.unique())) <span class="co"># 顯示離散變數的 levels</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.value_counts(df.Species)) <span class="co"># 計算各品種的個數</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7e6db24a" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 變數欄位取得</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.loc[:, [<span class="st">'Sepal.Length'</span>,<span class="st">'Species'</span>]]) <span class="co"># 使用變數名稱取得column</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.iloc[:, [<span class="dv">0</span>, <span class="dv">4</span>]]) <span class="co"># 使用Index取得column</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 資料欄位取得</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.loc[<span class="dv">0</span>:<span class="dv">2</span>,]) <span class="co"># 取得Row 0~2的資料</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.loc[<span class="dv">0</span>:<span class="dv">2</span>, [<span class="st">'Sepal.Length'</span>,<span class="st">'Species'</span>]]) <span class="co"># 取得Row 0~2特定變數名稱的資料</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.iloc[<span class="dv">0</span>:<span class="dv">2</span>, [<span class="dv">0</span>, <span class="dv">4</span>]]) <span class="co"># 使用Index取得column </span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續變數的統計量</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>iris_conti_vars <span class="op">=</span> [<span class="st">'Sepal.Length'</span>, <span class="st">'Sepal.Width'</span>, <span class="st">'Petal.Length'</span>, <span class="st">'Petal.Width'</span>]</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].<span class="bu">sum</span>()) <span class="co"># 各變數總和</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].mean())  <span class="co"># 各變數平均</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].median()) <span class="co"># 各變數中位數</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[iris_conti_vars].describe()) <span class="co"># 統計量(n,mean,std,min,Q1,median,Q3,max)</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 離散變數的統計量</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>((df.Species.unique())) <span class="co"># 顯示離散變數的 levels</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.value_counts(df.Species)) <span class="co"># 計算各品種的個數</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Pandas 同時也提供一些基礎統計圖表功能，例如</p>
 <ol type="1">
 <li>將資料分組，並看其萼片寬度</li>
 </ol>
-<div id="a55d8025" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>group_Species<span class="op">=</span>df.groupby(<span class="st">'Species'</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(group_Species[<span class="st">'Sepal.Width'</span>].mean()) <span class="co"># 示範分組計算 'Sepal.Width' 的平均數</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 分組畫 Boxplots</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>group_Species.boxplot(column<span class="op">=</span>[<span class="st">'Sepal.Width'</span>, <span class="st">'Sepal.Length'</span>], return_type <span class="op">=</span> <span class="va">None</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="dcd36df3" class="cell" data-fig-height="18" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>group_Species<span class="op">=</span>df.groupby(<span class="st">'Species'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(group_Species[<span class="st">'Sepal.Width'</span>].mean()) <span class="co"># 示範分組計算 'Sepal.Width' 的平均數</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 分組畫 Boxplots</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>fig_box <span class="op">=</span> group_Species.boxplot(column<span class="op">=</span>[<span class="st">'Sepal.Width'</span>, <span class="st">'Sepal.Length'</span>], return_type <span class="op">=</span> <span class="va">None</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Species
 setosa        3.428
@@ -248,68 +420,89 @@ versicolor    2.770
 virginica     2.974
 Name: Sepal.Width, dtype: float64</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>setosa             Axes(0.1,0.559091;0.363636x0.340909)
-versicolor    Axes(0.536364,0.559091;0.363636x0.340909)
-virginica              Axes(0.1,0.15;0.363636x0.340909)
-dtype: object</code></pre>
-</div>
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="python_basic_files/figure-html/cell-7-output-3.png" width="575" height="422" class="figure-img"></p>
+<p><img src="python_basic_files/figure-html/cell-18-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="575" height="422"></p>
 </figure>
 </div>
 </div>
 </div>
-<ol start="2" type="1">
+<ol type="1">
 <li>以散布圖觀察 Iris 資料</li>
 </ol>
-<div id="3f864d6b" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.plotting <span class="im">import</span> scatter_matrix</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>scatter_matrix(df[[<span class="st">'Sepal.Length'</span>,<span class="st">'Sepal.Width'</span>,<span class="st">'Petal.Length'</span>,<span class="st">'Petal.Width'</span>]])</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>array([[&lt;Axes: xlabel='Sepal.Length', ylabel='Sepal.Length'&gt;,
-        &lt;Axes: xlabel='Sepal.Width', ylabel='Sepal.Length'&gt;,
-        &lt;Axes: xlabel='Petal.Length', ylabel='Sepal.Length'&gt;,
-        &lt;Axes: xlabel='Petal.Width', ylabel='Sepal.Length'&gt;],
-       [&lt;Axes: xlabel='Sepal.Length', ylabel='Sepal.Width'&gt;,
-        &lt;Axes: xlabel='Sepal.Width', ylabel='Sepal.Width'&gt;,
-        &lt;Axes: xlabel='Petal.Length', ylabel='Sepal.Width'&gt;,
-        &lt;Axes: xlabel='Petal.Width', ylabel='Sepal.Width'&gt;],
-       [&lt;Axes: xlabel='Sepal.Length', ylabel='Petal.Length'&gt;,
-        &lt;Axes: xlabel='Sepal.Width', ylabel='Petal.Length'&gt;,
-        &lt;Axes: xlabel='Petal.Length', ylabel='Petal.Length'&gt;,
-        &lt;Axes: xlabel='Petal.Width', ylabel='Petal.Length'&gt;],
-       [&lt;Axes: xlabel='Sepal.Length', ylabel='Petal.Width'&gt;,
-        &lt;Axes: xlabel='Sepal.Width', ylabel='Petal.Width'&gt;,
-        &lt;Axes: xlabel='Petal.Length', ylabel='Petal.Width'&gt;,
-        &lt;Axes: xlabel='Petal.Width', ylabel='Petal.Width'&gt;]], dtype=object)</code></pre>
-</div>
+<div id="f09e03aa" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.plotting <span class="im">import</span> scatter_matrix</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>iris_conti_vars <span class="op">=</span> [<span class="st">'Sepal.Length'</span>, <span class="st">'Sepal.Width'</span>, <span class="st">'Petal.Length'</span>, <span class="st">'Petal.Width'</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>fig_sct <span class="op">=</span> scatter_matrix(df[iris_conti_vars])</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="python_basic_files/figure-html/cell-8-output-2.png" width="585" height="433" class="figure-img"></p>
+<p><img src="python_basic_files/figure-html/cell-19-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="585" height="433"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
+</section>
+<section id="numpy" class="level2">
+<h2 class="anchored" data-anchor-id="numpy">Numpy</h2>
+<div id="5cb910a2" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 引入 numpy 模組</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f13633ab" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 一維陣列</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>np1 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>np2 <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 陣列相加</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np1 <span class="op">+</span> np2) <span class="co"># [4 6 8]</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 二維陣列</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>np3 <span class="op">=</span> np.array([[<span class="fl">1.1</span>, <span class="fl">1.2</span>, <span class="fl">1.3</span>], [<span class="fl">2.1</span>, <span class="fl">2.2</span>, <span class="fl">2.3</span>]])</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np3)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np3[<span class="dv">0</span>,<span class="dv">2</span>]) <span class="co">#顯示陣列中(0,2)位置的值</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示陣列相關資訊</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np1.ndim, np1.shape, np1.dtype) <span class="co"># 1 (3,) int64 =&gt; 一維陣列, 三個元素, 資料型別</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="co">#建立陣列</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="co">#建立填滿 0 或 1 的陣列</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>np4 <span class="op">=</span> np.zeros([<span class="dv">2</span>, <span class="dv">3</span>]) <span class="co"># array([[ 0.,  0.,  0.], [ 0.,  0.,  0.]])</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np4)</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>np5 <span class="op">=</span> np.ones([<span class="dv">2</span>, <span class="dv">3</span>]) <span class="co"># array([[ 1.,  1.,  1.], [ 1.,  1.,  1.]])</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np5)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f7f082a8" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Arange</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>r1 <span class="op">=</span> np.arange(<span class="dv">25</span>, <span class="dv">30</span>, <span class="fl">.5</span>) <span class="co">#從25到30(不包含30)，每0.5為間隔</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r1)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">## Linspace</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> np.linspace(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">9</span>) <span class="co">#從3到5(包含5)，等距離切9個點</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r2)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[25.  25.5 26.  26.5 27.  27.5 28.  28.5 29.  29.5]
+[3.   3.25 3.5  3.75 4.   4.25 4.5  4.75 5.  ]</code></pre>
+</div>
+</div>
+</section>
 <section id="todays-practice" class="level1">
 <h1>Today’s Practice</h1>
-<div id="e5b4868f" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.random.permutation(np.arange(<span class="dv">1</span>,<span class="dv">9</span>))</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>np.random.normal</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="00661790" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.random.permutation(np.arange(<span class="dv">1</span>,<span class="dv">9</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>np.random.normal</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[8 3 2 7 1 5 4 6]</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>&lt;bound method RandomState.normal of RandomState(MT19937) at 0x2343F736640&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>&lt;bound method RandomState.normal of RandomState(MT19937) at 0x26D19D36640&gt;</code></pre>
 </div>
 </div>
 </section>
