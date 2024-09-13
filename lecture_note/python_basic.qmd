@@ -8,13 +8,13 @@ lang: zh-TW
 
 ### 安裝程式
 
-1. 下載並安裝 Python https://www.python.org/downloads/
-2. 下載並安裝 VSCode https://code.visualstudio.com/download
-3. 下載並安裝 Quarto https://quarto.org/docs/get-started/
+1. 下載並安裝 Python [https://www.python.org/downloads/](https://www.python.org/downloads/)
+2. 下載並安裝 VSCode [https://code.visualstudio.com/download](https://code.visualstudio.com/download)
+3. 下載並安裝 Quarto [https://quarto.org/docs/get-started/](https://quarto.org/docs/get-started/)
 
 ### 在 VSCode 建立 Python 虛擬環境
 
-官方說明文件 https://code.visualstudio.com/docs/python/environments
+官方說明文件 [https://code.visualstudio.com/docs/python/environments](https://code.visualstudio.com/docs/python/environments)
 
 步驟如下
 
@@ -141,7 +141,7 @@ hahahahahahahahahahahaha
 ### 字串內嵌入其他變數
 
 可透過指定要嵌入變數的 format，來決定變數成為字串時的樣子。
-Format Specifiers in C: https://www.geeksforgeeks.org/format-specifiers-in-c/
+Format Specifiers in C: [https://www.geeksforgeeks.org/format-specifiers-in-c/](https://www.geeksforgeeks.org/format-specifiers-in-c/)
 ```{python}
 int_num = 100
 float_num = 100.0
@@ -219,7 +219,7 @@ print(df_0)
 
 
 ### 資料讀取與相關操作
-資料儲存格式五花八門，基本上 pandas 應能處理絕大部分的資料格式，請參考 https://pandas.pydata.org/docs/user_guide/io.html。以下示範以 `pandas.read_csv()` 讀取 CSV 表格資料。
+資料儲存格式五花八門，基本上 pandas 應能處理絕大部分的資料格式，請參考 [https://pandas.pydata.org/docs/user_guide/io.html](https://pandas.pydata.org/docs/user_guide/io.html)。以下示範以 `pandas.read_csv()` 讀取 CSV 表格資料。
 
 ```{python}
 #path = '../sample_data/iris.csv' # 指定本機的檔案路徑
@@ -327,7 +327,7 @@ print(r2)
 
 ### 隨機生成
 
-隨機產生數據。完整功能請參考 https://numpy.org/doc/stable/reference/random/index.html
+隨機產生數據。完整功能請參考 [https://numpy.org/doc/stable/reference/random/index.html](https://numpy.org/doc/stable/reference/random/index.html)
 ```{python}
 # 從數字 1 到 13 中，隨機抽取三個數字，連抽三次
 print(np.random.randint(low = 1, high = 13, size = (3, )))
