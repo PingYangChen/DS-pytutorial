@@ -60,10 +60,17 @@ iris_decs_grouped.to_csv(os.path.join(outputPath, 'iris_decs_grouped.csv'))
 
 
 
+## 利用 Seaborn 套件資料視覺化
 
+### 安裝套件
 
+使用 VSCode 安裝 Seaborn 套件
 
-## Seaborn 資料視覺化
+- 於 VSCode 介面上方 `Terminal > New Terminal` 開啟 terminal。
+- 輸入 `pip install seaborn` 安裝套件
+
+![](/fig/seaborn_install.png)
+
 
 Seaborn
 
@@ -135,6 +142,12 @@ sns.boxplot(data=iris_df, y='Sepal.Length')
 #| warning: false
 #| fig-align: 'center'
 sns.boxplot(data=iris_df, x='Species', y='Sepal.Length')
+```
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+sns.violinplot(data=iris_df, x='Species', y='Sepal.Length')
 ```
 
 
@@ -209,6 +222,22 @@ sns.scatterplot(data=iris_df, x='Sepal.Length', y='Sepal.Width', hue='Species')
 
 
 ### 等高線圖 Contour Plots 
+
+
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+sns.kdeplot(data=iris_df, x='Sepal.Length', y='Sepal.Width')
+```
+
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+sns.kdeplot(data=iris_df, x='Sepal.Length', y='Sepal.Width', fill=True)
+```
+
 
 
 ```{python}
