@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Basic Python Review</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="eda_datavis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="eda_datavis_files/libs/quarto-html/quarto.js"></script>
+<script src="eda_datavis_files/libs/quarto-html/popper.min.js"></script>
+<script src="eda_datavis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="eda_datavis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="eda_datavis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="eda_datavis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="eda_datavis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="eda_datavis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="eda_datavis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Basic Python Review</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>#df = pd.read_csv(‘../sample_data/DatasaurusDozen.csv’)</p>
+<section id="前言" class="level2">
+<h2 class="anchored" data-anchor-id="前言">前言</h2>
+<div id="20d07b40" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="敘述統計量" class="level2">
+<h2 class="anchored" data-anchor-id="敘述統計量">敘述統計量</h2>
+<div id="a889968b" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>iris_df <span class="op">=</span> pd.read_csv(<span class="st">'../sample_data/iris.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_df.columns)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['Sepal.Length', 'Sepal.Width', 'Petal.Length', 'Petal.Width',
+       'Species'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div id="a762c4a3" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續型數值敘述統計量</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>iris_decs <span class="op">=</span> iris_df[[<span class="st">'Sepal.Length'</span>, <span class="st">'Sepal.Width'</span>, <span class="st">'Petal.Length'</span>, <span class="st">'Petal.Width'</span>]].describe()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_decs)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Sepal.Length  Sepal.Width  Petal.Length  Petal.Width
+count    150.000000   150.000000    150.000000   150.000000
+mean       5.843333     3.057333      3.758000     1.199333
+std        0.828066     0.435866      1.765298     0.762238
+min        4.300000     2.000000      1.000000     0.100000
+25%        5.100000     2.800000      1.600000     0.300000
+50%        5.800000     3.000000      4.350000     1.300000
+75%        6.400000     3.300000      5.100000     1.800000
+max        7.900000     4.400000      6.900000     2.500000</code></pre>
+</div>
+</div>
+<div id="8a891d09" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 離散型數值敘述統計量 </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_df[<span class="st">'Species'</span>].value_counts()) <span class="co"># 計數</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_df[<span class="st">'Species'</span>].value_counts()<span class="op">*</span><span class="dv">100</span><span class="op">/</span><span class="bu">len</span>(iris_df)) <span class="co"># 百分比</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Species
+setosa        50
+versicolor    50
+virginica     50
+Name: count, dtype: int64
+Species
+setosa        33.333333
+versicolor    33.333333
+virginica     33.333333
+Name: count, dtype: float64</code></pre>
+</div>
+</div>
+<div id="70b0ce45" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續型數值 "分組" 敘述統計量</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>iris_decs_grouped <span class="op">=</span> iris_df.groupby(<span class="st">'Species'</span>).describe()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_decs_grouped)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Sepal.Length                                              \
+                  count   mean       std  min    25%  50%  75%  max   
+Species                                                               
+setosa             50.0  5.006  0.352490  4.3  4.800  5.0  5.2  5.8   
+versicolor         50.0  5.936  0.516171  4.9  5.600  5.9  6.3  7.0   
+virginica          50.0  6.588  0.635880  4.9  6.225  6.5  6.9  7.9   
+
+           Sepal.Width         ... Petal.Length      Petal.Width         \
+                 count   mean  ...          75%  max       count   mean   
+Species                        ...                                        
+setosa            50.0  3.428  ...        1.575  1.9        50.0  0.246   
+versicolor        50.0  2.770  ...        4.600  5.1        50.0  1.326   
+virginica         50.0  2.974  ...        5.875  6.9        50.0  2.026   
+
+                                               
+                 std  min  25%  50%  75%  max  
+Species                                        
+setosa      0.105386  0.1  0.2  0.2  0.3  0.6  
+versicolor  0.197753  1.0  1.2  1.3  1.5  1.8  
+virginica   0.274650  1.4  1.8  2.0  2.3  2.5  
+
+[3 rows x 32 columns]</code></pre>
+</div>
+</div>
+<p><strong>註一</strong>：執行分析專案時，常常需要儲存或暫存各式各樣的分析結果，包含資料敘述統計、各種視覺化圖表(寫報告用)、前處理過的資料、建好的模型(備份或供未來使用)，建議有個習慣，在專案程式碼開頭處，便指定好輸出路徑並給予一個變數名稱，例如底下範例 <code>outputPath = 'eda_output'</code>。</p>
+<p><strong>註二</strong>：另外，當程式碼搬移至別處或別台主機執行，常見需要輸出檔案時，找不到輸出路徑的困擾，建議若需輸出檔案，除了給予指定的路徑外，利用 <code>if not os.path.exists(outputPath):</code> 確認路徑是否存在，若不存在，則自動執行 <code>os.makedirs(outputPath)</code>，為指定的輸出路徑新建資料夾。</p>
+<div id="11624c54" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 當統計資訊過大，無法呈現於單一視窗時，可將分析結果儲存起來</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>outputPath <span class="op">=</span> <span class="st">'eda_output'</span> <span class="co"># 請見以上註一</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(outputPath): <span class="co"># 請見以上註二</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    os.makedirs(outputPath) </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 儲存 "分組" 敘述統計量結果</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>iris_decs_grouped.to_csv(os.path.join(outputPath, <span class="st">'iris_decs_grouped.csv'</span>)) </span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="seaborn-資料視覺化" class="level2">
+<h2 class="anchored" data-anchor-id="seaborn-資料視覺化">Seaborn 資料視覺化</h2>
+<p>Seaborn</p>
+<div id="c2ee3466" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="直方圖-histogram" class="level3">
+<h3 class="anchored" data-anchor-id="直方圖-histogram">直方圖 Histogram</h3>
+<div id="dcc071f8" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-10-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="585" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>直方圖中最重要參數為 <code>bins</code> ，此參數決定直方圖的柱子數量與寬度，對呈現資料分布的精細度或粗糙度有直接影響，使用上須選擇合適的 <code>bins</code> 值設定，才能正確透過視覺化觀察資料。常見用法如下：</p>
+<ul>
+<li>整數: 指定柱子數量。例如 <code>bins=10</code> 會將數據分成 10 組。</li>
+<li>串列: 提供一個資料分組的邊界串列，明確指定每個柱子代表的資料範圍。例如 <code>bins=[0, 5, 10, 15]</code> 會將數據分別放入 <span class="math inline">\([0, 5)\)</span>、<span class="math inline">\([5, 10)\)</span> 和 <span class="math inline">\([10, 15)\)</span> 範圍內的柱子中。</li>
+<li>自動計算: 此為 <code>bins</code> 的預設值，<code>bins='auto'</code>讓程式根據資料自動計算柱子數量。</li>
+</ul>
+<p>以下範例對 Iris 資料的 <code>'Sepal.Length'</code> 分布，在分別設定不同的 <code>bins</code> 值之下，所呈現的圖形。</p>
+<div id="c6548808" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-11-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="1105" height="376"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="4523a3d9" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, bins <span class="op">=</span> <span class="dv">20</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-12-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="585" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="db8968c2" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, bins <span class="op">=</span> <span class="dv">20</span>, hue<span class="op">=</span><span class="st">'Species'</span>, kde<span class="op">=</span><span class="va">True</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-13-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="585" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="盒鬚圖-boxplot" class="level3">
+<h3 class="anchored" data-anchor-id="盒鬚圖-boxplot">盒鬚圖 Boxplot</h3>
+<div id="b4d84f20" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>iris_df, y<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-14-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="589" height="393"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="fbd9aaae" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Species'</span>, y<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-15-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="589" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="14eee00a" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mtcars_df <span class="op">=</span> pd.read_csv(<span class="st">'../sample_data/mtcars.csv'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="e71ee140" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>, y<span class="op">=</span><span class="st">'disp'</span>, hue<span class="op">=</span><span class="st">'am'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-17-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="593" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="679919e0" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>, y<span class="op">=</span><span class="st">'disp'</span>, hue<span class="op">=</span><span class="st">'am'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-18-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="593" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="長條圖-barplot" class="level3">
+<h3 class="anchored" data-anchor-id="長條圖-barplot">長條圖 Barplot</h3>
+<div id="d2b579aa" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-19-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="585" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="3cd897a4" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>, hue<span class="op">=</span><span class="st">'am'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-20-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="585" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="趨勢圖-line-plot" class="level3">
+<h3 class="anchored" data-anchor-id="趨勢圖-line-plot">趨勢圖 Line plot</h3>
+<div id="88e35c7a" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>longley_df <span class="op">=</span> pd.read_csv(<span class="st">'../sample_data/longley.csv'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(longley_df.columns)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['GNP.deflator', 'GNP', 'Unemployed', 'Armed.Forces', 'Population',
+       'Year', 'Employed'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div id="026ee7d9" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>longley_df, x<span class="op">=</span><span class="st">'Year'</span>, y<span class="op">=</span><span class="st">'GNP.deflator'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-22-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="593" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="散布圖-scatter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="散布圖-scatter-plots">散布圖 Scatter Plots</h3>
+<div id="5ce26332" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-23-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="589" height="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="3f35d3eb" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-24-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="589" height="432"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="等高線圖-contour-plots" class="level3">
+<h3 class="anchored" data-anchor-id="等高線圖-contour-plots">等高線圖 Contour Plots</h3>
+<div id="ee2b873b" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-25-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="589" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="多欄圖型拼接" class="level3">
+<h3 class="anchored" data-anchor-id="多欄圖型拼接">多欄圖型拼接</h3>
+<div id="85ecd5a1" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(data<span class="op">=</span>iris_df, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-26-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="1069" height="947"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="41895e91" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.PairGrid(data<span class="op">=</span>iris_df, diag_sharey<span class="op">=</span><span class="va">False</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>g.map_upper(sns.scatterplot)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>g.map_lower(sns.kdeplot)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>g.map_diag(sns.kdeplot)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-27-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="935" height="943"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="熱圖-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="熱圖-heatmap">熱圖 Heatmap</h3>
+<div id="72dfc06d" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>volcano_df <span class="op">=</span> pd.read_csv(<span class="st">'../sample_data/volcano.csv'</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(volcano_df.columns)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11',
+       'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21',
+       'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'V29', 'V30', 'V31',
+       'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39', 'V40', 'V41',
+       'V42', 'V43', 'V44', 'V45', 'V46', 'V47', 'V48', 'V49', 'V50', 'V51',
+       'V52', 'V53', 'V54', 'V55', 'V56', 'V57', 'V58', 'V59', 'V60', 'V61'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div id="ba0384a8" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(volcano_df.head(<span class="dv">10</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    V1   V2   V3   V4   V5   V6   V7   V8   V9  V10  ...  V52  V53  V54  V55  \
+0  100  100  101  101  101  101  101  100  100  100  ...  107  107  107  106   
+1  101  101  102  102  102  102  102  101  101  101  ...  108  108  107  107   
+2  102  102  103  103  103  103  103  102  102  102  ...  109  108  108  107   
+3  103  103  104  104  104  104  104  103  103  103  ...  109  109  108  108   
+4  104  104  105  105  105  105  105  104  104  103  ...  110  109  109  108   
+5  105  105  105  106  106  106  106  105  105  104  ...  110  110  109  108   
+6  105  106  106  107  107  107  107  106  106  105  ...  110  111  110  109   
+7  106  107  107  108  108  108  108  107  107  106  ...  113  112  110  110   
+8  107  108  108  109  109  109  109  108  108  107  ...  115  114  112  110   
+9  108  109  109  110  110  110  110  109  109  108  ...  117  115  113  111   
+
+   V56  V57  V58  V59  V60  V61  
+0  106  105  105  104  104  103  
+1  106  106  105  105  104  104  
+2  107  106  106  105  105  104  
+3  107  107  106  106  105  105  
+4  107  107  107  106  106  105  
+5  108  108  107  107  106  106  
+6  109  108  108  107  107  106  
+7  109  109  108  108  107  106  
+8  110  109  109  108  107  107  
+9  110  110  109  108  107  107  
+
+[10 rows x 61 columns]</code></pre>
+</div>
+</div>
+<div id="bfd72d0b" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>volcano_array <span class="op">=</span> volcano_df.values <span class="co"># pandas.Dataframe -&gt; numpy.array</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(volcano_array.shape)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(87, 61)</code></pre>
+</div>
+</div>
+<div id="0e71a9f6" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(data<span class="op">=</span>volcano_array)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-31-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="541" height="420"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">https://matplotlib.org/stable/gallery/color/colormap_reference.html</a></p>
+<div id="011afdeb" class="cell" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>Text(0.5, 1.0, "cmap='Spectral'")</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-32-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="874" height="287"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c2249511" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>iris_var_columns <span class="op">=</span> iris_df.columns[:<span class="dv">4</span>]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>iris_corr_mat <span class="op">=</span> iris_df[iris_var_columns].corr()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_corr_mat)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Sepal.Length  Sepal.Width  Petal.Length  Petal.Width
+Sepal.Length      1.000000    -0.117570      0.871754     0.817941
+Sepal.Width      -0.117570     1.000000     -0.428440    -0.366126
+Petal.Length      0.871754    -0.428440      1.000000     0.962865
+Petal.Width       0.817941    -0.366126      0.962865     1.000000</code></pre>
+</div>
+</div>
+<div id="71b0ed71" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(data<span class="op">=</span>iris_corr_mat, cmap<span class="op">=</span><span class="st">'seismic'</span>, center<span class="op">=</span><span class="dv">0</span>, vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-34-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="553" height="416"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bin-plot" class="level3">
+<h3 class="anchored" data-anchor-id="bin-plot">Bin plot</h3>
+<div id="520a4f32" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>big_df <span class="op">=</span> pd.read_csv(<span class="st">'../sample_data/big_demo.csv'</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(big_df.columns)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['X1', 'X2', 'X3', 'Status'], dtype='object')</code></pre>
+</div>
+</div>
+<div id="ea7d73a9" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="971463bc" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize <span class="op">=</span> (<span class="dv">12</span>, <span class="dv">3</span>))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Scatter Plot"</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Contour Plot"</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Bin Plot"</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>Text(0.5, 1.0, 'Bin Plot')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-37-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="959" height="302"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7050af74" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sns.jointplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>, kind<span class="op">=</span><span class="st">"hist"</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-38-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="565" height="566"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7b13af45" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>sns.jointplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>, kind<span class="op">=</span><span class="st">"hex"</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eda_datavis_files/figure-html/cell-39-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="565" height="566"></p>
+</figure>
+</div>
+</div>
+</div>
+<!--
+## Matplotlib 資料視覺化
+
+::: {#7505dea5 .cell execution_count=39}
+``` {.python .cell-code}
+from matplotlib import pyplot as plt
+```
+:::
+
+
+基本 matplotlib 程式架構
+
+::: {#06867ec4 .cell execution_count=40}
+``` {.python .cell-code}
+# 以下為示範程式框架，勿執行!
+# 決定圖形框架大小 (width, height) in inches
+fig = plt.figure(figsize=(10, 8))
+# 決定框架內圖形數量與排列 
+# nrows, nolcs, index
+ax = plt.subplot(1, 1, 1)
+# ---------------------------------------
+# 繪圖區
+ax.plot(...); ax.hist(...); ax.bar(...);
+ax.boxplot(...); ax.pie(...)
+# ---------------------------------------
+# 設定區
+ax.set_title('Graph Title', fontsize = 22)
+ax.set_ylabel('Label for Y-axis', fontsize = 20)
+ax.set_xlabel('Label for X-axis', fontsize = 20)
+ax.tick_params(labelsize = 18)
+# ---------------------------------------
+# 儲存圖片
+fig.savefig('FILENAME.png')
+# 以上須整段一次執行才能繪圖
+```
+:::
+
+
+### 直方圖 Histogram
+
+
+`matplotlib` 中 `hist` 函數最重要參數為 `bins` ，此參數決定直方圖的柱子數量與寬度，對呈現資料分布的精細度或粗糙度有直接影響，使用上須選擇合適的 `bins` 值設定，才能正確透過視覺化觀察資料。常見用法如下：
+
+- 整數: 指定柱子數量。例如 `bins=10` 會將數據分成 10 組。
+- 串列: 提供一個資料分組的邊界串列，明確指定每個柱子代表的資料範圍。例如 `bins=[0, 5, 10, 15]` 會將數據分別放入 $[0, 5)$、$[5, 10)$ 和 $[10, 15)$ 範圍內的柱子中。
+- 自動計算: 此為 `bins` 的預設值，`bins='auto'`讓 matplotlib 根據資料自動計算柱子數量。
+
+以下範例為 Iris 資料中 `'Sepal.Length'` 的數值分布，且以預設的 `bins` 呈現。
+
+::: {#00f7f550 .cell execution_count=41}
+``` {.python .cell-code}
+fig = plt.figure(figsize = (4, 4))
+ax = plt.subplot(1, 1, 1)
+ax.hist(iris_df['Sepal.Length'])
+ax.set_title('Histogram of %s' % ('Sepal.Length'))
+ax.set_ylabel('Count')
+ax.set_xlabel('Sepal.Length')
+fig.show()
+```
+
+::: {.cell-output .cell-output-display}
+![](eda_datavis_files/figure-html/cell-42-output-1.png){width=361 height=376 fig-align='center'}
+:::
+:::
+
+
+以下範例對 Iris 資料的 `'Sepal.Length'` 分布，在分別設定不同的 `bins` 值之下，所呈現的圖形。
+
+::: {#ca370811 .cell execution_count=42}
+``` {.python .cell-code}
+fig_nr = 1
+fig_nc = 3
+bins_set = [10, 20, 50]
+fig = plt.figure(figsize = (10, 3))
+for i in range(3):
+    ax = plt.subplot(fig_nr, fig_nc, i+1)
+    ax.hist(iris_df['Sepal.Length'], bins = bins_set[i])
+    ax.set_title('Hist. with %d bins' % (bins_set[i]))
+    ax.set_ylabel('Count')
+    ax.set_xlabel('Sepal.Length')
+fig.show()
+```
+
+::: {.cell-output .cell-output-display}
+![](eda_datavis_files/figure-html/cell-43-output-1.png){width=808 height=302 fig-align='center'}
+:::
+:::
+
+
+Iris 資料共有四個連續行數值欄位 `Sepal.Length` 、 `Sepal.Width` 、 `Petal.Length` 及 `Petal.Width`。
+
+::: {#6f40b65a .cell execution_count=43}
+``` {.python .cell-code}
+iris_columns = iris_df.columns[:4]
+#
+fig_nr = 2
+fig_nc = 2
+fig = plt.figure(figsize = (9, 8))
+for i in range(len(iris_columns)):
+    ax = plt.subplot(fig_nr, fig_nc, i+1)
+    ax.hist(iris_df[iris_columns[i]], bins = 20)
+    ax.set_title('Hist. of %s' % (iris_columns[i]))
+    ax.set_ylabel('Count')
+    ax.set_xlabel(iris_columns[i])
+fig.show()
+```
+
+::: {.cell-output .cell-output-display}
+![](eda_datavis_files/figure-html/cell-44-output-1.png){width=742 height=671 fig-align='center'}
+:::
+:::
+
+
+::: {#b0115f4f .cell execution_count=44}
+``` {.python .cell-code}
+gb = iris_df.groupby('Species')
+
+iris_group_df = [gb.get_group(ele)[iris_columns[0]] for ele in gb.groups]
+
+#print(gb.get_group('setosa'))
+
+fig = plt.figure(figsize = (9, 8))
+ax = plt.subplot(1, 1, 1)
+ax.hist(iris_group_df)
+```
+
+::: {.cell-output .cell-output-display execution_count=42}
+```
+(array([[ 9., 19., 12.,  9.,  1.,  0.,  0.,  0.,  0.,  0.],
+        [ 0.,  3.,  2., 16.,  9., 11.,  7.,  2.,  0.,  0.],
+        [ 0.,  1.,  0.,  2.,  6., 15., 11.,  4.,  5.,  6.]]),
+ array([4.3 , 4.66, 5.02, 5.38, 5.74, 6.1 , 6.46, 6.82, 7.18, 7.54, 7.9 ]),
+ <a list of 3 BarContainer objects>)
+```
+:::
+
+::: {.cell-output .cell-output-display}
+![](eda_datavis_files/figure-html/cell-45-output-2.png){width=731 height=633 fig-align='center'}
+:::
+:::
+
+
+-->
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已複製");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已複製");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
