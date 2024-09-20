@@ -1,16 +1,10 @@
 ---
-title: "Basic Python Review"
+title: "Data Visualization with Seaborn"
 format: html
 lang: zh-TW
 ---
 
-
-
-
-#df = pd.read_csv('../sample_data/DatasaurusDozen.csv')
-
-## 前言
-
+## 敘述統計量
 
 ```{python}
 import os
@@ -18,18 +12,28 @@ import pandas as pd
 import numpy as np
 ```
 
-## 敘述統計量
-
 ```{python}
-iris_df = pd.read_csv('../sample_data/iris.csv')
+#iris_df = pd.read_csv('../sample_data/iris.csv')
+iris_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/iris.csv')
 print(iris_df.columns)
+print(iris_df.head(5))
 ```
 
 ```{python}
 # 連續型數值敘述統計量
-iris_decs = iris_df[['Sepal.Length', 'Sepal.Width', 'Petal.Length', 'Petal.Width']].describe()
+iris_var_columns = iris_df.columns[:4]
+iris_decs = iris_df[iris_var_columns].describe()
 print(iris_decs)
 ```
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+# 連續型數值兩兩變數間相關係數
+iris_corr_mat = iris_df[iris_var_columns].corr(method='pearson')
+print(iris_corr_mat)
+```
+
 
 ```{python}
 # 離散型數值敘述統計量 
@@ -72,11 +76,19 @@ iris_decs_grouped.to_csv(os.path.join(outputPath, 'iris_decs_grouped.csv'))
 ![](/fig/seaborn_install.png)
 
 
-Seaborn
+引入 Seaborn 套件，習慣上將其縮寫為 `sns`。
 
 ```{python}
 import seaborn as sns
 ```
+
+Seaborn 各繪圖函數通用設定：
+
+- `data`: 此項輸入 `pandas.Dataframe` 變數，表示統計圖由此資料內容產生。
+- `x`: 此項輸入統計圖的 X 軸所描繪的變數名稱，為 `pandas.Dataframe.columns` 的其中一個欄位名稱。不指定時，則統計圖 X 軸應為統計圖之統計量。
+- `y`: 此項輸入統計圖的 Y 軸所描繪的變數名稱，為 `pandas.Dataframe.columns` 的其中一個欄位名稱。不指定時，則統計圖 Y 軸應為統計圖之統計量。
+- `hue`: 此項輸入將以不同顏色標示屬於不同分組的資料於統計圖上，為 `pandas.Dataframe.columns` 的其中一個欄位名稱，通常設定之變數為類別型變數。不指定時，則統計圖以相同顏色標示資料。
+
 
 ```{python}
 #| echo: false
@@ -84,6 +96,8 @@ from matplotlib import pyplot as plt
 ```
 
 ### 直方圖 Histogram
+
+以下為 Seaborn 以預設設定繪製的直方圖。一般而言，直方圖的 X 軸為變數數值，須於 `x` 選項設定為繪製直方圖的變數名稱；Y 軸為統計量 (計數值或頻率值)，因此不須設定 `y` 選項。
 
 ```{python}
 #| warning: false
@@ -114,29 +128,35 @@ for i in range(3):
 fig.show()
 ```
 
+直方圖常用的統計量為計數值或頻率值，預設設定會於 Y 軸顯示計數值，若想呈現頻率值，則加入選項設定 `stat='frequency'` 修改呈現統計量。
+
+Iris 資料包含三種不同品種的鳶尾花，可使用 `iris_df['Species'].unique()` 檢視 `Species` 欄位中三種品種的名稱。若欲在直方圖分別呈現三種品種之下 `Sepal.Length` 的數值分布，則加入選項設定 `hue='Species'`，指定 `Species` 為著色柱子的參照欄位。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
-sns.histplot(data=iris_df, x='Sepal.Length', bins = 20, hue='Species')
+sns.histplot(data=iris_df, x='Sepal.Length', bins = 20, hue='Species', stat='frequency')
 ```
 
+有時為凸顯三組資料之間集中趨勢的差異，可在直方圖上透過加入選項設定 `kde=True`，再嵌入各組資料的機率分布圖。機率分布圖的最高點表示該組資料最集中處 (可視為平均數)，強調三組資料間平均數的異同。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
-sns.histplot(data=iris_df, x='Sepal.Length', bins = 20, hue='Species', kde=True)
+sns.histplot(data=iris_df, x='Sepal.Length', bins = 20, hue='Species', stat='frequency', kde=True)
 ```
 
 
 ### 盒鬚圖 Boxplot
 
-
+以下為 Seaborn 以預設設定繪製的盒鬚圖。一般而言，盒鬚圖的 X 軸變數標籤，不須設定 `x` 選項；Y 軸為變數數值分布及關鍵敘述統計量，須將 `x` 選項設定為繪製盒鬚圖的變數名稱，例如 `y='Sepal.Length'`。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 sns.boxplot(data=iris_df, y='Sepal.Length')
 ```
+
+盒鬚圖的一大功用為比較不同群組之間變數值分布的差異。若欲在盒鬚圖分別呈現三種鳶尾花品種之下的變數數值分布，則將品種 `Species` 加入標籤選項設定 `x='Species'`，讓盒鬚圖就不同 `Species` 呈現 `Sepal.Length` 的數值分布。
 
 ```{python}
 #| warning: false
@@ -144,18 +164,26 @@ sns.boxplot(data=iris_df, y='Sepal.Length')
 sns.boxplot(data=iris_df, x='Species', y='Sepal.Length')
 ```
 
+提琴圖 `violinplot` 為盒鬚圖的一種變化型，在盒鬚圖的基礎上，再嵌入資料的機率分布圖於其兩側，可更凸顯資料的分布情況。
+
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 sns.violinplot(data=iris_df, x='Species', y='Sepal.Length')
 ```
 
+當可用於分群檢視變數值分布差異的變數超過 1 個時，除了將 `x` 選項設定為用於標籤之變數名稱外，可進一步利用 `hue` 選項設定第二組標籤用途之變數名稱。以下使用另一個資料集 `mtcars` 示範操作方式。資料集簡介集內容說明請參考 [https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars)。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
-mtcars_df = pd.read_csv('../sample_data/mtcars.csv')
+#mtcars_df = pd.read_csv('../sample_data/mtcars.csv')
+mtcars_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/mtcars.csv')
+print(mtcars_df.columns)
+print(mtcars_df.head(5))
 ```
+
+使用盒鬚圖檢視不同汽缸數 `cyl` 及不同排檔方式 `am` 的汽車，排氣量 `disp` 之異同。在此，第一組標籤為汽缸數 `cyl`，將此標籤設定於 X 軸，第二組標籤為排檔方式 `am`，以不同著色方式表示。同理，提琴圖也可使用相同輸入方式繪製。
 
 ```{python}
 #| warning: false
@@ -172,12 +200,15 @@ sns.violinplot(data=mtcars_df, x='cyl', y='disp', hue='am')
 
 ### 長條圖 Barplot
 
+以下為 Seaborn 以預設設定繪製的長條圖。一般而言，長條圖的 X 軸為類別型變數之各類別標籤，須於 `x` 選項設定為繪製長條圖的變數名稱，如 `x='cyl'` 以資料集 `mtcars` 為例；Y 軸為統計量 (一般為計數值)，因此不須設定 `y` 選項。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 sns.countplot(data=mtcars_df, x='cyl')
 ```
+
+若欲在長條圖分別呈現不同群組之下，目標類別型變數的各類別計數，則於 `hue` 選項設定用於分群的變數名稱，例如設定 `hue='am'`，指定 `am` 為分群變數，作為對長條著色的參照欄位。
 
 ```{python}
 #| warning: false
@@ -188,13 +219,17 @@ sns.countplot(data=mtcars_df, x='cyl', hue='am')
 
 ### 趨勢圖 Line plot
 
-
+趨勢圖呈現變數數值隨著時間或某種順序的變化趨勢。以資料集 `longley`為例，資料集簡介集內容說明請參考 [https://search.r-project.org/CRAN/refmans/AER/html/Longley.html](https://search.r-project.org/CRAN/refmans/AER/html/Longley.html)。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
-longley_df = pd.read_csv('../sample_data/longley.csv')
+#longley_df = pd.read_csv('../sample_data/longley.csv')
+longley_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/longley.csv')
 print(longley_df.columns)
+print(longley_df.head(5))
 ```
+
+以下為 Seaborn 以預設設定繪製的趨勢圖。一般而言， X 軸為時間變數或順序變數，如本例設定 `x='Year'`；Y 軸為欲觀察趨勢的變數，如 `y='GNP.deflator'`。
 
 ```{python}
 #| warning: false
@@ -203,17 +238,16 @@ sns.lineplot(data=longley_df, x='Year', y='GNP.deflator')
 ```
 
 
-
-
 ### 散布圖 Scatter Plots 
 
-
+散布圖呈現兩個連續型變數之間的關聯狀況。以資料集 `iris` 為例，欲觀察變數 `Sepal.Length` 與 `Sepal.Width` 之間的關聯，於 `scatterplot` 函數中將此兩變數分別輸入至 `x` 與 `y` 選項。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 sns.scatterplot(data=iris_df, x='Sepal.Length', y='Sepal.Width')
 ```
 
+若欲觀察不同群組之下，兩個連續型變數之間的關聯狀況，則於 `hue` 選項設定用於分群的變數名稱，例如此例可設定 `hue='Species'`，指定 `Species` 為分群變數，作為對座標點著色的參照欄位。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
@@ -223,7 +257,9 @@ sns.scatterplot(data=iris_df, x='Sepal.Length', y='Sepal.Width', hue='Species')
 
 ### 等高線圖 Contour Plots 
 
+在 Seaborn 中，無傳統只能輸入矩陣繪製等高線圖的功能，取而代之的是，輸入資料集並透過 kernel density estimate (KDE) 估計方式，觀察兩個連續型變數的聯合分布 (joint distribution)。以資料集 `iris` 為例，欲觀察變數 `Sepal.Length` 與 `Sepal.Width` 的聯合分布，於 `kdeplot` 函數中將此兩變數分別輸入至 `x` 與 `y` 選項。
 
+以下為一般等高線圖，在此等高線的涵義為該層範圍內數據在資料中有類似的分布狀況 (出現的頻率)。
 
 ```{python}
 #| warning: false
@@ -231,7 +267,7 @@ sns.scatterplot(data=iris_df, x='Sepal.Length', y='Sepal.Width', hue='Species')
 sns.kdeplot(data=iris_df, x='Sepal.Length', y='Sepal.Width')
 ```
 
-
+然而，一般等高線圖不易輔助判讀數據集中之處，例如上圖中的兩處中心是否數據密度相似。此時，可再加上漸層著色，設定 `fill=True` 以顏色深淺程度，表示等高線圖各層之間數據分布的差異。下圖中，透過著色可知，圖中位於相對右下位置的等高線中心，具有更密的數據分布。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
@@ -239,7 +275,7 @@ sns.kdeplot(data=iris_df, x='Sepal.Length', y='Sepal.Width', fill=True)
 ```
 
 
-
+若欲觀察不同群組之下，兩個連續型變數的聯合分布，則於 `hue` 選項設定用於分群的變數名稱，例如此例可設定 `hue='Species'`，指定 `Species` 為分群變數，作為對等高線著色的參照欄位。在此，便不建議再加入著色，可能使漸層重疊影響資料觀察。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
@@ -248,56 +284,84 @@ sns.kdeplot(data=iris_df, x='Sepal.Length', y='Sepal.Width', hue='Species')
 
 
 
-### 多欄圖型拼接
+### 多欄資料觀察圖形拼接
 
+當資料中有多欄連續型變數時，常見的觀察方式是繪製兩兩變數的散布圖，觀察各變數之間的關聯狀況。此時可使用 `pairplot` 函數，一次性地將所有連續型變數配對的散布圖繪製出，並拼接成一張矩陣圖。
+
+同 `scatterplot`，若欲觀察不同群組之下，所有連續型變數配對的關聯狀況，則於 `hue` 選項設定用於分群的變數名稱，例如此例可設定 `hue='Species'`，指定 `Species` 為分群變數，作為對各子圖座標點著色的參照欄位。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 sns.pairplot(data=iris_df, hue='Species')
 ```
 
+從 `pairplot` 結果可看出，矩陣圖的右上部及左下部重複顯示了兩兩連續型變數的 `scatterplot`，造成空間上略顯浪費。若可只於右上部及左下部其中之一顯示 `scatterplot`，利用另一半部呈現其他視覺化圖形，則可更大化地利用矩陣圖的空間。此時可使用 `PairGrid` 功能，分別對右上部、左下部及對角線上繪製不同的視覺化圖形。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 g = sns.PairGrid(data=iris_df, diag_sharey=False, hue='Species')
+# 繪製右上部兩兩變數統計圖 (例，散布圖)
 g.map_upper(sns.scatterplot)
+# 繪製左下部兩兩變數統計圖 (例，等高線圖)
 g.map_lower(sns.kdeplot)
-g.map_diag(sns.kdeplot)
+# 繪製對角線單一變數統計圖 (例，直方圖)
+g.map_diag(sns.histplot)
 ```
-
 
 
 ### 熱圖 Heatmap 
 
-```{python}
-#| warning: false
-#| fig-align: 'center'
-volcano_df = pd.read_csv('../sample_data/volcano.csv')
-print(volcano_df.columns)
-```
+熱圖 Heatmap 為輸入一個數值矩陣，以顏色漸層來表達矩陣中的數值大小。在此以一個火山在一個網格上所量測的海拔高度資料 `volcano` 為例，資料集簡介集內容說明請參考 [https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/volcano](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/volcano)。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
+#volcano_df = pd.read_csv('../sample_data/volcano.csv')
+volcano_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/volcano.csv')
+print(volcano_df.columns)
 print(volcano_df.head(10))
+print(volcano_df.shape)
 ```
+
+火山資料有 87 列 (rows)、61 欄 (columns)。基本上直接輸入此 `pandas.Dataframe` 使用 seaborn 的 `heatmap` 功能繪製熱圖即可，但為避免資料中有非數值的內容，如空值、`NA` 值、字串等，通常建議先將此 `pandas.Dataframe` 轉換為 `numpy.array` 數值矩陣 (記得先 `import numpy`)，確認 `numpy.array` 內容全為數值後，再行繪製熱圖。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 volcano_array = volcano_df.values # pandas.Dataframe -> numpy.array
 print(volcano_array.shape)
+# 確認 numpy.array 是否全為數值
+print(np.all(np.isfinite(volcano_array)))
 ```
 
+以預設設定繪製熱圖，僅須將 `numpy.array` 數值矩陣輸入至 `data` 選項即可。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
 sns.heatmap(data=volcano_array)
 ```
 
+若不需要 X、Y 軸的座標標籤，可加入 `xticklabels=False` 及 `yticklabels=False` 分別關閉 X 及 Y 軸的座標標籤顯示，使熱圖看起來較乾淨。
+```{python}
+#| warning: false
+#| fig-align: 'center'
+sns.heatmap(data=volcano_array, xticklabels=False, yticklabels=False)
+```
 
-[https://matplotlib.org/stable/gallery/color/colormap_reference.html](https://matplotlib.org/stable/gallery/color/colormap_reference.html)
+
+
+使用熱圖的關鍵在於漸層色的選擇，因 Seaborn 為基於 Matplotlib 所開發的高階繪圖套件，可從 Matplotlib 內建的漸層色函式庫中挑選合適的漸層對 Seaborn 的熱圖著色。漸層色選擇請參考 [https://matplotlib.org/stable/gallery/color/colormap_reference.html](https://matplotlib.org/stable/gallery/color/colormap_reference.html)。
+
+漸層色應透過 `cmap` 選項設定，例如 `cmap='RdPu'`。以下範例分別挑選 `'RdPu'`、 `'YlGn'` 及 `'Spectral'` 三種漸層色示範對同一張熱圖的著色結果。
+
+```{python}
+#| eval: false
+#| warning: false
+#| fig-align: 'center'
+sns.heatmap(data=volcano_array, cmap='RdPu')
+```
+
 ```{python}
 #| echo: false
 #| warning: false
@@ -314,7 +378,7 @@ sns.heatmap(data=volcano_array, cmap='Spectral')
 ax.set_title("cmap='Spectral'")
 ```
 
-
+在資料分析中，熱圖最常見的應用為視覺化呈現資料中多欄連續型變數，兩兩配對的相關係數值。例如以下透過 `pandas` 的 `corr` 函數計算 `iris` 四個鳶尾花特徵的相關係數矩陣。
 
 ```{python}
 #| warning: false
@@ -323,8 +387,29 @@ iris_var_columns = iris_df.columns[:4]
 iris_corr_mat = iris_df[iris_var_columns].corr()
 print(iris_corr_mat)
 ```
+**熱圖漸層色的挑選應視使用情境而定**：在視覺化呈現相關係數矩陣時，漸層色的挑選將直接影響是否能正確判讀。當數具有特殊性值時，例如相關係數 $r$ 以 0 為中心，當 $r>0$ 表示兩變數呈正相關，當 $r<0$ 表示兩變數呈負相關，因此在漸層選擇上，也應以 0 為中心，並挑選兩種盡可能對比的顏色漸層分別呈現 $r>0$ 及 $r<0$ 的數值大小 (偏離 0 的幅度)，且兩種漸層色應盡量對稱，即 $r=0.5$、$r=-0.5$ 顏色不同但亮度相似。
 
+以下為視覺化呈現相關係數矩陣的**錯誤示範**。
 
+- 左：單一顏色漸層易導致視覺上認為顏色越淺兩變數越無相關。
+- 中：兩種顏色漸層，但其不以 0 為中心，同樣顏色深度的深藍色約為 $r=-0.4$、而深紅色約為 $r=1.0$。
+- 右：兩種顏色漸層，且以 0 為中心，已接近理想，但圖右色階尺規不對稱。
+
+```{python}
+#| echo: false
+#| warning: false
+#| fig-align: 'center'
+fig = plt.figure(figsize = (20, 5))
+fig.suptitle('INCORRECT Heatmaps for Correlation Matrix', fontsize=28)
+ax = plt.subplot(1, 3, 1)
+sns.heatmap(data=iris_corr_mat)
+ax = plt.subplot(1, 3, 2)
+sns.heatmap(data=iris_corr_mat, cmap='seismic')
+ax = plt.subplot(1, 3, 3)
+sns.heatmap(data=iris_corr_mat, cmap='seismic', center=0)
+```
+
+較好的相關係數矩陣熱圖視覺化範例如下。
 ```{python}
 #| warning: false
 #| fig-align: 'center'
@@ -333,15 +418,22 @@ sns.heatmap(data=iris_corr_mat, cmap='seismic', center=0, vmin=-1, vmax=1)
 
 
 
-### Bin plot
+### Binning & Hexbin Plots
+
+大型資料的視覺化方式較為受限，尤其以散布圖受影響的程度最為嚴重。
+本節使用模擬的大量資料示範視覺化方式，此資料共有 12,000 筆模擬資料，包含四個欄位，前三欄為連續型變數，最後一欄為三類別的類別型變數。
 
 ```{python}
 #| warning: false
 #| fig-align: 'center'
-big_df = pd.read_csv('../sample_data/big_demo.csv')
+#big_df = pd.read_csv('../sample_data/big_demo.csv')
+big_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/big_demo.csv')
 print(big_df.columns)
+print(big_df.head(5))
+print(big_df['Status'].value_counts())
 ```
 
+Binning Plot 為兩個連續型變數的直方圖， X 軸為第一個變數數值、 Y 軸為第二個變數數值，而直方圖統計量 (計數值或頻率值) 則以顏色漸層呈現。其中，`bins` 仍為此圖的重要設定參數之一，請參考前節對直方圖用法之說明。
 
 ```{python}
 #| eval: false
@@ -349,6 +441,12 @@ print(big_df.columns)
 #| fig-align: 'center'
 sns.histplot(data=big_df, x='X1', y='X2')
 ```
+
+以下針對模擬資料，分別繪製散布圖、等高線圖及 Binning Plot 相比較。可見
+
+- 散布圖受大量資料影響，座標點嚴重相互疊合，影響視覺觀察。
+- 等高線圖以最簡化的方式呈現變數的聯合分布狀態，數據分布較少之邊緣資訊，因過度簡化而消失。
+- Binning Plot 將兩變數數值區間格點化，以顏色深度表示格點內的資料量，可完整呈現所有資料的分布情形。
 
 ```{python}
 #| echo: false
@@ -359,7 +457,7 @@ ax = plt.subplot(1, 3, 1)
 sns.scatterplot(data=big_df, x='X1', y='X2')
 ax.set_title("Scatter Plot")
 ax = plt.subplot(1, 3, 2)
-sns.kdeplot(data=big_df, x='X1', y='X2')
+sns.kdeplot(data=big_df, x='X1', y='X2', fill=True)
 ax.set_title("Contour Plot")
 ax = plt.subplot(1, 3, 3)
 sns.histplot(data=big_df, x='X1', y='X2')
@@ -367,7 +465,7 @@ ax.set_title("Bin Plot")
 ```
 
 
-
+Seaborn 套件無單獨繪製 Hexbin plot 的函數，若欲繪製 Hexbin plot，可使用 `jointplot` 函數，輸入資料後指定 X、Y 軸須呈現的變數，並設定 `kind="hex"`。此函數也可透過設定 `kind="hist"` 繪製 Binning plot。
 
 ```{python}
 #| warning: false
@@ -381,6 +479,84 @@ sns.jointplot(data=big_df, x='X1', y='X2', kind="hex")
 ```
 
 
+
+## 利用 GAI 找程式範例
+
+**示範例一：** 以 seaborn 對 iris 資料繪製散布圖，且對三個品種的資料進行不同著色。
+
+![](/fig/chatgpt1.png)
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the iris dataset
+iris = sns.load_dataset("iris")
+
+# Create a scatter plot
+sns.scatterplot(x="sepal_length", y="sepal_width", hue="species", data=iris)
+
+# Display the plot
+plt.show()
+```
+
+**示範例二：** 承上，針對同一張圖，檢視使用 matplotlib 的繪製方法。
+
+![](/fig/chatgpt2.png)
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+import matplotlib.pyplot as plt
+import pandas as pd
+from matplotlib.colors import ListedColormap
+
+# Load the iris dataset
+iris = pd.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv")
+
+# Create a color map for the species
+colors = {'setosa': 'blue', 'versicolor': 'green', 'virginica': 'red'}
+
+# Plot the scatter plot
+for species, color in colors.items():
+    subset = iris[iris['species'] == species]
+    plt.scatter(subset['sepal_length'], subset['sepal_width'], label=species, color=color)
+
+# Add labels and legend
+plt.xlabel('Sepal Length')
+plt.ylabel('Sepal Width')
+plt.legend(title='Species')
+
+# Display the plot
+plt.show()
+```
+
+**示範例三：** 以 seaborn 對 iris 資料分三個品種繪製盒鬚圖。
+
+![](/fig/chatgpt3.png)
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the iris dataset
+iris = sns.load_dataset("iris")
+
+# Create a boxplot
+sns.boxplot(x="species", y="sepal_length", data=iris)
+
+# Add labels and title
+plt.xlabel('Species')
+plt.ylabel('Sepal Length')
+plt.title('Comparison of Sepal Length among Species')
+
+# Display the plot
+plt.show()
+```
 
 
 
