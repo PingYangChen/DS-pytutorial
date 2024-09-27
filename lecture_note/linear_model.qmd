@@ -6,22 +6,5 @@ lang: zh-TW
 
 ## Linear Regression
 
-中文可以嗎
-
-## Code Cell
 
 
-Here is a Python code cell:
-
-```{python}
-import os
-os.cpu_count()
-```
-
-## Equation
-
-Use LaTeX to write equations:
-
-$$
-\chi' = \sum_{i=1}^n k_i s_i^2
-$$
