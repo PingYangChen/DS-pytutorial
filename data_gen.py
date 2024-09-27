@@ -43,9 +43,9 @@ df = pd.DataFrame(columns=dfColumns)
 for i in range(n):
     #i=0
     dftmp = pd.DataFrame(columns=dfColumns)
-    dftmp['year'] = np.ones(24, dtype=int)*alldate[0].year
-    dftmp['month'] = np.ones(24, dtype=int)*alldate[0].month
-    dftmp['day'] = np.ones(24, dtype=int)*alldate[0].day
+    dftmp['year'] = np.ones(24, dtype=int)*alldate[i].year
+    dftmp['month'] = np.ones(24, dtype=int)*alldate[i].month
+    dftmp['day'] = np.ones(24, dtype=int)*alldate[i].day
     dftmp['hour'] = np.arange(24, dtype=int)
     if i < 330:
         dftmp['consumption'] = gen()

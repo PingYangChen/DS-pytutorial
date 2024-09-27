@@ -768,4 +768,26 @@ fig.show()
 
 ## 作業
 
+資料為某用戶於 2013/05/11 至 2014/07/24 的每小時用電量紀錄，嘗試繪圖觀察此用戶的用電狀況，找出是否有異狀。
 
+資料格式為：
+
+- `year` ：年
+- `month`：月
+- `day`  ：日
+- `hour` ：時
+- `consumption`: 用電量
+
+```{python}
+hw_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/vis_hw.csv')
+print(hw_df.columns)
+print(hw_df.head(5))
+```
+
+
+參考程式
+```{python}
+# 抓出日期
+print(hw_df[['year', 'month', 'day']].value_counts())
+# 抓某一日的用電量
+```
