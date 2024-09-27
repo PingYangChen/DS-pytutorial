@@ -1,0 +1,33 @@
+---
+title: "關聯式分析 Association Rules"
+format: html
+lang: zh-TW
+---
+
+
+## Python
+
+```{python}
+from apyori import apriori
+```
+
+
+```{python}
+import pandas as pd
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+```
+
+```{python}
+market_data = {
+ 'Transaction ID': [1,2,3,4,5,6,7,8],
+ 'Items':[['T-Shirt','Pants','Jeans','Jersy','Socks','Basketball','Bottle','Shorts'],
+ ['T-Shirt','Jeans'],
+ ['Jersy','Basketball','Socks','Bottle'],
+ ['Jeans','Pants','Bottle'],
+ ['Shorts','Basketball'],
+ ['Shorts','Jersy'],
+ ['T-Shirt'],
+ ['Basketball','Jersy'],
+ ]}
+```
