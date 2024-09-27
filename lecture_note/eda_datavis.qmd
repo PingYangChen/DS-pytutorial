@@ -788,6 +788,34 @@ print(hw_df.head(5))
 參考程式
 ```{python}
 # 抓出日期
-print(hw_df[['year', 'month', 'day']].value_counts())
-# 抓某一日的用電量
+unique_dates = np.unique(hw_df[['year', 'month', 'day']].values, axis=0)
+print(unique_dates)
+```
+```{python}
+# 抓某一日的用電量，例如 第 100 天的用電量
+date_loc = np.where( (hw_df['year'] == unique_dates[99,0]) & (hw_df['month'] == unique_dates[99,1]) & (hw_df['day'] == unique_dates[99,2]) )
+print(hw_df.loc[date_loc])
+```
+
+```{python}
+# 將日期合併為字串，再抓出日期
+hw_df['ymd'] = ['%04d-%02d-%02d' % tuple(hw_df[['year', 'month', 'day']].loc[k].values) for k in range(len(hw_df))]
+unique_dates_str = hw_df['ymd'].unique()
+print(unique_dates_str)
+```
+
+```{python}
+# 使用字串格式的日期，抓某一日的用電量，例如 第 100 天的用電量
+date_loc = np.where( (hw_df['ymd'] == unique_dates_str[99]) )
+print(hw_df.loc[date_loc])
+```
+
+
+```{python}
+# 長資料 轉 寬資料
+n_record = len(hw_df)       #總筆數
+n_days = int(len(hw_df)/24) #總日數
+cons_width_array = hw_df['consumption'].values.reshape(n_days, 24)
+cons_width_df = pd.DataFrame(cons_width_array, index=unique_dates_str, columns=np.arange(24))
+print(cons_width_df)
 ```

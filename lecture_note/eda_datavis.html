@@ -127,12 +127,12 @@ window.Quarto = {
 
 <section id="敘述統計量" class="level2">
 <h2 class="anchored" data-anchor-id="敘述統計量">敘述統計量</h2>
-<div id="b93d0768" class="cell" data-execution_count="1">
+<div id="9f080cfa" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="202340c8" class="cell" data-execution_count="2">
+<div id="3d5e7b54" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#iris_df = pd.read_csv('../sample_data/iris.csv')</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>iris_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/iris.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_df.columns)</span>
@@ -149,7 +149,7 @@ window.Quarto = {
 4           5.0          3.6           1.4          0.2  setosa</code></pre>
 </div>
 </div>
-<div id="1827915f" class="cell" data-execution_count="3">
+<div id="0a6267e0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續型數值敘述統計量</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>iris_var_columns <span class="op">=</span> iris_df.columns[:<span class="dv">4</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>iris_decs <span class="op">=</span> iris_df[iris_var_columns].describe()</span>
@@ -166,7 +166,7 @@ min        4.300000     2.000000      1.000000     0.100000
 max        7.900000     4.400000      6.900000     2.500000</code></pre>
 </div>
 </div>
-<div id="e7df4687" class="cell" data-execution_count="4">
+<div id="30ae1c17" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續型數值兩兩變數間相關係數</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>iris_corr_mat <span class="op">=</span> iris_df[iris_var_columns].corr(method<span class="op">=</span><span class="st">'pearson'</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_corr_mat)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -178,7 +178,7 @@ Petal.Length      0.871754    -0.428440      1.000000     0.962865
 Petal.Width       0.817941    -0.366126      0.962865     1.000000</code></pre>
 </div>
 </div>
-<div id="c3ae4c5a" class="cell" data-execution_count="5">
+<div id="788326b1" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 離散型數值敘述統計量 </span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_df[<span class="st">'Species'</span>].value_counts()) <span class="co"># 計數</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_df[<span class="st">'Species'</span>].value_counts()<span class="op">*</span><span class="dv">100</span><span class="op">/</span><span class="bu">len</span>(iris_df)) <span class="co"># 百分比</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -195,7 +195,7 @@ virginica     33.333333
 Name: count, dtype: float64</code></pre>
 </div>
 </div>
-<div id="98b92f01" class="cell" data-execution_count="6">
+<div id="954bef27" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 連續型數值 "分組" 敘述統計量</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>iris_decs_grouped <span class="op">=</span> iris_df.groupby(<span class="st">'Species'</span>).describe()</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_decs_grouped)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -226,7 +226,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 <p><strong>註一</strong>：執行分析專案時，常常需要儲存或暫存各式各樣的分析結果，包含資料敘述統計、各種視覺化圖表(寫報告用)、前處理過的資料、建好的模型(備份或供未來使用)，建議有個習慣，在專案程式碼開頭處，便指定好輸出路徑並給予一個變數名稱，例如底下範例 <code>outputPath = 'eda_output'</code>。</p>
 <p><strong>註二</strong>：另外，當程式碼搬移至別處或別台主機執行，常見需要輸出檔案時，找不到輸出路徑的困擾，建議若需輸出檔案，除了給予指定的路徑外，利用 <code>if not os.path.exists(outputPath):</code> 確認路徑是否存在，若不存在，則自動執行 <code>os.makedirs(outputPath)</code>，為指定的輸出路徑新建資料夾。</p>
-<div id="084b5fe3" class="cell" data-execution_count="7">
+<div id="063ee841" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 當統計資訊過大，無法呈現於單一視窗時，可將分析結果儲存起來</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>outputPath <span class="op">=</span> <span class="st">'eda_output'</span> <span class="co"># 請見以上註一</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(outputPath): <span class="co"># 請見以上註二</span></span>
@@ -246,7 +246,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </ul>
 <p><img src=".\fig/seaborn_install.png" class="img-fluid"></p>
 <p>引入 Seaborn 套件，習慣上將其縮寫為 <code>sns</code>。</p>
-<div id="a53b9d02" class="cell" data-execution_count="8">
+<div id="51a43885" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Seaborn 各繪圖函數通用設定：</p>
@@ -260,7 +260,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <section id="直方圖-histogram" class="level3">
 <h3 class="anchored" data-anchor-id="直方圖-histogram">直方圖 Histogram</h3>
 <p>以下為 Seaborn 以預設設定繪製的直方圖。一般而言，直方圖的 X 軸為變數數值，須於 <code>x</code> 選項設定為繪製直方圖的變數名稱；Y 軸為統計量 (計數值或頻率值)，因此不須設定 <code>y</code> 選項。</p>
-<div id="5249e1d6" class="cell" data-execution_count="10">
+<div id="d8ce384f" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -277,7 +277,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <li>自動計算: 此為 <code>bins</code> 的預設值，<code>bins='auto'</code>讓程式根據資料自動計算柱子數量。</li>
 </ul>
 <p>以下範例對 Iris 資料的 <code>'Sepal.Length'</code> 分布，在分別設定不同的 <code>bins</code> 值之下，所呈現的圖形。</p>
-<div id="9037f298" class="cell" data-execution_count="11">
+<div id="d370ecca" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -288,7 +288,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 <p>直方圖常用的統計量為計數值或頻率值，預設設定會於 Y 軸顯示計數值，若想呈現頻率值，則加入選項設定 <code>stat='frequency'</code> 修改呈現統計量。</p>
 <p>Iris 資料包含三種不同品種的鳶尾花，可使用 <code>iris_df['Species'].unique()</code> 檢視 <code>Species</code> 欄位中三種品種的名稱。若欲在直方圖分別呈現三種品種之下 <code>Sepal.Length</code> 的數值分布，則加入選項設定 <code>hue='Species'</code>，指定 <code>Species</code> 為著色柱子的參照欄位。</p>
-<div id="b2a6bcd2" class="cell" data-execution_count="12">
+<div id="ce236ea7" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, bins <span class="op">=</span> <span class="dv">20</span>, hue<span class="op">=</span><span class="st">'Species'</span>, stat<span class="op">=</span><span class="st">'frequency'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -299,7 +299,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>有時為凸顯三組資料之間集中趨勢的差異，可在直方圖上透過加入選項設定 <code>kde=True</code>，再嵌入各組資料的機率分布圖。機率分布圖的最高點表示該組資料最集中處 (可視為平均數)，強調三組資料間平均數的異同。</p>
-<div id="d70fbff5" class="cell" data-execution_count="13">
+<div id="c8f549da" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, bins <span class="op">=</span> <span class="dv">20</span>, hue<span class="op">=</span><span class="st">'Species'</span>, stat<span class="op">=</span><span class="st">'frequency'</span>, kde<span class="op">=</span><span class="va">True</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -313,7 +313,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <section id="盒鬚圖-boxplot" class="level3">
 <h3 class="anchored" data-anchor-id="盒鬚圖-boxplot">盒鬚圖 Boxplot</h3>
 <p>以下為 Seaborn 以預設設定繪製的盒鬚圖。一般而言，盒鬚圖的 X 軸變數標籤，不須設定 <code>x</code> 選項；Y 軸為變數數值分布及關鍵敘述統計量，須將 <code>x</code> 選項設定為繪製盒鬚圖的變數名稱，例如 <code>y='Sepal.Length'</code>。</p>
-<div id="10b033c1" class="cell" data-execution_count="14">
+<div id="43850834" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>iris_df, y<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -324,7 +324,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>盒鬚圖的一大功用為比較不同群組之間變數值分布的差異。若欲在盒鬚圖分別呈現三種鳶尾花品種之下的變數數值分布，則將品種 <code>Species</code> 加入標籤選項設定 <code>x='Species'</code>，讓盒鬚圖就不同 <code>Species</code> 呈現 <code>Sepal.Length</code> 的數值分布。</p>
-<div id="46ddb673" class="cell" data-execution_count="15">
+<div id="616fd9a0" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Species'</span>, y<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -335,7 +335,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>提琴圖 <code>violinplot</code> 為盒鬚圖的一種變化型，在盒鬚圖的基礎上，再嵌入資料的機率分布圖於其兩側，可更凸顯資料的分布情況。</p>
-<div id="af8e6f32" class="cell" data-execution_count="16">
+<div id="84650d7e" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Species'</span>, y<span class="op">=</span><span class="st">'Sepal.Length'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -346,7 +346,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>當可用於分群檢視變數值分布差異的變數超過 1 個時，除了將 <code>x</code> 選項設定為用於標籤之變數名稱外，可進一步利用 <code>hue</code> 選項設定第二組標籤用途之變數名稱。以下使用另一個資料集 <code>mtcars</code> 示範操作方式。資料集簡介集內容說明請參考 <a href="https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars">https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars</a>。</p>
-<div id="a9c3bcc6" class="cell" data-execution_count="17">
+<div id="a1401f6d" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mtcars_df = pd.read_csv('../sample_data/mtcars.csv')</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>mtcars_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/mtcars.csv'</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mtcars_df.columns)</span>
@@ -364,7 +364,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>使用盒鬚圖檢視不同汽缸數 <code>cyl</code> 及不同排檔方式 <code>am</code> 的汽車，排氣量 <code>disp</code> 之異同。在此，第一組標籤為汽缸數 <code>cyl</code>，將此標籤設定於 X 軸，第二組標籤為排檔方式 <code>am</code>，以不同著色方式表示。同理，提琴圖也可使用相同輸入方式繪製。</p>
-<div id="b575e37d" class="cell" data-execution_count="18">
+<div id="06aca076" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>, y<span class="op">=</span><span class="st">'disp'</span>, hue<span class="op">=</span><span class="st">'am'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -374,7 +374,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 </div>
-<div id="fbbc374e" class="cell" data-execution_count="19">
+<div id="96874537" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>, y<span class="op">=</span><span class="st">'disp'</span>, hue<span class="op">=</span><span class="st">'am'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -388,7 +388,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <section id="長條圖-barplot" class="level3">
 <h3 class="anchored" data-anchor-id="長條圖-barplot">長條圖 Barplot</h3>
 <p>以下為 Seaborn 以預設設定繪製的長條圖。一般而言，長條圖的 X 軸為類別型變數之各類別標籤，須於 <code>x</code> 選項設定為繪製長條圖的變數名稱，如 <code>x='cyl'</code> 以資料集 <code>mtcars</code> 為例；Y 軸為統計量 (一般為計數值)，因此不須設定 <code>y</code> 選項。</p>
-<div id="dd61fc13" class="cell" data-execution_count="20">
+<div id="ed90640a" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -399,7 +399,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>若欲在長條圖分別呈現不同群組之下，目標類別型變數的各類別計數，則於 <code>hue</code> 選項設定用於分群的變數名稱，例如設定 <code>hue='am'</code>，指定 <code>am</code> 為分群變數，作為對長條著色的參照欄位。</p>
-<div id="9c969444" class="cell" data-execution_count="21">
+<div id="a1098cee" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(data<span class="op">=</span>mtcars_df, x<span class="op">=</span><span class="st">'cyl'</span>, hue<span class="op">=</span><span class="st">'am'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -413,7 +413,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <section id="趨勢圖-line-plot" class="level3">
 <h3 class="anchored" data-anchor-id="趨勢圖-line-plot">趨勢圖 Line plot</h3>
 <p>趨勢圖呈現變數數值隨著時間或某種順序的變化趨勢。以資料集 <code>longley</code>為例，資料集簡介集內容說明請參考 <a href="https://search.r-project.org/CRAN/refmans/AER/html/Longley.html">https://search.r-project.org/CRAN/refmans/AER/html/Longley.html</a>。</p>
-<div id="c1031552" class="cell" data-execution_count="22">
+<div id="08fb2afc" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#longley_df = pd.read_csv('../sample_data/longley.csv')</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>longley_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/longley.csv'</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(longley_df.columns)</span>
@@ -431,7 +431,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>以下為 Seaborn 以預設設定繪製的趨勢圖。一般而言， X 軸為時間變數或順序變數，如本例設定 <code>x='Year'</code>；Y 軸為欲觀察趨勢的變數，如 <code>y='GNP.deflator'</code>。</p>
-<div id="e9960b1f" class="cell" data-execution_count="23">
+<div id="9cca261a" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>longley_df, x<span class="op">=</span><span class="st">'Year'</span>, y<span class="op">=</span><span class="st">'GNP.deflator'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -445,7 +445,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <section id="散布圖-scatter-plots" class="level3">
 <h3 class="anchored" data-anchor-id="散布圖-scatter-plots">散布圖 Scatter Plots</h3>
 <p>散布圖呈現兩個連續型變數之間的關聯狀況。以資料集 <code>iris</code> 為例，欲觀察變數 <code>Sepal.Length</code> 與 <code>Sepal.Width</code> 之間的關聯，於 <code>scatterplot</code> 函數中將此兩變數分別輸入至 <code>x</code> 與 <code>y</code> 選項。</p>
-<div id="ce4b2800" class="cell" data-execution_count="24">
+<div id="38045f64" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -456,7 +456,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>若欲觀察不同群組之下，兩個連續型變數之間的關聯狀況，則於 <code>hue</code> 選項設定用於分群的變數名稱，例如此例可設定 <code>hue='Species'</code>，指定 <code>Species</code> 為分群變數，作為對座標點著色的參照欄位。</p>
-<div id="079dc34c" class="cell" data-execution_count="25">
+<div id="1495f46c" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -471,7 +471,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <h3 class="anchored" data-anchor-id="等高線圖-contour-plots">等高線圖 Contour Plots</h3>
 <p>在 Seaborn 中，無傳統只能輸入矩陣繪製等高線圖的功能，取而代之的是，輸入資料集並透過 kernel density estimate (KDE) 估計方式，觀察兩個連續型變數的聯合分布 (joint distribution)。以資料集 <code>iris</code> 為例，欲觀察變數 <code>Sepal.Length</code> 與 <code>Sepal.Width</code> 的聯合分布，於 <code>kdeplot</code> 函數中將此兩變數分別輸入至 <code>x</code> 與 <code>y</code> 選項。</p>
 <p>以下為一般等高線圖，在此等高線的涵義為該層範圍內數據在資料中有類似的分布狀況 (出現的頻率)。</p>
-<div id="39c10de8" class="cell" data-execution_count="26">
+<div id="0df5b303" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -482,7 +482,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>然而，一般等高線圖不易輔助判讀數據集中之處，例如上圖中的兩處中心是否數據密度相似。此時，可再加上漸層著色，設定 <code>fill=True</code> 以顏色深淺程度，表示等高線圖各層之間數據分布的差異。下圖中，透過著色可知，圖中位於相對右下位置的等高線中心，具有更密的數據分布。</p>
-<div id="89b1d41f" class="cell" data-execution_count="27">
+<div id="cb74e723" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>, fill<span class="op">=</span><span class="va">True</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -493,7 +493,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>若欲觀察不同群組之下，兩個連續型變數的聯合分布，則於 <code>hue</code> 選項設定用於分群的變數名稱，例如此例可設定 <code>hue='Species'</code>，指定 <code>Species</code> 為分群變數，作為對等高線著色的參照欄位。在此，便不建議再加入著色，可能使漸層重疊影響資料觀察。</p>
-<div id="651ff2e7" class="cell" data-execution_count="28">
+<div id="805fd66f" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>iris_df, x<span class="op">=</span><span class="st">'Sepal.Length'</span>, y<span class="op">=</span><span class="st">'Sepal.Width'</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -508,7 +508,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <h3 class="anchored" data-anchor-id="多欄資料觀察圖形拼接">多欄資料觀察圖形拼接</h3>
 <p>當資料中有多欄連續型變數時，常見的觀察方式是繪製兩兩變數的散布圖，觀察各變數之間的關聯狀況。此時可使用 <code>pairplot</code> 函數，一次性地將所有連續型變數配對的散布圖繪製出，並拼接成一張矩陣圖。</p>
 <p>同 <code>scatterplot</code>，若欲觀察不同群組之下，所有連續型變數配對的關聯狀況，則於 <code>hue</code> 選項設定用於分群的變數名稱，例如此例可設定 <code>hue='Species'</code>，指定 <code>Species</code> 為分群變數，作為對各子圖座標點著色的參照欄位。</p>
-<div id="7e747edf" class="cell" data-execution_count="29">
+<div id="5c126f30" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(data<span class="op">=</span>iris_df, hue<span class="op">=</span><span class="st">'Species'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -519,7 +519,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>從 <code>pairplot</code> 結果可看出，矩陣圖的右上部及左下部重複顯示了兩兩連續型變數的 <code>scatterplot</code>，造成空間上略顯浪費。若可只於右上部及左下部其中之一顯示 <code>scatterplot</code>，利用另一半部呈現其他視覺化圖形，則可更大化地利用矩陣圖的空間。此時可使用 <code>PairGrid</code> 功能，分別對右上部、左下部及對角線上繪製不同的視覺化圖形。</p>
-<div id="af1abdc1" class="cell" data-execution_count="30">
+<div id="7307ecd2" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.PairGrid(data<span class="op">=</span>iris_df, diag_sharey<span class="op">=</span><span class="va">False</span>, hue<span class="op">=</span><span class="st">'Species'</span>)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製右上部兩兩變數統計圖 (例，散布圖)</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>g.map_upper(sns.scatterplot)</span>
@@ -539,7 +539,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 <section id="熱圖-heatmap" class="level3">
 <h3 class="anchored" data-anchor-id="熱圖-heatmap">熱圖 Heatmap</h3>
 <p>熱圖 Heatmap 為輸入一個數值矩陣，以顏色漸層來表達矩陣中的數值大小。在此以一個火山在一個網格上所量測的海拔高度資料 <code>volcano</code> 為例，資料集簡介集內容說明請參考 <a href="https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/volcano">https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/volcano</a>。</p>
-<div id="e014e070" class="cell" data-execution_count="31">
+<div id="0eb5af49" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#volcano_df = pd.read_csv('../sample_data/volcano.csv')</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>volcano_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/volcano.csv'</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(volcano_df.columns)</span>
@@ -582,7 +582,7 @@ virginica   0.274650  1.4  1.8  2.0  2.3  2.5
 </div>
 </div>
 <p>火山資料有 87 列 (rows)、61 欄 (columns)。基本上直接輸入此 <code>pandas.Dataframe</code> 使用 seaborn 的 <code>heatmap</code> 功能繪製熱圖即可，但為避免資料中有非數值的內容，如空值、<code>NA</code> 值、字串等，通常建議先將此 <code>pandas.Dataframe</code> 轉換為 <code>numpy.array</code> 數值矩陣 (記得先 <code>import numpy</code>)，確認 <code>numpy.array</code> 內容全為數值後，再行繪製熱圖。</p>
-<div id="2f3887f1" class="cell" data-execution_count="32">
+<div id="74fd4c28" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>volcano_array <span class="op">=</span> volcano_df.values <span class="co"># pandas.Dataframe -&gt; numpy.array</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(volcano_array.shape)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 確認 numpy.array 是否全為數值</span></span>
@@ -593,7 +593,7 @@ True</code></pre>
 </div>
 </div>
 <p>以預設設定繪製熱圖，僅須將 <code>numpy.array</code> 數值矩陣輸入至 <code>data</code> 選項即可。</p>
-<div id="178f7c0d" class="cell" data-execution_count="33">
+<div id="46f3e0a1" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(data<span class="op">=</span>volcano_array)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -604,7 +604,7 @@ True</code></pre>
 </div>
 </div>
 <p>若不需要 X、Y 軸的座標標籤，可加入 <code>xticklabels=False</code> 及 <code>yticklabels=False</code> 分別關閉 X 及 Y 軸的座標標籤顯示，使熱圖看起來較乾淨。</p>
-<div id="f3f83d76" class="cell" data-execution_count="34">
+<div id="769cf38d" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(data<span class="op">=</span>volcano_array, xticklabels<span class="op">=</span><span class="va">False</span>, yticklabels<span class="op">=</span><span class="va">False</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -616,10 +616,10 @@ True</code></pre>
 </div>
 <p>使用熱圖的關鍵在於漸層色的選擇，因 Seaborn 為基於 Matplotlib 所開發的高階繪圖套件，可從 Matplotlib 內建的漸層色函式庫中挑選合適的漸層對 Seaborn 的熱圖著色。漸層色選擇請參考 <a href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">https://matplotlib.org/stable/gallery/color/colormap_reference.html</a>。</p>
 <p>漸層色應透過 <code>cmap</code> 選項設定，例如 <code>cmap='RdPu'</code>。以下範例分別挑選 <code>'RdPu'</code>、 <code>'YlGn'</code> 及 <code>'Spectral'</code> 三種漸層色示範對同一張熱圖的著色結果。</p>
-<div id="66b7b374" class="cell" data-execution_count="35">
+<div id="ad6d8428" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(data<span class="op">=</span>volcano_array, cmap<span class="op">=</span><span class="st">'RdPu'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4365b88e" class="cell" data-execution_count="36">
+<div id="b3be9f9c" class="cell" data-execution_count="36">
 <div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>Text(0.5, 1.0, "cmap='Spectral'")</code></pre>
 </div>
@@ -632,7 +632,7 @@ True</code></pre>
 </div>
 </div>
 <p>在資料分析中，熱圖最常見的應用為視覺化呈現資料中多欄連續型變數，兩兩配對的相關係數值。例如以下透過 <code>pandas</code> 的 <code>corr</code> 函數計算 <code>iris</code> 四個鳶尾花特徵的相關係數矩陣。</p>
-<div id="71cacdaa" class="cell" data-execution_count="37">
+<div id="9df1df6f" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>iris_var_columns <span class="op">=</span> iris_df.columns[:<span class="dv">4</span>]</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>iris_corr_mat <span class="op">=</span> iris_df[iris_var_columns].corr()</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_corr_mat)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -651,7 +651,7 @@ Petal.Width       0.817941    -0.366126      0.962865     1.000000</code></pre>
 <li>中：兩種顏色漸層，但其不以 0 為中心，同樣顏色深度的深藍色約為 <span class="math inline">\(r=-0.4\)</span>、而深紅色約為 <span class="math inline">\(r=1.0\)</span>。</li>
 <li>右：兩種顏色漸層，且以 0 為中心，已接近理想，但圖右色階尺規不對稱。</li>
 </ul>
-<div id="071376ad" class="cell" data-execution_count="38">
+<div id="7954d124" class="cell" data-execution_count="38">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -661,7 +661,7 @@ Petal.Width       0.817941    -0.366126      0.962865     1.000000</code></pre>
 </div>
 </div>
 <p>較好的相關係數矩陣熱圖視覺化範例如下。</p>
-<div id="a6272eff" class="cell" data-execution_count="39">
+<div id="a1de04b2" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sns.heatmap(data<span class="op">=</span>iris_corr_mat, cmap<span class="op">=</span><span class="st">'seismic'</span>, center<span class="op">=</span><span class="dv">0</span>, vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -675,7 +675,7 @@ Petal.Width       0.817941    -0.366126      0.962865     1.000000</code></pre>
 <section id="binning-hexbin-plots" class="level3">
 <h3 class="anchored" data-anchor-id="binning-hexbin-plots">Binning &amp; Hexbin Plots</h3>
 <p>大型資料的視覺化方式較為受限，尤其以散布圖受影響的程度最為嚴重。 本節使用模擬的大量資料示範視覺化方式，此資料共有 12,000 筆模擬資料，包含四個欄位，前三欄為連續型變數，最後一欄為三類別的類別型變數。</p>
-<div id="fa651313" class="cell" data-execution_count="40">
+<div id="f24867b0" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#big_df = pd.read_csv('../sample_data/big_demo.csv')</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>big_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/big_demo.csv'</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(big_df.columns)</span>
@@ -697,7 +697,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Binning Plot 為兩個連續型變數的直方圖， X 軸為第一個變數數值、 Y 軸為第二個變數數值，而直方圖統計量 (計數值或頻率值) 則以顏色漸層呈現。其中，<code>bins</code> 仍為此圖的重要設定參數之一，請參考前節對直方圖用法之說明。</p>
-<div id="1089f3eb" class="cell" data-execution_count="41">
+<div id="d4e50369" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>以下針對模擬資料，分別繪製散布圖、等高線圖及 Binning Plot 相比較。可見</p>
@@ -706,7 +706,7 @@ Name: count, dtype: int64</code></pre>
 <li>等高線圖以最簡化的方式呈現變數的聯合分布狀態，數據分布較少之邊緣資訊，因過度簡化而消失。</li>
 <li>Binning Plot 將兩變數數值區間格點化，以顏色深度表示格點內的資料量，可完整呈現所有資料的分布情形。</li>
 </ul>
-<div id="1bada2e9" class="cell" data-execution_count="42">
+<div id="39fb40f7" class="cell" data-execution_count="42">
 <div class="cell-output cell-output-display" data-execution_count="40">
 <pre><code>Text(0.5, 1.0, 'Bin Plot')</code></pre>
 </div>
@@ -719,7 +719,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Seaborn 套件無單獨繪製 Hexbin plot 的函數，若欲繪製 Hexbin plot，可使用 <code>jointplot</code> 函數，輸入資料後指定 X、Y 軸須呈現的變數，並設定 <code>kind="hex"</code>。此函數也可透過設定 <code>kind="hist"</code> 繪製 Binning plot。</p>
-<div id="14cd0d75" class="cell" data-execution_count="43">
+<div id="13f66c84" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sns.jointplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>, kind<span class="op">=</span><span class="st">"hist"</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -729,7 +729,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="544be9e4" class="cell" data-execution_count="44">
+<div id="f4bf7289" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>sns.jointplot(data<span class="op">=</span>big_df, x<span class="op">=</span><span class="st">'X1'</span>, y<span class="op">=</span><span class="st">'X2'</span>, kind<span class="op">=</span><span class="st">"hex"</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -745,7 +745,7 @@ Name: count, dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="利用-gai-找程式範例">利用 GAI 找程式範例</h2>
 <p><strong>示範例一：</strong> 以 seaborn 對 iris 資料繪製散布圖，且對三個品種的資料進行不同著色。</p>
 <p><img src=".\fig/chatgpt1.png" class="img-fluid"></p>
-<div id="e54e1568" class="cell" data-execution_count="45">
+<div id="c4f7c196" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -767,7 +767,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p><strong>示範例二：</strong> 承上，針對同一張圖，檢視使用 matplotlib 的繪製方法。</p>
 <p><img src=".\fig/chatgpt2.png" class="img-fluid"></p>
-<div id="0b32b55e" class="cell" data-execution_count="46">
+<div id="fe6423bb" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
@@ -800,7 +800,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p><strong>示範例三：</strong> 以 seaborn 對 iris 資料分三個品種繪製盒鬚圖。</p>
 <p><img src=".\fig/chatgpt3.png" class="img-fluid"></p>
-<div id="81d954dd" class="cell" data-execution_count="47">
+<div id="b3fdd7b0" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -837,7 +837,7 @@ Name: count, dtype: int64</code></pre>
 <li>輸入 <code>pip install matplotlib</code> 安裝套件</li>
 </ul>
 <p>引入 Matplotlib 套件，基本上會先引入需求量最大的 <code>pyplot</code> 模組，將其縮寫為 <code>plt</code>。</p>
-<div id="bcd572b4" class="cell" data-execution_count="48">
+<div id="f840b853" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
@@ -852,7 +852,7 @@ Name: count, dtype: int64</code></pre>
 <li>對圖形進行設定</li>
 <li>(若需要) 儲存圖片</li>
 </ul>
-<div id="f6f8af98" class="cell" data-execution_count="49">
+<div id="8a6e2f36" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 以下為示範程式框架，勿執行!</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 決定圖形框架大小 (width, height) in inches</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
@@ -878,7 +878,7 @@ Name: count, dtype: int64</code></pre>
 <section id="以直方圖示範-matplotlib-布局功能" class="level3">
 <h3 class="anchored" data-anchor-id="以直方圖示範-matplotlib-布局功能">以直方圖示範 Matplotlib 布局功能</h3>
 <p>以下範例為 Iris 資料中 <code>'Sepal.Length'</code> 的數值分布，且以預設的 <code>bins</code> 呈現。</p>
-<div id="3ba98bc8" class="cell" data-execution_count="50">
+<div id="b78013fa" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">4</span>))</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>ax.hist(iris_df[<span class="st">'Sepal.Length'</span>]) <span class="co"># 繪製 Sepal.Length 的直方圖</span></span>
@@ -901,7 +901,7 @@ Name: count, dtype: int64</code></pre>
 <li>自動計算: 此為 <code>bins</code> 的預設值，<code>bins='auto'</code>讓 matplotlib 根據資料自動計算柱子數量。</li>
 </ul>
 <p>以下範例對 Iris 資料的 <code>'Sepal.Length'</code> 分布，在分別設定不同的 <code>bins</code> 值之下，所呈現的圖形。</p>
-<div id="e4b65e9b" class="cell" data-execution_count="51">
+<div id="b8f46b0e" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>fig_nr <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>fig_nc <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>bins_set <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>]</span>
@@ -922,7 +922,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Iris 資料共有四個連續型數值欄位 <code>Sepal.Length</code> 、 <code>Sepal.Width</code> 、 <code>Petal.Length</code> 及 <code>Petal.Width</code>。設定 <code>plt.subplot</code> 布置一個 <code>2 x 2</code> 的布局，使用 for 迴圈針對各連續變數一一繪製直方圖，並給予各圖標題顯示變數名稱。</p>
-<div id="d0844661" class="cell" data-execution_count="52">
+<div id="d69899be" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>iris_var_columns <span class="op">=</span> iris_df.columns[:<span class="dv">4</span>]</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(iris_var_columns)</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用變數預先設定布局參數</span></span>
@@ -959,7 +959,7 @@ Name: count, dtype: int64</code></pre>
 <li>語法 <code>gb.groups</code> 可呼叫出各分組的資料編號。</li>
 <li>逐一帶入 <code>gb.groups</code> 的內容至 <code>gb.get_group()</code> 功能中，即可取出分組後的資料。</li>
 </ol>
-<div id="b41ecf8c" class="cell" data-execution_count="53">
+<div id="2c96fb5a" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 指定 Species 為資料分組的參照欄位</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>gb <span class="op">=</span> iris_df.groupby(<span class="st">'Species'</span>)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gb.groups)</span>
@@ -982,7 +982,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>從結果可看出，matplotlib 將資料分組以併排方式繪製直方圖，與 seaborn 設定 <code>hue='Species'</code> 之分組繪圖結果相比，seaborn 的圖形較為美觀且易讀。若需一次繪製四個連續型數值的直方圖，可組合 matplotlib 的布局功能及 seaborn 圖形功能，如下示範。</p>
-<div id="b18c6e6d" class="cell" data-execution_count="54">
+<div id="4e6b9a83" class="cell" data-execution_count="54">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1000,7 +1000,7 @@ Name: count, dtype: int64</code></pre>
 <li>以紅色圓點標示平均數的位置，並以紅色文字顯示平均數數值</li>
 <li>移除 X 軸刻度標籤</li>
 </ul>
-<div id="cffa2cb8" class="cell" data-execution_count="55">
+<div id="7689ba12" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 預先使用 numpy 計算需要的統計量</span></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>the_var <span class="op">=</span> iris_df[<span class="st">'Sepal.Length'</span>].values</span>
@@ -1039,6 +1039,257 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </section>
+</section>
+<section id="作業" class="level2">
+<h2 class="anchored" data-anchor-id="作業">作業</h2>
+<p>資料為某用戶於 2013/05/11 至 2014/07/24 的每小時用電量紀錄，嘗試繪圖觀察此用戶的用電狀況，找出是否有異狀。</p>
+<p>資料格式為：</p>
+<ul>
+<li><code>year</code> ：年</li>
+<li><code>month</code>：月</li>
+<li><code>day</code> ：日</li>
+<li><code>hour</code> ：時</li>
+<li><code>consumption</code>: 用電量</li>
+</ul>
+<div id="93738a61" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>hw_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/vis_hw.csv'</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hw_df.columns)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hw_df.head(<span class="dv">5</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['year', 'month', 'day', 'hour', 'consumption'], dtype='object')
+   year  month  day  hour  consumption
+0  2013      5   11     0         1.67
+1  2013      5   11     1         1.25
+2  2013      5   11     2         4.52
+3  2013      5   11     3         4.49
+4  2013      5   11     4         3.22</code></pre>
+</div>
+</div>
+<p>參考程式</p>
+<div id="9b4572df" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 抓出日期</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>unique_dates <span class="op">=</span> np.unique(hw_df[[<span class="st">'year'</span>, <span class="st">'month'</span>, <span class="st">'day'</span>]].values, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unique_dates)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[2013    5   11]
+ [2013    5   12]
+ [2013    5   13]
+ ...
+ [2014    7   22]
+ [2014    7   23]
+ [2014    7   24]]</code></pre>
+</div>
+</div>
+<div id="59eda81b" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 抓某一日的用電量，例如 第 100 天的用電量</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>date_loc <span class="op">=</span> np.where( (hw_df[<span class="st">'year'</span>] <span class="op">==</span> unique_dates[<span class="dv">99</span>,<span class="dv">0</span>]) <span class="op">&amp;</span> (hw_df[<span class="st">'month'</span>] <span class="op">==</span> unique_dates[<span class="dv">99</span>,<span class="dv">1</span>]) <span class="op">&amp;</span> (hw_df[<span class="st">'day'</span>] <span class="op">==</span> unique_dates[<span class="dv">99</span>,<span class="dv">2</span>]) )</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hw_df.loc[date_loc])</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      year  month  day  hour  consumption
+2376  2013      8   18     0         2.62
+2377  2013      8   18     1         4.28
+2378  2013      8   18     2         4.01
+2379  2013      8   18     3         1.55
+2380  2013      8   18     4         1.06
+2381  2013      8   18     5         5.72
+2382  2013      8   18     6        15.14
+2383  2013      8   18     7        18.37
+2384  2013      8   18     8        18.87
+2385  2013      8   18     9        19.70
+2386  2013      8   18    10        18.83
+2387  2013      8   18    11        19.38
+2388  2013      8   18    12         7.12
+2389  2013      8   18    13         7.13
+2390  2013      8   18    14        18.64
+2391  2013      8   18    15        20.00
+2392  2013      8   18    16        15.49
+2393  2013      8   18    17        18.60
+2394  2013      8   18    18        15.71
+2395  2013      8   18    19        15.64
+2396  2013      8   18    20         5.94
+2397  2013      8   18    21         2.65
+2398  2013      8   18    22         4.90
+2399  2013      8   18    23         1.42</code></pre>
+</div>
+</div>
+<div id="f5ed1567" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 將日期合併為字串，再抓出日期</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>hw_df[<span class="st">'ymd'</span>] <span class="op">=</span> [<span class="st">'</span><span class="sc">%04d</span><span class="st">-</span><span class="sc">%02d</span><span class="st">-</span><span class="sc">%02d</span><span class="st">'</span> <span class="op">%</span> <span class="bu">tuple</span>(hw_df[[<span class="st">'year'</span>, <span class="st">'month'</span>, <span class="st">'day'</span>]].loc[k].values) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(hw_df))]</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>unique_dates_str <span class="op">=</span> hw_df[<span class="st">'ymd'</span>].unique()</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unique_dates_str)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['2013-05-11' '2013-05-12' '2013-05-13' '2013-05-14' '2013-05-15'
+ '2013-05-16' '2013-05-17' '2013-05-18' '2013-05-19' '2013-05-20'
+ '2013-05-21' '2013-05-22' '2013-05-23' '2013-05-24' '2013-05-25'
+ '2013-05-26' '2013-05-27' '2013-05-28' '2013-05-29' '2013-05-30'
+ '2013-05-31' '2013-06-01' '2013-06-02' '2013-06-03' '2013-06-04'
+ '2013-06-05' '2013-06-06' '2013-06-07' '2013-06-08' '2013-06-09'
+ '2013-06-10' '2013-06-11' '2013-06-12' '2013-06-13' '2013-06-14'
+ '2013-06-15' '2013-06-16' '2013-06-17' '2013-06-18' '2013-06-19'
+ '2013-06-20' '2013-06-21' '2013-06-22' '2013-06-23' '2013-06-24'
+ '2013-06-25' '2013-06-26' '2013-06-27' '2013-06-28' '2013-06-29'
+ '2013-06-30' '2013-07-01' '2013-07-02' '2013-07-03' '2013-07-04'
+ '2013-07-05' '2013-07-06' '2013-07-07' '2013-07-08' '2013-07-09'
+ '2013-07-10' '2013-07-11' '2013-07-12' '2013-07-13' '2013-07-14'
+ '2013-07-15' '2013-07-16' '2013-07-17' '2013-07-18' '2013-07-19'
+ '2013-07-20' '2013-07-21' '2013-07-22' '2013-07-23' '2013-07-24'
+ '2013-07-25' '2013-07-26' '2013-07-27' '2013-07-28' '2013-07-29'
+ '2013-07-30' '2013-07-31' '2013-08-01' '2013-08-02' '2013-08-03'
+ '2013-08-04' '2013-08-05' '2013-08-06' '2013-08-07' '2013-08-08'
+ '2013-08-09' '2013-08-10' '2013-08-11' '2013-08-12' '2013-08-13'
+ '2013-08-14' '2013-08-15' '2013-08-16' '2013-08-17' '2013-08-18'
+ '2013-08-19' '2013-08-20' '2013-08-21' '2013-08-22' '2013-08-23'
+ '2013-08-24' '2013-08-25' '2013-08-26' '2013-08-27' '2013-08-28'
+ '2013-08-29' '2013-08-30' '2013-08-31' '2013-09-01' '2013-09-02'
+ '2013-09-03' '2013-09-04' '2013-09-05' '2013-09-06' '2013-09-07'
+ '2013-09-08' '2013-09-09' '2013-09-10' '2013-09-11' '2013-09-12'
+ '2013-09-13' '2013-09-14' '2013-09-15' '2013-09-16' '2013-09-17'
+ '2013-09-18' '2013-09-19' '2013-09-20' '2013-09-21' '2013-09-22'
+ '2013-09-23' '2013-09-24' '2013-09-25' '2013-09-26' '2013-09-27'
+ '2013-09-28' '2013-09-29' '2013-09-30' '2013-10-01' '2013-10-02'
+ '2013-10-03' '2013-10-04' '2013-10-05' '2013-10-06' '2013-10-07'
+ '2013-10-08' '2013-10-09' '2013-10-10' '2013-10-11' '2013-10-12'
+ '2013-10-13' '2013-10-14' '2013-10-15' '2013-10-16' '2013-10-17'
+ '2013-10-18' '2013-10-19' '2013-10-20' '2013-10-21' '2013-10-22'
+ '2013-10-23' '2013-10-24' '2013-10-25' '2013-10-26' '2013-10-27'
+ '2013-10-28' '2013-10-29' '2013-10-30' '2013-10-31' '2013-11-01'
+ '2013-11-02' '2013-11-03' '2013-11-04' '2013-11-05' '2013-11-06'
+ '2013-11-07' '2013-11-08' '2013-11-09' '2013-11-10' '2013-11-11'
+ '2013-11-12' '2013-11-13' '2013-11-14' '2013-11-15' '2013-11-16'
+ '2013-11-17' '2013-11-18' '2013-11-19' '2013-11-20' '2013-11-21'
+ '2013-11-22' '2013-11-23' '2013-11-24' '2013-11-25' '2013-11-26'
+ '2013-11-27' '2013-11-28' '2013-11-29' '2013-11-30' '2013-12-01'
+ '2013-12-02' '2013-12-03' '2013-12-04' '2013-12-05' '2013-12-06'
+ '2013-12-07' '2013-12-08' '2013-12-09' '2013-12-10' '2013-12-11'
+ '2013-12-12' '2013-12-13' '2013-12-14' '2013-12-15' '2013-12-16'
+ '2013-12-17' '2013-12-18' '2013-12-19' '2013-12-20' '2013-12-21'
+ '2013-12-22' '2013-12-23' '2013-12-24' '2013-12-25' '2013-12-26'
+ '2013-12-27' '2013-12-28' '2013-12-29' '2013-12-30' '2013-12-31'
+ '2014-01-01' '2014-01-02' '2014-01-03' '2014-01-04' '2014-01-05'
+ '2014-01-06' '2014-01-07' '2014-01-08' '2014-01-09' '2014-01-10'
+ '2014-01-11' '2014-01-12' '2014-01-13' '2014-01-14' '2014-01-15'
+ '2014-01-16' '2014-01-17' '2014-01-18' '2014-01-19' '2014-01-20'
+ '2014-01-21' '2014-01-22' '2014-01-23' '2014-01-24' '2014-01-25'
+ '2014-01-26' '2014-01-27' '2014-01-28' '2014-01-29' '2014-01-30'
+ '2014-01-31' '2014-02-01' '2014-02-02' '2014-02-03' '2014-02-04'
+ '2014-02-05' '2014-02-06' '2014-02-07' '2014-02-08' '2014-02-09'
+ '2014-02-10' '2014-02-11' '2014-02-12' '2014-02-13' '2014-02-14'
+ '2014-02-15' '2014-02-16' '2014-02-17' '2014-02-18' '2014-02-19'
+ '2014-02-20' '2014-02-21' '2014-02-22' '2014-02-23' '2014-02-24'
+ '2014-02-25' '2014-02-26' '2014-02-27' '2014-02-28' '2014-03-01'
+ '2014-03-02' '2014-03-03' '2014-03-04' '2014-03-05' '2014-03-06'
+ '2014-03-07' '2014-03-08' '2014-03-09' '2014-03-10' '2014-03-11'
+ '2014-03-12' '2014-03-13' '2014-03-14' '2014-03-15' '2014-03-16'
+ '2014-03-17' '2014-03-18' '2014-03-19' '2014-03-20' '2014-03-21'
+ '2014-03-22' '2014-03-23' '2014-03-24' '2014-03-25' '2014-03-26'
+ '2014-03-27' '2014-03-28' '2014-03-29' '2014-03-30' '2014-03-31'
+ '2014-04-01' '2014-04-02' '2014-04-03' '2014-04-04' '2014-04-05'
+ '2014-04-06' '2014-04-07' '2014-04-08' '2014-04-09' '2014-04-10'
+ '2014-04-11' '2014-04-12' '2014-04-13' '2014-04-14' '2014-04-15'
+ '2014-04-16' '2014-04-17' '2014-04-18' '2014-04-19' '2014-04-20'
+ '2014-04-21' '2014-04-22' '2014-04-23' '2014-04-24' '2014-04-25'
+ '2014-04-26' '2014-04-27' '2014-04-28' '2014-04-29' '2014-04-30'
+ '2014-05-01' '2014-05-02' '2014-05-03' '2014-05-04' '2014-05-05'
+ '2014-05-06' '2014-05-07' '2014-05-08' '2014-05-09' '2014-05-10'
+ '2014-05-11' '2014-05-12' '2014-05-13' '2014-05-14' '2014-05-15'
+ '2014-05-16' '2014-05-17' '2014-05-18' '2014-05-19' '2014-05-20'
+ '2014-05-21' '2014-05-22' '2014-05-23' '2014-05-24' '2014-05-25'
+ '2014-05-26' '2014-05-27' '2014-05-28' '2014-05-29' '2014-05-30'
+ '2014-05-31' '2014-06-01' '2014-06-02' '2014-06-03' '2014-06-04'
+ '2014-06-05' '2014-06-06' '2014-06-07' '2014-06-08' '2014-06-09'
+ '2014-06-10' '2014-06-11' '2014-06-12' '2014-06-13' '2014-06-14'
+ '2014-06-15' '2014-06-16' '2014-06-17' '2014-06-18' '2014-06-19'
+ '2014-06-20' '2014-06-21' '2014-06-22' '2014-06-23' '2014-06-24'
+ '2014-06-25' '2014-06-26' '2014-06-27' '2014-06-28' '2014-06-29'
+ '2014-06-30' '2014-07-01' '2014-07-02' '2014-07-03' '2014-07-04'
+ '2014-07-05' '2014-07-06' '2014-07-07' '2014-07-08' '2014-07-09'
+ '2014-07-10' '2014-07-11' '2014-07-12' '2014-07-13' '2014-07-14'
+ '2014-07-15' '2014-07-16' '2014-07-17' '2014-07-18' '2014-07-19'
+ '2014-07-20' '2014-07-21' '2014-07-22' '2014-07-23' '2014-07-24']</code></pre>
+</div>
+</div>
+<div id="f5d0d50c" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用字串格式的日期，抓某一日的用電量，例如 第 100 天的用電量</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>date_loc <span class="op">=</span> np.where( (hw_df[<span class="st">'ymd'</span>] <span class="op">==</span> unique_dates_str[<span class="dv">99</span>]) )</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hw_df.loc[date_loc])</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      year  month  day  hour  consumption         ymd
+2376  2013      8   18     0         2.62  2013-08-18
+2377  2013      8   18     1         4.28  2013-08-18
+2378  2013      8   18     2         4.01  2013-08-18
+2379  2013      8   18     3         1.55  2013-08-18
+2380  2013      8   18     4         1.06  2013-08-18
+2381  2013      8   18     5         5.72  2013-08-18
+2382  2013      8   18     6        15.14  2013-08-18
+2383  2013      8   18     7        18.37  2013-08-18
+2384  2013      8   18     8        18.87  2013-08-18
+2385  2013      8   18     9        19.70  2013-08-18
+2386  2013      8   18    10        18.83  2013-08-18
+2387  2013      8   18    11        19.38  2013-08-18
+2388  2013      8   18    12         7.12  2013-08-18
+2389  2013      8   18    13         7.13  2013-08-18
+2390  2013      8   18    14        18.64  2013-08-18
+2391  2013      8   18    15        20.00  2013-08-18
+2392  2013      8   18    16        15.49  2013-08-18
+2393  2013      8   18    17        18.60  2013-08-18
+2394  2013      8   18    18        15.71  2013-08-18
+2395  2013      8   18    19        15.64  2013-08-18
+2396  2013      8   18    20         5.94  2013-08-18
+2397  2013      8   18    21         2.65  2013-08-18
+2398  2013      8   18    22         4.90  2013-08-18
+2399  2013      8   18    23         1.42  2013-08-18</code></pre>
+</div>
+</div>
+<div id="0db2bb78" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 長資料 轉 寬資料</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>n_record <span class="op">=</span> <span class="bu">len</span>(hw_df)       <span class="co">#總筆數</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>n_days <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(hw_df)<span class="op">/</span><span class="dv">24</span>) <span class="co">#總日數</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>cons_width_array <span class="op">=</span> hw_df[<span class="st">'consumption'</span>].values.reshape(n_days, <span class="dv">24</span>)</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>cons_width_df <span class="op">=</span> pd.DataFrame(cons_width_array, index<span class="op">=</span>unique_dates_str, columns<span class="op">=</span>np.arange(<span class="dv">24</span>))</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cons_width_df)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              0     1     2     3     4     5      6      7      8      9   \
+2013-05-11  1.67  1.25  4.52  4.49  3.22  4.59  17.14  19.77  18.04  19.67   
+2013-05-12  0.43  3.41  3.35  4.76  5.57  5.58  19.41  18.00  15.17  15.25   
+2013-05-13  2.48  4.03  4.72  2.23  2.43  2.57  15.12  18.40  19.58  19.31   
+2013-05-14  2.22  5.36  5.22  5.26  1.50  2.50  18.24  19.85  15.55  15.69   
+2013-05-15  0.61  4.63  2.18  4.48  1.05  3.70  15.49  18.84  17.37  19.97   
+...          ...   ...   ...   ...   ...   ...    ...    ...    ...    ...   
+2014-07-20  2.81  1.26  5.59  0.21  3.21  4.88   7.65   7.69   7.84   6.99   
+2014-07-21  5.16  4.00  0.21  3.65  0.60  3.73   6.01   7.22   7.02   7.09   
+2014-07-22  1.34  3.42  4.70  5.13  2.38  5.19   6.15   6.27   7.94   7.34   
+2014-07-23  5.74  5.68  4.74  3.92  5.93  4.88   7.71   7.23   6.66   7.51   
+2014-07-24  5.18  3.40  3.60  2.77  3.66  1.49   7.34   6.47   7.91   6.18   
+
+            ...     14     15     16     17     18     19    20    21    22  \
+2013-05-11  ...  18.09  15.84  15.23  19.33  18.44  18.12  2.76  5.46  0.96   
+2013-05-12  ...  17.01  19.56  17.41  17.42  18.98  15.14  0.18  1.22  2.01   
+2013-05-13  ...  15.06  17.88  18.00  17.26  18.35  18.79  3.39  1.84  4.83   
+2013-05-14  ...  18.39  15.06  16.58  19.14  16.87  15.07  4.40  3.71  6.00   
+2013-05-15  ...  19.43  18.43  17.94  15.95  15.11  16.59  0.51  1.21  3.35   
+...         ...    ...    ...    ...    ...    ...    ...   ...   ...   ...   
+2014-07-20  ...   6.97   7.18   7.46   7.64   7.02   7.90  1.38  3.59  4.15   
+2014-07-21  ...   7.09   6.95   7.63   7.20   7.78   6.04  3.21  3.94  0.61   
+2014-07-22  ...   6.45   6.41   6.03   6.29   6.10   6.53  1.25  5.70  1.48   
+2014-07-23  ...   6.24   6.87   7.97   6.94   6.94   6.52  3.21  2.43  5.19   
+2014-07-24  ...   6.31   6.96   6.23   7.16   6.90   7.75  4.89  0.44  1.21   
+
+              23  
+2013-05-11  3.59  
+2013-05-12  5.21  
+2013-05-13  4.40  
+2013-05-14  4.66  
+2013-05-15  1.34  
+...          ...  
+2014-07-20  2.61  
+2014-07-21  0.22  
+2014-07-22  1.30  
+2014-07-23  3.81  
+2014-07-24  1.87  
+
+[440 rows x 24 columns]</code></pre>
+</div>
+</div>
 </section>
 
 </main>
