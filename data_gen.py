@@ -16,9 +16,9 @@ def gen():
 def genf():
     out=np.zeros(24)
     out[:6]=np.random.uniform(0.1, 6, 6)
-    out[6:12]=np.random.uniform(6, 8, 6)
+    out[6:12]=np.random.uniform(15, 20, 6)
     out[12:14]=np.random.uniform(2, 4, 2)
-    out[14:20]=np.random.uniform(6, 8, 6)
+    out[14:20]=np.random.uniform(2, 4, 6)
     out[20:]=np.random.uniform(0.1, 6, 4)
     return np.round(out, 2)
 

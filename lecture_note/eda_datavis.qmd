@@ -725,7 +725,7 @@ fig.show()
 
 ### Matplotlib 的圖形客製化
 
-以下範例使用 Iris 資料中 `'Sepal.Length'` 的數值繪製盒鬚圖，再加入
+**範例一：**以下範例使用 Iris 資料中 `'Sepal.Length'` 的數值繪製盒鬚圖，再加入
 
 - 於盒鬚圖各關鍵處標示統計量數值（最大值、第三百分位數、中位數、第一百分位數、最小值）
 - 以紅色圓點標示平均數的位置，並以紅色文字顯示平均數數值
@@ -765,6 +765,60 @@ fig.tight_layout()
 fig.show()
 ```
 
+
+**範例二：**以下範例使用資料集 `longley`，觀察兩個變數 `GNP.deflator` 及  `Unemployed` 隨著時間的變化趨勢，是否有所關聯。
+```{python}
+#| warning: false
+#| fig-align: 'center'
+#longley_df = pd.read_csv('../sample_data/longley.csv')
+longley_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/longley.csv')
+print(longley_df.columns)
+print(longley_df.head(5))
+```
+
+從資料來看可輕易看出，`GNP.deflator` 及  `Unemployed` 的數據尺度不同，當希望同時繪製這兩條趨勢線時，直接繪製將造成視覺上尺度較小的數據看似無趨勢或趨勢不明顯，不容易觀察兩數據的數值變化是否有相似特徵。
+
+```{python}
+#| warning: false
+#| fig-align: 'center'
+#| echo: false
+fig = plt.figure(figsize = (8, 4))
+ax = plt.subplot(1, 1, 1)
+# 繪製 Sepal.Length 的盒鬚圖，並設定寬度為 0.5
+ax.plot(longley_df['Year'], longley_df['GNP.deflator']) 
+# 設定區
+ax.set_title('Trends of %s and %s' % ('GNP.deflator', 'Unemployed')) # 設定標題
+ax.set_ylabel('??????') # 設定 Y 軸標籤
+ax.set_xlabel('Year')
+# 第二個變數
+ax.plot(longley_df['Year'], longley_df['Unemployed'], color = '#ed761a') #google "colorpicker"
+fig.tight_layout()
+fig.show()
+```
+
+
+此時可使用 matplotlib 的 `twinx` 功能，使用左右 Y 軸分別各自描述 `GNP.deflator` 及  `Unemployed` 的數據尺度，使得兩趨勢線不受尺度影響。詳細教學可參考 [https://matplotlib.org/stable/gallery/subplots_axes_and_figures/two_scales.html](https://matplotlib.org/stable/gallery/subplots_axes_and_figures/two_scales.html)。
+```{python}
+#| warning: false
+#| fig-align: 'center'
+fig = plt.figure(figsize = (8, 4))
+ax = plt.subplot(1, 1, 1)
+# 繪製第一個變數的趨勢線，自己指定顏色，之後會再用到此顏色 google "colorpicker"
+ax.plot(longley_df['Year'], longley_df['GNP.deflator'], color='#1f6ff0') 
+# 設定區
+ax.set_title('Trends of %s and %s' % ('GNP.deflator', 'Unemployed')) # 設定標題
+ax.set_xlabel('Year') # 設定 X 軸標籤
+ax.set_ylabel('GNP.deflator', color='#1f6ff0') # 設定左 Y 軸標籤
+ax.tick_params(axis='y', labelcolor='#1f6ff0') # 設定左 Y 軸顏色
+# 繪製第二個變數的趨勢線時，使用 ax.twinx() 指定到右方 Y 軸
+ax2 = ax.twinx()
+ax2.plot(longley_df['Year'], longley_df['Unemployed'], color='#ed761a') 
+ax2.set_ylabel('Unemployed', color='#ed761a')   # 設定右 Y 軸標籤
+ax2.tick_params(axis='y', labelcolor='#ed761a') # 設定右 Y 軸標籤
+#
+fig.tight_layout()
+fig.show()
+```
 
 ## 作業
 
