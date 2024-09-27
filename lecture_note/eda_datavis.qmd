@@ -764,3 +764,8 @@ ax.set_ylabel('Sepal.Length') # 設定 Y 軸標籤
 fig.tight_layout()
 fig.show()
 ```
+
+
+## 作業
+
+
