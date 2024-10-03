@@ -235,6 +235,7 @@ print(longley_df.head(5))
 #| warning: false
 #| fig-align: 'center'
 sns.lineplot(data=longley_df, x='Year', y='GNP.deflator')
+sns.scatterplot(data=longley_df, x='Year', y='Unemployed')
 ```
 
 
