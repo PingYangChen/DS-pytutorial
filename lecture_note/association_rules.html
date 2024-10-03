@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>關聯式分析 Association Rules</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="association_rules_files/libs/clipboard/clipboard.min.js"></script>
+<script src="association_rules_files/libs/quarto-html/quarto.js"></script>
+<script src="association_rules_files/libs/quarto-html/popper.min.js"></script>
+<script src="association_rules_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="association_rules_files/libs/quarto-html/anchor.min.js"></script>
+<link href="association_rules_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="association_rules_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="association_rules_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="association_rules_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="association_rules_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">關聯式分析 Association Rules</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="關聯式分析簡介" class="level2">
+<h2 class="anchored" data-anchor-id="關聯式分析簡介">關聯式分析簡介</h2>
+<p>關聯式分析（Association Rule Mining）是一種資料挖掘技術，旨在從大型資料集中找出項目之間的有趣模式或關聯規則。它主要應用於交易數據中，例如市場籃分析，幫助零售商識別哪些產品常一起購買，進而優化銷售策略。</p>
+<p><strong>關聯式規則的基本概念</strong></p>
+<ul>
+<li>項目集：一組項目，通常是一個交易中的購買品項。例如：{麵包, 牛奶}</li>
+<li>Support（支持度）
+<ul>
+<li>衡量一個項目集在整個資料集中出現的頻率，描述某個項目集（如 <span class="math inline">\{X, Y\}</span>）在所有交易中同時出現的比例。令 <span class="math inline">N</span> 為交易總數，則 <span class="math display"> \text{Support}(\{X, Y\})= \frac{P(X \cap Y)}{N} </span></li>
+<li>支持度的主要作用是用來篩選<strong>頻繁項目集</strong>，即那些在交易中出現次數足夠多的項目集。較低的支持度可能意味著這個規則在資料集中並不具代表性。通常在應用 Apriori 演算法時會設置一個最小支持度閾值，只有超過這個閾值的項目集才會被保留作為頻繁項目集，從而提高演算法的效率。</li>
+</ul></li>
+<li>Confidence（信賴度）
+<ul>
+<li>描述當項目集 <span class="math inline">X</span> 出現時，項目集 <span class="math inline">Y</span> 出現的機率，表示規則 <span class="math inline">X \Rightarrow Y</span> 的可靠性，能夠反映在 <span class="math inline">X</span> 出現的情況下，<span class="math inline">Y</span> 出現的可能性有多高。<span class="math display"> 信賴度(X \Rightarrow Y)= \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} </span></li>
+<li>常用來篩選<strong>有效關聯規則</strong>。較高的信賴度表示當項目集 <span class="math inline">X</span> 出現時，項目集 <span class="math inline">Y</span> 很有可能也會出現，因此這個規則可能具有較強的預測能力。然而，信賴度有時可能誤導人們對規則強度的理解，特別是在某些項目集本身出現頻率較高的情況下。這時候引入<strong>提升度（Lift）</strong>能夠更好地衡量規則的重要性。</li>
+</ul></li>
+<li>Lift（提升度）
+<ul>
+<li>衡量兩個項目之間的關聯性。它描述的是項目集 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 同時出現的實際頻率與假設兩者獨立發生時期望頻率之間的比率。提升度考慮了項目集 <span class="math inline">Y</span> 出現的基準機率，從而提供了一個相對於隨機情況的衡量標準。提升度能更準確地反映項目集之間的真實關聯性，特別是當一些項目集本身出現頻率很高時，信賴度可能會高估其關聯性，而提升度能提供更準確的衡量。<span class="math display"> \text{Lift}(X \Rightarrow Y)= \frac{\text{Confidence}(X \Rightarrow Y)}{\text{Support}(Y)} = \frac{\text{Support}(X \cap Y)}{\text{Support}(X)\times\text{Support}(Y)} </span></li>
+<li>提升度 = 1：表示 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 之間沒有關聯，這意味著 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 的同時出現完全是隨機的。</li>
+<li>提升度 &gt; 1：表示 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 之間存在 正相關，即當 <span class="math inline">X</span> 出現時，<span class="math inline">Y</span> 也更有可能出現。</li>
+<li>提升度 &lt; 1：表示 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 之間存在 負相關，即 <span class="math inline">X</span> 出現時，<span class="math inline">Y</span> 出現的可能性較低。 ​</li>
+</ul></li>
+</ul>
+<p>Apriori 演算法是關聯式規則挖掘中最常見的方法之一，利用「自底向上」的方法來識別頻繁項目集。這個算法的核心思想是，若某個項目集是不頻繁的，則它的所有超集也必然是不頻繁的。Apriori 演算法的兩個核心步驟是：</p>
+<ul>
+<li>生成候選項目集：
+<ul>
+<li>首先，從每個單一項目開始，將支持度高於閾值的項目保留下來。接下來，將這些頻繁項目集進行組合，生成更大的候選項目集。這一過程會持續進行，直到無法生成新的候選項目集。</li>
+</ul></li>
+<li>剪枝（Prune）：
+<ul>
+<li>根據支持度閾值，將支持度低於閾值的項目集剪除。這一剪枝過程的核心是依據「反單調性」的屬性，即如果一個項目集是不頻繁的，那麼它的所有超集也必然是不頻繁的。因此，可以避免生成不必要的超集來提高運算效率。</li>
+</ul></li>
+</ul>
+<p>方法論細節請參考上課簡報。</p>
+</section>
+<section id="python-關聯式分析範例實作" class="level2">
+<h2 class="anchored" data-anchor-id="python-關聯式分析範例實作">Python 關聯式分析範例實作</h2>
+<p>在 Python 語言中，有兩個常用的關聯式分析套件，分別為 <code>apyori</code> 和 <code>mlxtend</code>。</p>
+<ul>
+<li><code>apyori</code>：適合用於小規模數據集的快速和簡單的關聯規則挖掘，且不需要過多的數據預處理或額外的分析步驟。輸入資料只需以串列呈現，無需額外預處理動作，如 one-hot encoding。在執行過程中，<code>apyori</code> 會返回已生成的關聯規則，包含支持度和信賴度的值，但由於輸出的結果較為簡單，可能需要額外的處理來進行進一步的分析。</li>
+<li><code>mlxtend</code>：適合需要更大靈活性、擴展性及處理大規模資料集的用戶，特別是在需要生成複雜規則或進行更深入的分析時。使用 <code>mlxtend</code> 時，數據需要轉換為 one-hot encoding 格式，在預處理階段多少會增加些操作步驟，但這樣的設計讓 <code>mlxtend</code> 可以是用於更多樣化的資料集。此外，其接口簡潔明瞭，支援以 <code>DataFrame</code> 形式輸出結果，方便後續的分析和視覺化操作。</li>
+</ul>
+<p>本節首先以較少量的購物車資料，說明這兩個套件的使用方式。</p>
+<div id="9e63569f" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>以 <code>pandas</code> 讀取講義附的購物車小資料 <code>groceries_small.csv</code>。</p>
+<div id="b11f84c7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從指定的網址讀取 CSV 檔案，該檔案包含購物數據，並存入變數 g_small 中</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>g_small <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries_small.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small.columns)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small.head(<span class="dv">10</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['TransactionID', 'Item'], dtype='object')
+   TransactionID        Item
+0              1     T-Shirt
+1              1       Pants
+2              1       Jeans
+3              1       Jersy
+4              1       Socks
+5              1  Basketball
+6              1      Bottle
+7              1      Shorts
+8              2     T-Shirt
+9              2       Jeans</code></pre>
+</div>
+</div>
+<p>資料共有兩個欄位：</p>
+<ul>
+<li><code>'TransactionID'</code>：帳單編號，編號一樣的資料屬於同一筆帳單。</li>
+<li><code>'Item'</code>：購物明細，一筆帳單有多筆品項時，以多列儲存。</li>
+</ul>
+<div id="470fa05a" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(g_small))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'TransactionID'</span>].unique())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>24
+[1 2 3 4 5 6 7 8]</code></pre>
+</div>
+</div>
+<p>整份資料有 24 筆購物紀錄，由 8 個帳單所構成。</p>
+<div id="7eced41a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'Item'</span>].unique())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['T-Shirt' 'Pants' 'Jeans' 'Jersy' 'Socks' 'Basketball' 'Bottle' 'Shorts']</code></pre>
+</div>
+</div>
+<p>資料配的品項共有八種：<code>'T-Shirt'</code>、<code>'Pants'</code>、<code>'Jeans'</code>、<code>'Jersy'</code>、<code>'Socks'</code>、<code>'Basketball'</code>、<code>'Bottle'</code>、<code>'Shorts'</code>。長條圖 bar plot 呈現各品項的購買頻率，其中 <code>'Jersy'</code> 及 <code>'Basketball'</code> 的購買次數較高，各有 4 單購買此品項）。</p>
+<div id="184e9e40" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'Item'</span>].value_counts())</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視各品項的購買頻率</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sns.countplot(data<span class="op">=</span>g_small, x<span class="op">=</span><span class="st">'Item'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Item
+Jersy         4
+Basketball    4
+Jeans         3
+T-Shirt       3
+Shorts        3
+Bottle        3
+Pants         2
+Socks         2
+Name: count, dtype: int64</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="association_rules_files/figure-html/cell-6-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="589" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="關聯式分析-apyori-套件實作" class="level3">
+<h3 class="anchored" data-anchor-id="關聯式分析-apyori-套件實作">關聯式分析 <code>apyori</code> 套件實作</h3>
+<p>引入 <code>apyori</code> 套件。</p>
+<div id="0646853c" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> apyori</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>一般而言，python 套件開發的同時也會提供 API 文件供使用者查找套件功能及使用方法。然而，套件功能較單一的開發者卻未必會提供該文件，往往只呈現個操作範例在自己的網頁上，若想知道更細節的套件功能使用方法，在無文件輔助之下，可能僅能翻找原始碼中的註解。例如 <code>apyori</code> 的作者便只在自己的 Github 主頁上寫個範例，無細節使用說明 <a href="https://github.com/ymoch/apyori/tree/master">https://github.com/ymoch/apyori/tree/master</a>，但可耐心地從作者的原始碼中找到套件有哪些設定可以操作，如下圖。</p>
+<p><img src=".\fig/apyori_api.png" class="img-fluid"></p>
+<p><code>apyori</code> 輸入資料的格式為串列，串列的每個元素為「一筆帳單」。</p>
+<div id="47cadb69" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apyori 輸入資料的格式</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>[</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Item1'</span>, <span class="st">'Item2'</span>, <span class="st">'Item3'</span>],</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Item6'</span>, <span class="st">'Item1'</span>],</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Item3'</span>, <span class="st">'Item5'</span>, <span class="st">'Item7'</span>, <span class="st">'Item8'</span>, <span class="st">'Item2'</span>],</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Item1'</span>, ...],</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>對於剛才讀取的購物車小資料 <code>g_small</code>，我們首先得將這 8 筆帳單資料整理成如上格式，才能使用 <code>apyori</code> 進行關聯式分析，作法之一如下。</p>
+<div id="316289f9" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">### 欲使用 apyori 套件的資料前處理</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據 TransactionID 將數據進行分組，每組代表一個交易</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>gsm_group <span class="op">=</span> g_small.groupby(<span class="st">'TransactionID'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 將每個交易中的購買項目列表化，生成交易列表，列表中的每個元素代表一次交易的所有項目</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>gsm_listed <span class="op">=</span> [gsm_group[<span class="st">'Item'</span>].get_group(ele).tolist() <span class="cf">for</span> ele <span class="kw">in</span> gsm_group.groups]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>gsm_listed</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>[['T-Shirt',
+  'Pants',
+  'Jeans',
+  'Jersy',
+  'Socks',
+  'Basketball',
+  'Bottle',
+  'Shorts'],
+ ['T-Shirt', 'Jeans'],
+ ['Jersy', 'Basketball', 'Socks', 'Bottle'],
+ ['Jeans', 'Pants', 'Bottle'],
+ ['Shorts', 'Basketball'],
+ ['Shorts', 'Jersy'],
+ ['T-Shirt'],
+ ['Basketball', 'Jersy']]</code></pre>
+</div>
+</div>
+<p>如此資料便已轉換為串列格式，且一個元素為一筆帳單的內容。接著，使用 <code>apyori</code> 套件的 <code>apriori</code> 函數進行 Apriori 演算法分析，可設定的分析參數為：</p>
+<ul>
+<li><code>min_support</code>: 關聯規則的最小支持度 (float)。</li>
+<li><code>min_confidence</code>: 關聯規則的最小信賴度 (float)。</li>
+<li><code>min_lift</code>: 關聯規則的最小提升度 (float)。</li>
+<li><code>max_length</code>: 關聯規則的最大項目集長度 (integer)。</li>
+</ul>
+<div id="ea01ef32" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apyori 套件進行 Apriori 演算法分析，指定最小支持度、信賴度、提升度和最大項目組的長度</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>asso_rules <span class="op">=</span> apyori.apriori(transactions <span class="op">=</span> gsm_listed, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            min_support<span class="op">=</span><span class="fl">0.2</span>, min_confidence<span class="op">=</span><span class="fl">0.2</span>, min_lift<span class="op">=</span><span class="dv">2</span>, max_length<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 試著直接 print 結果</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 將產生的關聯規則轉換為串列，便於觀察結果及後續對逐項規則迭代處理</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>asso_rules_list <span class="op">=</span> <span class="bu">list</span>(asso_rules)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;generator object apriori at 0x000002579C2C8970&gt;</code></pre>
+</div>
+</div>
+<p>執行 <code>apyori.apriori</code> 後，會回傳一個套件開發者自定義的 RelationRecord 生成器，無法直接呼叫出來檢視或做其他利用。因此，我們得自行將 <code>apyori.apriori</code> 產出的結果轉換為串列，如上 <code>list(asso_rules)</code>。這時便可檢視串列內容，例如 print 出第一個元素來看看。</p>
+<div id="f83c90ef" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>asso_rules_list[<span class="dv">0</span>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>RelationRecord(items=frozenset({'Basketball', 'Socks'}), support=0.25, ordered_statistics=[OrderedStatistic(items_base=frozenset({'Basketball'}), items_add=frozenset({'Socks'}), confidence=0.5, lift=2.0), OrderedStatistic(items_base=frozenset({'Socks'}), items_add=frozenset({'Basketball'}), confidence=1.0, lift=2.0)])</code></pre>
+</div>
+</div>
+<p>輸出結果的第一個元素，看起來是針對一組項集（itemset），收錄對此項集計算產生的所有關聯規則結果，往下慢慢拆解可看到以下結構。</p>
+<div id="085fe9ff" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="co"># itemset 項集 'Basketball', 'Socks'</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">1</span>]) <span class="co"># Support 支持度</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>]) <span class="co"># 關聯規則列表</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 此項集含兩個 items，因此有兩個關聯規則：</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>]) <span class="co"># 關聯規則 'Basketball' -&gt; 'Socks' 的資訊</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">1</span>]) <span class="co"># 關聯規則 'Socks' -&gt; 'Basketball' 的資訊</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 來檢視其中第一個關聯規則的內容</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>][<span class="dv">0</span>]) <span class="co"># 先買的項目 'Basketball'</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>][<span class="dv">1</span>]) <span class="co"># 加入購物車的項目 'Socks'</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>][<span class="dv">2</span>]) <span class="co"># Confidence 信賴度</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>][<span class="dv">3</span>]) <span class="co"># Lift 提升度</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>frozenset({'Basketball', 'Socks'})
+0.25
+[OrderedStatistic(items_base=frozenset({'Basketball'}), items_add=frozenset({'Socks'}), confidence=0.5, lift=2.0), OrderedStatistic(items_base=frozenset({'Socks'}), items_add=frozenset({'Basketball'}), confidence=1.0, lift=2.0)]
+OrderedStatistic(items_base=frozenset({'Basketball'}), items_add=frozenset({'Socks'}), confidence=0.5, lift=2.0)
+OrderedStatistic(items_base=frozenset({'Socks'}), items_add=frozenset({'Basketball'}), confidence=1.0, lift=2.0)
+frozenset({'Basketball'})
+frozenset({'Socks'})
+0.5
+2.0</code></pre>
+</div>
+</div>
+<p>弄清楚輸出結果的結構後，便可設計如何迭代處理每一條關聯規則，並輸出相關信息。</p>
+<div id="1ecdd9af" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 迭代處理每一條關聯規則，並輸出相關信息</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ele <span class="kw">in</span> asso_rules_list:</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pair <span class="op">=</span> ele[<span class="dv">0</span>] <span class="co"># 提取項目組</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    products <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> pair] <span class="co"># 將項目組中的項目轉換為列表</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(products) <span class="co"># 列出兩個關聯項目，例如 ['Basketball', 'Socks']</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arules <span class="kw">in</span> ele[<span class="dv">2</span>]:</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"----------------------------------"</span>)  <span class="co"># 分隔線，便於視覺上讀取結果</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Rule: </span><span class="sc">%s</span><span class="st"> → </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span> (</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">list</span>(arules[<span class="dv">0</span>])[<span class="dv">0</span>], <span class="bu">list</span>(arules[<span class="dv">1</span>])[<span class="dv">0</span>])) <span class="co"># 輸出規則的格式，例如 "Basketball → Socks"</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Support: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span> <span class="bu">str</span>(ele[<span class="dv">1</span>]))           <span class="co"># 輸出支持度，例如 "Support: 0.5"</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Confidence: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span> <span class="bu">str</span>(arules[<span class="dv">2</span>]))     <span class="co"># 輸出信賴度，例如 "Confidence: 0.7"</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Lift: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span> <span class="bu">str</span>(arules[<span class="dv">3</span>]))           <span class="co"># 輸出提升度，例如 "Lift: 3.0"</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"=================================="</span>)      <span class="co"># 分隔線，便於視覺上讀取結果</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Basketball', 'Socks']
+----------------------------------
+Rule: Basketball → Socks
+Support: 0.25
+Confidence: 0.5
+Lift: 2.0
+----------------------------------
+Rule: Socks → Basketball
+Support: 0.25
+Confidence: 1.0
+Lift: 2.0
+==================================
+['Pants', 'Bottle']
+----------------------------------
+Rule: Bottle → Pants
+Support: 0.25
+Confidence: 0.6666666666666666
+Lift: 2.6666666666666665
+----------------------------------
+Rule: Pants → Bottle
+Support: 0.25
+Confidence: 1.0
+Lift: 2.6666666666666665
+==================================
+['Bottle', 'Socks']
+----------------------------------
+Rule: Bottle → Socks
+Support: 0.25
+Confidence: 0.6666666666666666
+Lift: 2.6666666666666665
+----------------------------------
+Rule: Socks → Bottle
+Support: 0.25
+Confidence: 1.0
+Lift: 2.6666666666666665
+==================================
+['Jeans', 'Pants']
+----------------------------------
+Rule: Jeans → Pants
+Support: 0.25
+Confidence: 0.6666666666666666
+Lift: 2.6666666666666665
+----------------------------------
+Rule: Pants → Jeans
+Support: 0.25
+Confidence: 1.0
+Lift: 2.6666666666666665
+==================================
+['Jersy', 'Socks']
+----------------------------------
+Rule: Jersy → Socks
+Support: 0.25
+Confidence: 0.5
+Lift: 2.0
+----------------------------------
+Rule: Socks → Jersy
+Support: 0.25
+Confidence: 1.0
+Lift: 2.0
+==================================</code></pre>
+</div>
+</div>
+<p>或透過迭代處理將結果儲存成 <code>DataFrame</code>。</p>
+<div id="f1777f13" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個空的 DataFrame，包含 'Rule', 'Support', 'Confidence', 'Lift' </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 四個欄位，用於存儲關聯規則的資訊</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>asso_rules_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'Rule'</span>, <span class="st">'Support'</span>, <span class="st">'Confidence'</span>, <span class="st">'Lift'</span>])</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>ct <span class="op">=</span> <span class="dv">0</span> <span class="co"># 設置計數器，用於記錄每條規則的索引</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ele <span class="kw">in</span> asso_rules_list:</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    pair <span class="op">=</span> ele[<span class="dv">0</span>] <span class="co"># 提取項目組</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 迭代每條關聯規則的詳細資訊（支持度、信賴度和提升度）</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> arules <span class="kw">in</span> ele[<span class="dv">2</span>]:</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 將規則及其支持度、信賴度和提升度存儲到 DataFrame 中</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        asso_rules_df.loc[ct] <span class="op">=</span> [</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"</span><span class="sc">%s</span><span class="st"> → </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span> (<span class="bu">list</span>(arules[<span class="dv">0</span>])[<span class="dv">0</span>], <span class="bu">list</span>(arules[<span class="dv">1</span>])[<span class="dv">0</span>]), <span class="co"># 將關聯規則格式化為 "項目A → 項目B"</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>            ele[<span class="dv">1</span>],    <span class="co"># 支持度</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>            arules[<span class="dv">2</span>], <span class="co"># 信賴度</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>            arules[<span class="dv">3</span>]  <span class="co"># 提升度</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        ct <span class="op">+=</span> <span class="dv">1</span> <span class="co"># 增加計數器，為下一條規則準備</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出 DataFrame，顯示所有關聯規則及其支持度、信賴度和提升度</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Rule  Support  Confidence      Lift
+0  Basketball → Socks     0.25    0.500000  2.000000
+1  Socks → Basketball     0.25    1.000000  2.000000
+2      Bottle → Pants     0.25    0.666667  2.666667
+3      Pants → Bottle     0.25    1.000000  2.666667
+4      Bottle → Socks     0.25    0.666667  2.666667
+5      Socks → Bottle     0.25    1.000000  2.666667
+6       Jeans → Pants     0.25    0.666667  2.666667
+7       Pants → Jeans     0.25    1.000000  2.666667
+8       Jersy → Socks     0.25    0.500000  2.000000
+9       Socks → Jersy     0.25    1.000000  2.000000</code></pre>
+</div>
+</div>
+<p>接著便可對此 <code>DataFrame</code> 進行重新排序，以不同角度觀察最有利於商業決策的關聯規則，例如：</p>
+<ul>
+<li>根據 ‘Confidence’ 欄位對關聯規則進行排序，從高到低排列，並輸出結果。這樣可以找到信賴度最高的規則，表示這些規則在實際數據中具有更高的預測準確性。</li>
+<li>根據 ‘Lift’ 欄位對關聯規則進行排序，從高到低排列，並輸出結果。提升度表示規則中 X 和 Y 之間的關聯強度，排序後可以發現關聯性最強的規則。</li>
+</ul>
+<div id="064dd3ac" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df.sort_values(<span class="st">'Confidence'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Rule  Support  Confidence      Lift
+1  Socks → Basketball     0.25    1.000000  2.000000
+3      Pants → Bottle     0.25    1.000000  2.666667
+9       Socks → Jersy     0.25    1.000000  2.000000
+5      Socks → Bottle     0.25    1.000000  2.666667
+7       Pants → Jeans     0.25    1.000000  2.666667
+4      Bottle → Socks     0.25    0.666667  2.666667
+6       Jeans → Pants     0.25    0.666667  2.666667
+2      Bottle → Pants     0.25    0.666667  2.666667
+0  Basketball → Socks     0.25    0.500000  2.000000
+8       Jersy → Socks     0.25    0.500000  2.000000</code></pre>
+</div>
+</div>
+<div id="82b1c499" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df.sort_values(<span class="st">'Lift'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Rule  Support  Confidence      Lift
+3      Pants → Bottle     0.25    1.000000  2.666667
+2      Bottle → Pants     0.25    0.666667  2.666667
+6       Jeans → Pants     0.25    0.666667  2.666667
+7       Pants → Jeans     0.25    1.000000  2.666667
+4      Bottle → Socks     0.25    0.666667  2.666667
+5      Socks → Bottle     0.25    1.000000  2.666667
+1  Socks → Basketball     0.25    1.000000  2.000000
+0  Basketball → Socks     0.25    0.500000  2.000000
+8       Jersy → Socks     0.25    0.500000  2.000000
+9       Socks → Jersy     0.25    1.000000  2.000000</code></pre>
+</div>
+</div>
+</section>
+<section id="關聯式分析-mlxtend-套件實作" class="level3">
+<h3 class="anchored" data-anchor-id="關聯式分析-mlxtend-套件實作">關聯式分析 <code>mlxtend</code> 套件實作</h3>
+<p><code>mlxtend</code>（Machine Learning Extensions）是個多用途的 Python 機器學習套件。該套件以類似 <code>scikit-learn</code> 的語法風格擴展出一些分類器、迴歸器、特徵選擇等資料科學工具。此外，<code>mlxtend</code> 也是少數提供關聯規則挖掘模組的套件，如 Apriori 和 FP-Growth 演算法，因為其 I/O 設計較為泛用，加上對結構化資料輸入格式的要求，使其較適合從大型資料集中挖掘頻繁項目集與關聯規則。完整的使用說明 API 文件也能從官方網站找到，便於使用者執行資料分析工作 <a href="https://rasbt.github.io/mlxtend/">https://rasbt.github.io/mlxtend/</a>。</p>
+<p>在此，我們仍然使用講義附的購物車小資料 <code>groceries_small.csv</code> 示範 <code>mlxtend</code> 套件執行關聯式分析的使用方式與結果解讀。</p>
+<div id="91e5985d" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從 mlxtend 套件中匯入 apriori 演算法和關聯規則生成方法</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> association_rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>mlxtend</code> 的 <code>apriori</code> 關聯式分析函數輸入資料的格式為結構化資料，即表格型資料，資料的每一列為「一筆帳單」。對於購物車這種每筆帳單內品項數量不一的資料，可透過 One-hot encoding 來建構輸入資料。</p>
+<p>首先從原始資料的 <code>'Item'</code> 欄位透過 <code>pd.Dataframe.unique()</code> 取得資料的品項有哪些，使 One-hot encoded 的表格資料欄位數<strong>等於</strong>資料的品項個數。以下為示範程式，建立一個空表格，固定欄位為品項名稱。</p>
+<div id="bb9b8274" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 提取所有不同的品項名稱，並將其存為串列</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>uni_items <span class="op">=</span> g_small[<span class="st">'Item'</span>].unique().tolist()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個空的 DataFrame，欄位名稱為品項名稱，用來進行 one-hot encoding</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>g_small_encoded <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>uni_items)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>g_small_encoded</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">T-Shirt</th>
+<th data-quarto-table-cell-role="th">Pants</th>
+<th data-quarto-table-cell-role="th">Jeans</th>
+<th data-quarto-table-cell-role="th">Jersy</th>
+<th data-quarto-table-cell-role="th">Socks</th>
+<th data-quarto-table-cell-role="th">Basketball</th>
+<th data-quarto-table-cell-role="th">Bottle</th>
+<th data-quarto-table-cell-role="th">Shorts</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>One-hot encoded 表格資料的一列為一筆帳單，當該帳單有 A 品項時，則在此列 A 品項欄位註記 <code>1</code>，反之，註記 <code>0</code>。示範程式如下，將原始資料依照帳單 <code>TransactionID</code> 分組後，透過迭代每筆帳單，依照帳單內容品項標記。</p>
+<div id="0ac7a4fd" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據交易 ID 將購物資料按交易進行分組</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>gsm_group <span class="op">=</span> g_small.groupby(<span class="st">'TransactionID'</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 將每個交易中的購買項目轉換為串列形式</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>gsm_listed <span class="op">=</span> [gsm_group[<span class="st">'Item'</span>].get_group(ele).tolist() <span class="cf">for</span> ele <span class="kw">in</span> gsm_group.groups]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 one-hot encoding 轉換每個交易項目</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(gsm_listed)):</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    g_small_encoded.loc[i] <span class="op">=</span> <span class="dv">0</span>                <span class="co"># 將每一列的初始值設為 0</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    g_small_encoded.loc[i, gsm_listed[i]] <span class="op">=</span> <span class="dv">1</span> <span class="co"># 將購買的品項標記為 1</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視轉換後的 one-hot encoding 資料</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small_encoded)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   T-Shirt  Pants  Jeans  Jersy  Socks  Basketball  Bottle  Shorts
+0        1      1      1      1      1           1       1       1
+1        1      0      1      0      0           0       0       0
+2        0      0      0      1      1           1       1       0
+3        0      1      1      0      0           0       1       0
+4        0      0      0      0      0           1       0       1
+5        0      0      0      1      0           0       0       1
+6        1      0      0      0      0           0       0       0
+7        0      0      0      1      0           1       0       0</code></pre>
+</div>
+</div>
+<p>使用 <code>mlxtend</code> 提供的 <code>apriori</code> 演算法，挖掘出頻繁項目集，在此例中，設定最小支持度為 0.2。</p>
+<div id="1434b367" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apriori 演算法來挖掘頻繁項目集，最小支持度為 0.2</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>Support_items <span class="op">=</span> apriori(g_small_encoded, min_support<span class="op">=</span><span class="fl">0.20</span>, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Support_items</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">support</th>
+<th data-quarto-table-cell-role="th">itemsets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.375</td>
+<td>(T-Shirt)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.250</td>
+<td>(Pants)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.375</td>
+<td>(Jeans)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.500</td>
+<td>(Jersy)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.250</td>
+<td>(Socks)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0.500</td>
+<td>(Basketball)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>0.375</td>
+<td>(Bottle)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>0.375</td>
+<td>(Shorts)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>0.250</td>
+<td>(Jeans, T-Shirt)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>0.250</td>
+<td>(Jeans, Pants)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>0.250</td>
+<td>(Pants, Bottle)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>0.250</td>
+<td>(Jeans, Bottle)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>0.250</td>
+<td>(Jersy, Socks)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>0.375</td>
+<td>(Jersy, Basketball)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>0.250</td>
+<td>(Jersy, Bottle)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>0.250</td>
+<td>(Jersy, Shorts)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>0.250</td>
+<td>(Basketball, Socks)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>0.250</td>
+<td>(Bottle, Socks)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>0.250</td>
+<td>(Basketball, Bottle)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>0.250</td>
+<td>(Basketball, Shorts)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>0.250</td>
+<td>(Jeans, Pants, Bottle)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>0.250</td>
+<td>(Jersy, Basketball, Socks)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>0.250</td>
+<td>(Jersy, Bottle, Socks)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>0.250</td>
+<td>(Jersy, Bottle, Basketball)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>0.250</td>
+<td>(Basketball, Bottle, Socks)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>0.250</td>
+<td>(Jersy, Bottle, Basketball, Socks)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>根據頻繁項目集生成關聯規則，對照前一節使用 <code>apyori</code> 套件生成規則需要自行編程，<code>mlxtend</code> 可直接透過指令產生關聯規則結果，並可指定用於排序、篩選的指標。在此例中，考慮以提升度（lift）為評估標準，提升度閾值設定為 1，表示只考慮那些提升度大於等於 1 的規則。</p>
+<div id="3b92a670" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據頻繁項目集生成關聯規則，使用 'lift' 來作為評估指標，提升度閾值設為 1</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Association_Rules <span class="op">=</span> association_rules(Support_items, metric<span class="op">=</span><span class="st">'lift'</span>, min_threshold<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視生成的關聯規則</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>Association_Rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">antecedents</th>
+<th data-quarto-table-cell-role="th">consequents</th>
+<th data-quarto-table-cell-role="th">antecedent support</th>
+<th data-quarto-table-cell-role="th">consequent support</th>
+<th data-quarto-table-cell-role="th">support</th>
+<th data-quarto-table-cell-role="th">confidence</th>
+<th data-quarto-table-cell-role="th">lift</th>
+<th data-quarto-table-cell-role="th">leverage</th>
+<th data-quarto-table-cell-role="th">conviction</th>
+<th data-quarto-table-cell-role="th">zhangs_metric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>(Jeans)</td>
+<td>(T-Shirt)</td>
+<td>0.375</td>
+<td>0.375</td>
+<td>0.25</td>
+<td>0.666667</td>
+<td>1.777778</td>
+<td>0.109375</td>
+<td>1.875</td>
+<td>0.700000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>(T-Shirt)</td>
+<td>(Jeans)</td>
+<td>0.375</td>
+<td>0.375</td>
+<td>0.25</td>
+<td>0.666667</td>
+<td>1.777778</td>
+<td>0.109375</td>
+<td>1.875</td>
+<td>0.700000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>(Jeans)</td>
+<td>(Pants)</td>
+<td>0.375</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>0.666667</td>
+<td>2.666667</td>
+<td>0.156250</td>
+<td>2.250</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>(Pants)</td>
+<td>(Jeans)</td>
+<td>0.250</td>
+<td>0.375</td>
+<td>0.25</td>
+<td>1.000000</td>
+<td>2.666667</td>
+<td>0.156250</td>
+<td>inf</td>
+<td>0.833333</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>(Pants)</td>
+<td>(Bottle)</td>
+<td>0.250</td>
+<td>0.375</td>
+<td>0.25</td>
+<td>1.000000</td>
+<td>2.666667</td>
+<td>0.156250</td>
+<td>inf</td>
+<td>0.833333</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">63</td>
+<td>(Basketball, Socks)</td>
+<td>(Jersy, Bottle)</td>
+<td>0.250</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>1.000000</td>
+<td>4.000000</td>
+<td>0.187500</td>
+<td>inf</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">64</td>
+<td>(Jersy)</td>
+<td>(Basketball, Bottle, Socks)</td>
+<td>0.500</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>0.500000</td>
+<td>2.000000</td>
+<td>0.125000</td>
+<td>1.500</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">65</td>
+<td>(Bottle)</td>
+<td>(Jersy, Basketball, Socks)</td>
+<td>0.375</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>0.666667</td>
+<td>2.666667</td>
+<td>0.156250</td>
+<td>2.250</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">66</td>
+<td>(Basketball)</td>
+<td>(Jersy, Bottle, Socks)</td>
+<td>0.500</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>0.500000</td>
+<td>2.000000</td>
+<td>0.125000</td>
+<td>1.500</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">67</td>
+<td>(Socks)</td>
+<td>(Jersy, Bottle, Basketball)</td>
+<td>0.250</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>1.000000</td>
+<td>4.000000</td>
+<td>0.187500</td>
+<td>inf</td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+
+<p>68 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<p>補充說明 <code>mlxtend</code> 在關聯式分析中的優勢。除了常見的支持度（Support）、信賴度（Confidence）、提升度（Lift）等指標外，<code>mlxtend</code> 還提供一些較為進階的度量工具，如 leverage、conviction 和 zhangs_metric，可以用來更深入理解關聯規則的有效性與影響力。</p>
+<ul>
+<li>Leverage（杠桿率）
+<ul>
+<li>衡量品項 <span class="math inline">X</span> 和品項 <span class="math inline">Y</span> 同時出現的實際頻率與假設它們是獨立事件時的期望頻率之間的差異，用來確定品項之間的共現頻率與期望之間的偏差程度，有助於識別那些共現比隨機共現更頻繁的品項。<span class="math display"> \text{Leverage}(X\Rightarrow Y) = P(X \cap Y) − P(X)\times P(Y) </span></li>
+<li>Leverage 值的範圍在 [-1, 1] 之間，0 表示 X 和 Y 之間沒有關聯（完全獨立）；正值表示 X 和 Y 之間存在正相關；負值表示兩者之間存在負相關。</li>
+</ul></li>
+<li>Conviction（信念值）
+<ul>
+<li>衡量如果項目 <span class="math inline">X</span> 發生但項目 <span class="math inline">Y</span> 不發生的機率，與當兩者獨立時該概率之間的對比。與提升度不同，強調的是規則的<strong>逆否命題</strong>（即在 <span class="math inline">X</span> <span class="math inline">發生時，Y</span> 不發生的概率），對於理解項目集 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 之間的<strong>反向關聯</strong>非常有幫助，特別是在尋找「當 <span class="math inline">X</span> 發生但 <span class="math inline">Y</span> 不發生」的模式時。<span class="math display"> \text{Conviction}(X\Rightarrow Y) = \frac{1 - P(Y)}{1 - \text{confidence}(X\Rightarrow Y)} </span></li>
+<li>Conviction 的值越大，表示規則的強度越高。當 Conviction 值接近 1 時，表示這個規則不具備很高的預測力（與隨機無異）。</li>
+</ul></li>
+<li>Zhang’s Metric（張氏度量）
+<ul>
+<li>是一種更為穩健的度量方法，用來評估兩個事件 <span class="math inline">X</span> 和 <span class="math inline">Y</span> 是否有實質關聯的度量，旨在避免提升度在某些情況下的誤導性結果。Zhang’s Metric 主要解決的是當兩個事件有不同的基數（即它們的單獨出現頻率差異很大）時，提升度可能無法準確反映它們之間的真實關聯，在事件基數差異較大時仍能有效評估項目之間的相關性。<span class="math display"> \text{Zhang}(X\Rightarrow Y) = \frac{P(X \cap Y) - P(X)\times P(Y)}{\max{\{P(X \cap Y), P(X)\times P(Y)\}}} </span></li>
+<li>Zhang’s Metric 值的範圍在 [-1, 1] 之間，1 表示項目之間存在完美的正相關；0 表示項目之間不存在相關性；-1 表示存在完美的負相關。</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="大型購物車資料分析範例" class="level2">
+<h2 class="anchored" data-anchor-id="大型購物車資料分析範例">大型購物車資料分析範例</h2>
+<div id="71aae341" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>g_big <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries.csv'</span>, header<span class="op">=</span><span class="va">None</span>, delimiter<span class="op">=</span><span class="st">'*'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="大樂透獎號關聯式分析研究" class="level2">
+<h2 class="anchored" data-anchor-id="大樂透獎號關聯式分析研究">大樂透獎號關聯式分析研究</h2>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已複製");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已複製");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
