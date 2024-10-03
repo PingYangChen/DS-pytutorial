@@ -3,6 +3,7 @@ title: "關聯式分析 Association Rules"
 format: 
     html:
         html-math-method: mathjax
+        url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 lang: zh-TW
 ---
 
@@ -18,7 +19,7 @@ lang: zh-TW
   - 衡量一個項目集在整個資料集中出現的頻率，描述某個項目集（如 $\{X, Y\}$）在所有交易中同時出現的比例。令 $N$ 為交易總數，則 $$ \text{Support}(\{X, Y\})= \frac{P(X \cap Y)}{N} $$
   - 支持度的主要作用是用來篩選**頻繁項目集**，即那些在交易中出現次數足夠多的項目集。較低的支持度可能意味著這個規則在資料集中並不具代表性。通常在應用 Apriori 演算法時會設置一個最小支持度閾值，只有超過這個閾值的項目集才會被保留作為頻繁項目集，從而提高演算法的效率。
 - Confidence（信賴度）
-  - 描述當項目集 $X$ 出現時，項目集 $Y$ 出現的機率，表示規則 $X \Rightarrow Y$ 的可靠性，能夠反映在 $X$ 出現的情況下，$Y$ 出現的可能性有多高。$$ 信賴度(X \Rightarrow Y)= \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} $$
+  - 描述當項目集 $X$ 出現時，項目集 $Y$ 出現的機率，表示規則 $X \Rightarrow Y$ 的可靠性，能夠反映在 $X$ 出現的情況下，$Y$ 出現的可能性有多高。$$ \text{Confidence}(X \Rightarrow Y)= \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} $$
   - 常用來篩選**有效關聯規則**。較高的信賴度表示當項目集 $X$ 出現時，項目集 $Y$ 很有可能也會出現，因此這個規則可能具有較強的預測能力。然而，信賴度有時可能誤導人們對規則強度的理解，特別是在某些項目集本身出現頻率較高的情況下。這時候引入**提升度（Lift）**能夠更好地衡量規則的重要性。
 - Lift（提升度）
   - 衡量兩個項目之間的關聯性。它描述的是項目集 $X$ 和 $Y$ 同時出現的實際頻率與假設兩者獨立發生時期望頻率之間的比率。提升度考慮了項目集 $Y$ 出現的基準機率，從而提供了一個相對於隨機情況的衡量標準。提升度能更準確地反映項目集之間的真實關聯性，特別是當一些項目集本身出現頻率很高時，信賴度可能會高估其關聯性，而提升度能提供更準確的衡量。$$ \text{Lift}(X \Rightarrow Y)= \frac{\text{Confidence}(X \Rightarrow Y)}{\text{Support}(Y)} = \frac{\text{Support}(X \cap Y)}{\text{Support}(X)\times\text{Support}(Y)} $$
