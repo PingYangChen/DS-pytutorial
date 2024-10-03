@@ -2,8 +2,9 @@
 title: "關聯式分析 Association Rules"
 format: 
     html:
-        html-math-method: mathjax
-        url: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        html-math-method: mathml
+        #html-math-method: mathjax
+        #url: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 lang: zh-TW
 ---
 

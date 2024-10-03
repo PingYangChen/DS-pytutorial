@@ -71,35 +71,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -136,20 +107,20 @@ window.Quarto = {
 <li>項目集：一組項目，通常是一個交易中的購買品項。例如：{麵包, 牛奶}</li>
 <li>Support（支持度）
 <ul>
-<li>衡量一個項目集在整個資料集中出現的頻率，描述某個項目集（如 <span class="math inline">\(\{X, Y\}\)</span>）在所有交易中同時出現的比例。令 <span class="math inline">\(N\)</span> 為交易總數，則 <span class="math display">\[ \text{Support}(\{X, Y\})= \frac{P(X \cap Y)}{N} \]</span></li>
+<li>衡量一個項目集在整個資料集中出現的頻率，描述某個項目集（如 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>X</mi><mo>,</mo><mi>Y</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{X, Y\}</annotation></semantics></math>）在所有交易中同時出現的比例。令 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> 為交易總數，則 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">{</mo><mi>X</mi><mo>,</mo><mi>Y</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>∩</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex"> \text{Support}(\{X, Y\})= \frac{P(X \cap Y)}{N} </annotation></semantics></math></li>
 <li>支持度的主要作用是用來篩選<strong>頻繁項目集</strong>，即那些在交易中出現次數足夠多的項目集。較低的支持度可能意味著這個規則在資料集中並不具代表性。通常在應用 Apriori 演算法時會設置一個最小支持度閾值，只有超過這個閾值的項目集才會被保留作為頻繁項目集，從而提高演算法的效率。</li>
 </ul></li>
 <li>Confidence（信賴度）
 <ul>
-<li>描述當項目集 <span class="math inline">\(X\)</span> 出現時，項目集 <span class="math inline">\(Y\)</span> 出現的機率，表示規則 <span class="math inline">\(X \Rightarrow Y\)</span> 的可靠性，能夠反映在 <span class="math inline">\(X\)</span> 出現的情況下，<span class="math inline">\(Y\)</span> 出現的可能性有多高。<span class="math display">\[ \text{Confidence}(X \Rightarrow Y)= \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} \]</span></li>
-<li>常用來篩選<strong>有效關聯規則</strong>。較高的信賴度表示當項目集 <span class="math inline">\(X\)</span> 出現時，項目集 <span class="math inline">\(Y\)</span> 很有可能也會出現，因此這個規則可能具有較強的預測能力。然而，信賴度有時可能誤導人們對規則強度的理解，特別是在某些項目集本身出現頻率較高的情況下。這時候引入<strong>提升度（Lift）</strong>能夠更好地衡量規則的重要性。</li>
+<li>描述當項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 出現時，項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 出現的機率，表示規則 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>⇒</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">X \Rightarrow Y</annotation></semantics></math> 的可靠性，能夠反映在 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 出現的情況下，<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 出現的可能性有多高。<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Confidence</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>∪</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> \text{Confidence}(X \Rightarrow Y)= \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} </annotation></semantics></math></li>
+<li>常用來篩選<strong>有效關聯規則</strong>。較高的信賴度表示當項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 出現時，項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 很有可能也會出現，因此這個規則可能具有較強的預測能力。然而，信賴度有時可能誤導人們對規則強度的理解，特別是在某些項目集本身出現頻率較高的情況下。這時候引入<strong>提升度（Lift）</strong>能夠更好地衡量規則的重要性。</li>
 </ul></li>
 <li>Lift（提升度）
 <ul>
-<li>衡量兩個項目之間的關聯性。它描述的是項目集 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 同時出現的實際頻率與假設兩者獨立發生時期望頻率之間的比率。提升度考慮了項目集 <span class="math inline">\(Y\)</span> 出現的基準機率，從而提供了一個相對於隨機情況的衡量標準。提升度能更準確地反映項目集之間的真實關聯性，特別是當一些項目集本身出現頻率很高時，信賴度可能會高估其關聯性，而提升度能提供更準確的衡量。<span class="math display">\[ \text{Lift}(X \Rightarrow Y)= \frac{\text{Confidence}(X \Rightarrow Y)}{\text{Support}(Y)} = \frac{\text{Support}(X \cap Y)}{\text{Support}(X)\times\text{Support}(Y)} \]</span></li>
-<li>提升度 = 1：表示 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 之間沒有關聯，這意味著 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 的同時出現完全是隨機的。</li>
-<li>提升度 &gt; 1：表示 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 之間存在 正相關，即當 <span class="math inline">\(X\)</span> 出現時，<span class="math inline">\(Y\)</span> 也更有可能出現。</li>
-<li>提升度 &lt; 1：表示 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 之間存在 負相關，即 <span class="math inline">\(X\)</span> 出現時，<span class="math inline">\(Y\)</span> 出現的可能性較低。 ​</li>
+<li>衡量兩個項目之間的關聯性。它描述的是項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 同時出現的實際頻率與假設兩者獨立發生時期望頻率之間的比率。提升度考慮了項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 出現的基準機率，從而提供了一個相對於隨機情況的衡量標準。提升度能更準確地反映項目集之間的真實關聯性，特別是當一些項目集本身出現頻率很高時，信賴度可能會高估其關聯性，而提升度能提供更準確的衡量。<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Lift</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mtext mathvariant="normal">Confidence</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><mfrac><mrow><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>∩</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mtext mathvariant="normal">Support</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> \text{Lift}(X \Rightarrow Y)= \frac{\text{Confidence}(X \Rightarrow Y)}{\text{Support}(Y)} = \frac{\text{Support}(X \cap Y)}{\text{Support}(X)\times\text{Support}(Y)} </annotation></semantics></math></li>
+<li>提升度 = 1：表示 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 之間沒有關聯，這意味著 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 的同時出現完全是隨機的。</li>
+<li>提升度 &gt; 1：表示 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 之間存在 正相關，即當 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 出現時，<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 也更有可能出現。</li>
+<li>提升度 &lt; 1：表示 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 之間存在 負相關，即 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 出現時，<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 出現的可能性較低。 ​</li>
 </ul></li>
 </ul>
 <p>Apriori 演算法是關聯式規則挖掘中最常見的方法之一，利用「自底向上」的方法來識別頻繁項目集。這個算法的核心思想是，若某個項目集是不頻繁的，則它的所有超集也必然是不頻繁的。Apriori 演算法的兩個核心步驟是：</p>
@@ -173,12 +144,12 @@ window.Quarto = {
 <li><code>mlxtend</code>：適合需要更大靈活性、擴展性及處理大規模資料集的用戶，特別是在需要生成複雜規則或進行更深入的分析時。使用 <code>mlxtend</code> 時，數據需要轉換為 one-hot encoding 格式，在預處理階段多少會增加些操作步驟，但這樣的設計讓 <code>mlxtend</code> 可以是用於更多樣化的資料集。此外，其接口簡潔明瞭，支援以 <code>DataFrame</code> 形式輸出結果，方便後續的分析和視覺化操作。</li>
 </ul>
 <p>本節首先以較少量的購物車資料，說明這兩個套件的使用方式。</p>
-<div id="b06c9df6" class="cell" data-execution_count="1">
+<div id="857cc211" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>以 <code>pandas</code> 讀取講義附的購物車小資料 <code>groceries_small.csv</code>。</p>
-<div id="febd3adf" class="cell" data-execution_count="2">
+<div id="36d401f5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從指定的網址讀取 CSV 檔案，該檔案包含購物數據，並存入變數 g_small 中</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>g_small <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries_small.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small.columns)</span>
@@ -203,7 +174,7 @@ window.Quarto = {
 <li><code>'TransactionID'</code>：帳單編號，編號一樣的資料屬於同一筆帳單。</li>
 <li><code>'Item'</code>：購物明細，一筆帳單有多筆品項時，以多列儲存。</li>
 </ul>
-<div id="388b7f11" class="cell" data-execution_count="3">
+<div id="3221873b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(g_small))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'TransactionID'</span>].unique())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -212,14 +183,14 @@ window.Quarto = {
 </div>
 </div>
 <p>整份資料有 24 筆購物紀錄，由 8 個帳單所構成。</p>
-<div id="45d5a626" class="cell" data-execution_count="4">
+<div id="1b0d41f8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'Item'</span>].unique())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['T-Shirt' 'Pants' 'Jeans' 'Jersy' 'Socks' 'Basketball' 'Bottle' 'Shorts']</code></pre>
 </div>
 </div>
 <p>資料配的品項共有八種：<code>'T-Shirt'</code>、<code>'Pants'</code>、<code>'Jeans'</code>、<code>'Jersy'</code>、<code>'Socks'</code>、<code>'Basketball'</code>、<code>'Bottle'</code>、<code>'Shorts'</code>。長條圖 bar plot 呈現各品項的購買頻率，其中 <code>'Jersy'</code> 及 <code>'Basketball'</code> 的購買次數較高，各有 4 單購買此品項）。</p>
-<div id="bbdfa48d" class="cell" data-execution_count="5">
+<div id="3980023d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'Item'</span>].value_counts())</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視各品項的購買頻率</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -247,13 +218,13 @@ Name: count, dtype: int64</code></pre>
 <section id="關聯式分析-apyori-套件實作" class="level3">
 <h3 class="anchored" data-anchor-id="關聯式分析-apyori-套件實作">關聯式分析 <code>apyori</code> 套件實作</h3>
 <p>引入 <code>apyori</code> 套件。</p>
-<div id="ddfe9d66" class="cell" data-execution_count="6">
+<div id="6df230b3" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> apyori</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>一般而言，python 套件開發的同時也會提供 API 文件供使用者查找套件功能及使用方法。然而，套件功能較單一的開發者卻未必會提供該文件，往往只呈現個操作範例在自己的網頁上，若想知道更細節的套件功能使用方法，在無文件輔助之下，可能僅能翻找原始碼中的註解。例如 <code>apyori</code> 的作者便只在自己的 Github 主頁上寫個範例，無細節使用說明 <a href="https://github.com/ymoch/apyori/tree/master">https://github.com/ymoch/apyori/tree/master</a>，但可耐心地從作者的原始碼中找到套件有哪些設定可以操作，如下圖。</p>
 <p><img src=".\fig/apyori_api.png" class="img-fluid"></p>
 <p><code>apyori</code> 輸入資料的格式為串列，串列的每個元素為「一筆帳單」。</p>
-<div id="ce270ee8" class="cell" data-execution_count="7">
+<div id="85df3b02" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apyori 輸入資料的格式</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>[</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Item1'</span>, <span class="st">'Item2'</span>, <span class="st">'Item3'</span>],</span>
@@ -264,14 +235,14 @@ Name: count, dtype: int64</code></pre>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>對於剛才讀取的購物車小資料 <code>g_small</code>，我們首先得將這 8 筆帳單資料整理成如上格式，才能使用 <code>apyori</code> 進行關聯式分析，作法之一如下。</p>
-<div id="68e395ea" class="cell" data-execution_count="8">
+<div id="259b3ebf" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">### 欲使用 apyori 套件的資料前處理</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據 TransactionID 將數據進行分組，每組代表一個交易</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>gsm_group <span class="op">=</span> g_small.groupby(<span class="st">'TransactionID'</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 將每個交易中的購買項目列表化，生成交易列表，列表中的每個元素代表一次交易的所有項目</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>gsm_listed <span class="op">=</span> [gsm_group[<span class="st">'Item'</span>].get_group(ele).tolist() <span class="cf">for</span> ele <span class="kw">in</span> gsm_group.groups]</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>gsm_listed</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>[['T-Shirt',
   'Pants',
   'Jeans',
@@ -296,7 +267,7 @@ Name: count, dtype: int64</code></pre>
 <li><code>min_lift</code>: 關聯規則的最小提升度 (float)。</li>
 <li><code>max_length</code>: 關聯規則的最大項目集長度 (integer)。</li>
 </ul>
-<div id="9a80d5eb" class="cell" data-execution_count="9">
+<div id="fafcb566" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apyori 套件進行 Apriori 演算法分析，指定最小支持度、信賴度、提升度和最大項目組的長度</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>asso_rules <span class="op">=</span> apyori.apriori(transactions <span class="op">=</span> gsm_listed, </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            min_support<span class="op">=</span><span class="fl">0.2</span>, min_confidence<span class="op">=</span><span class="fl">0.2</span>, min_lift<span class="op">=</span><span class="dv">2</span>, max_length<span class="op">=</span><span class="dv">2</span></span>
@@ -306,18 +277,18 @@ Name: count, dtype: int64</code></pre>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 將產生的關聯規則轉換為串列，便於觀察結果及後續對逐項規則迭代處理</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>asso_rules_list <span class="op">=</span> <span class="bu">list</span>(asso_rules)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;generator object apriori at 0x0000013B2F098970&gt;</code></pre>
+<pre><code>&lt;generator object apriori at 0x000001984E608970&gt;</code></pre>
 </div>
 </div>
 <p>執行 <code>apyori.apriori</code> 後，會回傳一個套件開發者自定義的 RelationRecord 生成器，無法直接呼叫出來檢視或做其他利用。因此，我們得自行將 <code>apyori.apriori</code> 產出的結果轉換為串列，如上 <code>list(asso_rules)</code>。這時便可檢視串列內容，例如 print 出第一個元素來看看。</p>
-<div id="bc41976b" class="cell" data-execution_count="10">
+<div id="334a587e" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>asso_rules_list[<span class="dv">0</span>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>RelationRecord(items=frozenset({'Basketball', 'Socks'}), support=0.25, ordered_statistics=[OrderedStatistic(items_base=frozenset({'Basketball'}), items_add=frozenset({'Socks'}), confidence=0.5, lift=2.0), OrderedStatistic(items_base=frozenset({'Socks'}), items_add=frozenset({'Basketball'}), confidence=1.0, lift=2.0)])</code></pre>
 </div>
 </div>
 <p>輸出結果的第一個元素，看起來是針對一組項集（itemset），收錄對此項集計算產生的所有關聯規則結果，往下慢慢拆解可看到以下結構。</p>
-<div id="0b230597" class="cell" data-execution_count="11">
+<div id="246d6f31" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="co"># itemset 項集 'Basketball', 'Socks'</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">1</span>]) <span class="co"># Support 支持度</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>]) <span class="co"># 關聯規則列表</span></span>
@@ -342,7 +313,7 @@ frozenset({'Socks'})
 </div>
 </div>
 <p>弄清楚輸出結果的結構後，便可設計如何迭代處理每一條關聯規則，並輸出相關信息。</p>
-<div id="c8ced977" class="cell" data-execution_count="12">
+<div id="5fb9a2b4" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 迭代處理每一條關聯規則，並輸出相關信息</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ele <span class="kw">in</span> asso_rules_list:</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pair <span class="op">=</span> ele[<span class="dv">0</span>] <span class="co"># 提取項目組</span></span>
@@ -369,7 +340,7 @@ Support: 0.25
 Confidence: 1.0
 Lift: 2.0
 ==================================
-['Bottle', 'Pants']
+['Pants', 'Bottle']
 ----------------------------------
 Rule: Bottle → Pants
 Support: 0.25
@@ -420,7 +391,7 @@ Lift: 2.0
 </div>
 </div>
 <p>或透過迭代處理將結果儲存成 <code>DataFrame</code>。</p>
-<div id="eeb2fb1e" class="cell" data-execution_count="13">
+<div id="ac5c0a25" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個空的 DataFrame，包含 'Rule', 'Support', 'Confidence', 'Lift' </span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 四個欄位，用於存儲關聯規則的資訊</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>asso_rules_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'Rule'</span>, <span class="st">'Support'</span>, <span class="st">'Confidence'</span>, <span class="st">'Lift'</span>])</span>
@@ -460,7 +431,7 @@ Lift: 2.0
 <li>根據 ‘Confidence’ 欄位對關聯規則進行排序，從高到低排列，並輸出結果。這樣可以找到信賴度最高的規則，表示這些規則在實際數據中具有更高的預測準確性。</li>
 <li>根據 ‘Lift’ 欄位對關聯規則進行排序，從高到低排列，並輸出結果。提升度表示規則中 X 和 Y 之間的關聯強度，排序後可以發現關聯性最強的規則。</li>
 </ul>
-<div id="ca531677" class="cell" data-execution_count="14">
+<div id="fb7f7ae1" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df.sort_values(<span class="st">'Confidence'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Rule  Support  Confidence      Lift
@@ -476,7 +447,7 @@ Lift: 2.0
 8       Jersy → Socks     0.25    0.500000  2.000000</code></pre>
 </div>
 </div>
-<div id="7931a492" class="cell" data-execution_count="15">
+<div id="9c4431dc" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df.sort_values(<span class="st">'Lift'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Rule  Support  Confidence      Lift
@@ -497,20 +468,20 @@ Lift: 2.0
 <h3 class="anchored" data-anchor-id="關聯式分析-mlxtend-套件實作">關聯式分析 <code>mlxtend</code> 套件實作</h3>
 <p><code>mlxtend</code>（Machine Learning Extensions）是個多用途的 Python 機器學習套件。該套件以類似 <code>scikit-learn</code> 的語法風格擴展出一些分類器、迴歸器、特徵選擇等資料科學工具。此外，<code>mlxtend</code> 也是少數提供關聯規則挖掘模組的套件，如 Apriori 和 FP-Growth 演算法，因為其 I/O 設計較為泛用，加上對結構化資料輸入格式的要求，使其較適合從大型資料集中挖掘頻繁項目集與關聯規則。完整的使用說明 API 文件也能從官方網站找到，便於使用者執行資料分析工作 <a href="https://rasbt.github.io/mlxtend/">https://rasbt.github.io/mlxtend/</a>。</p>
 <p>在此，我們仍然使用講義附的購物車小資料 <code>groceries_small.csv</code> 示範 <code>mlxtend</code> 套件執行關聯式分析的使用方式與結果解讀。</p>
-<div id="a7c69294" class="cell" data-execution_count="16">
+<div id="5b420de7" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從 mlxtend 套件中匯入 apriori 演算法和關聯規則生成方法</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> association_rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>mlxtend</code> 的 <code>apriori</code> 關聯式分析函數輸入資料的格式為結構化資料，即表格型資料，資料的每一列為「一筆帳單」。對於購物車這種每筆帳單內品項數量不一的資料，可透過 One-hot encoding 來建構輸入資料。</p>
 <p>首先從原始資料的 <code>'Item'</code> 欄位透過 <code>pd.Dataframe.unique()</code> 取得資料的品項有哪些，使 One-hot encoded 的表格資料欄位數<strong>等於</strong>資料的品項個數。以下為示範程式，建立一個空表格，固定欄位為品項名稱。</p>
-<div id="5e05f9e3" class="cell" data-execution_count="17">
+<div id="ef8fe2fa" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 提取所有不同的品項名稱，並將其存為串列</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>uni_items <span class="op">=</span> g_small[<span class="st">'Item'</span>].unique().tolist()</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個空的 DataFrame，欄位名稱為品項名稱，用來進行 one-hot encoding</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>g_small_encoded <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>uni_items)</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>g_small_encoded</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -536,7 +507,7 @@ Lift: 2.0
 </div>
 </div>
 <p>One-hot encoded 表格資料的一列為一筆帳單，當該帳單有 A 品項時，則在此列 A 品項欄位註記 <code>1</code>，反之，註記 <code>0</code>。示範程式如下，將原始資料依照帳單 <code>TransactionID</code> 分組後，透過迭代每筆帳單，依照帳單內容品項標記。</p>
-<div id="bac45d51" class="cell" data-execution_count="18">
+<div id="471dde14" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據交易 ID 將購物資料按交易進行分組</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>gsm_group <span class="op">=</span> g_small.groupby(<span class="st">'TransactionID'</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 將每個交易中的購買項目轉換為串列形式</span></span>
@@ -561,11 +532,11 @@ Lift: 2.0
 </div>
 </div>
 <p>使用 <code>mlxtend</code> 提供的 <code>apriori</code> 演算法，挖掘出頻繁項目集，在此例中，設定最小支持度為 0.2。</p>
-<div id="eb8ec36c" class="cell" data-execution_count="19">
+<div id="a1eea329" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apriori 演算法來挖掘頻繁項目集，最小支持度為 0.2</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>Support_items <span class="op">=</span> apriori(g_small_encoded, min_support<span class="op">=</span><span class="fl">0.20</span>, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Support_items</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 
 
@@ -621,7 +592,7 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
 <td>0.250</td>
-<td>(T-Shirt, Jeans)</td>
+<td>(Jeans, T-Shirt)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
@@ -631,7 +602,7 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">10</td>
 <td>0.250</td>
-<td>(Bottle, Pants)</td>
+<td>(Pants, Bottle)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">11</td>
@@ -646,7 +617,7 @@ Lift: 2.0
 <tr class="even">
 <td data-quarto-table-cell-role="th">13</td>
 <td>0.375</td>
-<td>(Jersy, Basketball)</td>
+<td>(Basketball, Jersy)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">14</td>
@@ -656,7 +627,7 @@ Lift: 2.0
 <tr class="even">
 <td data-quarto-table-cell-role="th">15</td>
 <td>0.250</td>
-<td>(Jersy, Shorts)</td>
+<td>(Shorts, Jersy)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">16</td>
@@ -671,7 +642,7 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">18</td>
 <td>0.250</td>
-<td>(Bottle, Basketball)</td>
+<td>(Basketball, Bottle)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">19</td>
@@ -681,12 +652,12 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">20</td>
 <td>0.250</td>
-<td>(Jeans, Bottle, Pants)</td>
+<td>(Jeans, Pants, Bottle)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">21</td>
 <td>0.250</td>
-<td>(Jersy, Socks, Basketball)</td>
+<td>(Basketball, Jersy, Socks)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">22</td>
@@ -696,17 +667,17 @@ Lift: 2.0
 <tr class="even">
 <td data-quarto-table-cell-role="th">23</td>
 <td>0.250</td>
-<td>(Bottle, Jersy, Basketball)</td>
+<td>(Bottle, Basketball, Jersy)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">24</td>
 <td>0.250</td>
-<td>(Bottle, Basketball, Socks)</td>
+<td>(Basketball, Bottle, Socks)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">25</td>
 <td>0.250</td>
-<td>(Bottle, Jersy, Socks, Basketball)</td>
+<td>(Bottle, Basketball, Jersy, Socks)</td>
 </tr>
 </tbody>
 </table>
@@ -715,12 +686,12 @@ Lift: 2.0
 </div>
 </div>
 <p>根據頻繁項目集生成關聯規則，對照前一節使用 <code>apyori</code> 套件生成規則需要自行編程，<code>mlxtend</code> 可直接透過指令產生關聯規則結果，並可指定用於排序、篩選的指標。在此例中，考慮以提升度（lift）為評估標準，提升度閾值設定為 1，表示只考慮那些提升度大於等於 1 的規則。</p>
-<div id="56724976" class="cell" data-execution_count="20">
+<div id="10c57cdb" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據頻繁項目集生成關聯規則，使用 'lift' 來作為評估指標，提升度閾值設為 1</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Association_Rules <span class="op">=</span> association_rules(Support_items, metric<span class="op">=</span><span class="st">'lift'</span>, min_threshold<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視生成的關聯規則</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>Association_Rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 
@@ -743,8 +714,8 @@ Lift: 2.0
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>(T-Shirt)</td>
 <td>(Jeans)</td>
+<td>(T-Shirt)</td>
 <td>0.375</td>
 <td>0.375</td>
 <td>0.25</td>
@@ -756,8 +727,8 @@ Lift: 2.0
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>(Jeans)</td>
 <td>(T-Shirt)</td>
+<td>(Jeans)</td>
 <td>0.375</td>
 <td>0.375</td>
 <td>0.25</td>
@@ -795,16 +766,16 @@ Lift: 2.0
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>(Bottle)</td>
 <td>(Pants)</td>
-<td>0.375</td>
+<td>(Bottle)</td>
 <td>0.250</td>
+<td>0.375</td>
 <td>0.25</td>
-<td>0.666667</td>
+<td>1.000000</td>
 <td>2.666667</td>
 <td>0.156250</td>
-<td>2.250</td>
-<td>1.000000</td>
+<td>inf</td>
+<td>0.833333</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -821,8 +792,8 @@ Lift: 2.0
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">63</td>
-<td>(Basketball, Socks)</td>
-<td>(Bottle, Jersy)</td>
+<td>(Jersy, Socks)</td>
+<td>(Basketball, Bottle)</td>
 <td>0.250</td>
 <td>0.250</td>
 <td>0.25</td>
@@ -835,7 +806,7 @@ Lift: 2.0
 <tr class="even">
 <td data-quarto-table-cell-role="th">64</td>
 <td>(Bottle)</td>
-<td>(Jersy, Socks, Basketball)</td>
+<td>(Basketball, Jersy, Socks)</td>
 <td>0.375</td>
 <td>0.250</td>
 <td>0.25</td>
@@ -847,8 +818,8 @@ Lift: 2.0
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">65</td>
-<td>(Jersy)</td>
-<td>(Bottle, Basketball, Socks)</td>
+<td>(Basketball)</td>
+<td>(Jersy, Bottle, Socks)</td>
 <td>0.500</td>
 <td>0.250</td>
 <td>0.25</td>
@@ -860,21 +831,8 @@ Lift: 2.0
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">66</td>
-<td>(Socks)</td>
-<td>(Bottle, Jersy, Basketball)</td>
-<td>0.250</td>
-<td>0.250</td>
-<td>0.25</td>
-<td>1.000000</td>
-<td>4.000000</td>
-<td>0.187500</td>
-<td>inf</td>
-<td>1.000000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">67</td>
-<td>(Basketball)</td>
-<td>(Bottle, Jersy, Socks)</td>
+<td>(Jersy)</td>
+<td>(Basketball, Bottle, Socks)</td>
 <td>0.500</td>
 <td>0.250</td>
 <td>0.25</td>
@@ -882,6 +840,19 @@ Lift: 2.0
 <td>2.000000</td>
 <td>0.125000</td>
 <td>1.500</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">67</td>
+<td>(Socks)</td>
+<td>(Jersy, Basketball, Bottle)</td>
+<td>0.250</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>1.000000</td>
+<td>4.000000</td>
+<td>0.187500</td>
+<td>inf</td>
 <td>1.000000</td>
 </tr>
 </tbody>
@@ -895,17 +866,17 @@ Lift: 2.0
 <ul>
 <li>Leverage（杠桿率）
 <ul>
-<li>衡量品項 <span class="math inline">\(X\)</span> 和品項 <span class="math inline">\(Y\)</span> 同時出現的實際頻率與假設它們是獨立事件時的期望頻率之間的差異，用來確定品項之間的共現頻率與期望之間的偏差程度，有助於識別那些共現比隨機共現更頻繁的品項。<span class="math display">\[ \text{Leverage}(X\Rightarrow Y) = P(X \cap Y) − P(X)\times P(Y) \]</span></li>
+<li>衡量品項 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和品項 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 同時出現的實際頻率與假設它們是獨立事件時的期望頻率之間的差異，用來確定品項之間的共現頻率與期望之間的偏差程度，有助於識別那些共現比隨機共現更頻繁的品項。<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Leverage</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>∩</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> \text{Leverage}(X\Rightarrow Y) = P(X \cap Y) − P(X)\times P(Y) </annotation></semantics></math></li>
 <li>Leverage 值的範圍在 [-1, 1] 之間，0 表示 X 和 Y 之間沒有關聯（完全獨立）；正值表示 X 和 Y 之間存在正相關；負值表示兩者之間存在負相關。</li>
 </ul></li>
 <li>Conviction（信念值）
 <ul>
-<li>衡量如果項目 <span class="math inline">\(X\)</span> 發生但項目 <span class="math inline">\(Y\)</span> 不發生的機率，與當兩者獨立時該概率之間的對比。與提升度不同，強調的是規則的<strong>逆否命題</strong>（即在 <span class="math inline">\(X\)</span> <span class="math inline">\(發生時，Y\)</span> 不發生的概率），對於理解項目集 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 之間的<strong>反向關聯</strong>非常有幫助，特別是在尋找「當 <span class="math inline">\(X\)</span> 發生但 <span class="math inline">\(Y\)</span> 不發生」的模式時。<span class="math display">\[ \text{Conviction}(X\Rightarrow Y) = \frac{1 - P(Y)}{1 - \text{confidence}(X\Rightarrow Y)} \]</span></li>
+<li>衡量如果項目 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 發生但項目 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 不發生的機率，與當兩者獨立時該概率之間的對比。與提升度不同，強調的是規則的<strong>逆否命題</strong>（即在 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>發</mi><mi>生</mi><mi>時</mi><mi>，</mi><mi>Y</mi></mrow><annotation encoding="application/x-tex">發生時，Y</annotation></semantics></math> 不發生的概率），對於理解項目集 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 之間的<strong>反向關聯</strong>非常有幫助，特別是在尋找「當 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 發生但 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 不發生」的模式時。<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Conviction</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mn>1</mn><mo>−</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>−</mo><mtext mathvariant="normal">confidence</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> \text{Conviction}(X\Rightarrow Y) = \frac{1 - P(Y)}{1 - \text{confidence}(X\Rightarrow Y)} </annotation></semantics></math></li>
 <li>Conviction 的值越大，表示規則的強度越高。當 Conviction 值接近 1 時，表示這個規則不具備很高的預測力（與隨機無異）。</li>
 </ul></li>
 <li>Zhang’s Metric（張氏度量）
 <ul>
-<li>是一種更為穩健的度量方法，用來評估兩個事件 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(Y\)</span> 是否有實質關聯的度量，旨在避免提升度在某些情況下的誤導性結果。Zhang’s Metric 主要解決的是當兩個事件有不同的基數（即它們的單獨出現頻率差異很大）時，提升度可能無法準確反映它們之間的真實關聯，在事件基數差異較大時仍能有效評估項目之間的相關性。<span class="math display">\[ \text{Zhang}(X\Rightarrow Y) = \frac{P(X \cap Y) - P(X)\times P(Y)}{\max{\{P(X \cap Y), P(X)\times P(Y)\}}} \]</span></li>
+<li>是一種更為穩健的度量方法，用來評估兩個事件 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math> 和 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> 是否有實質關聯的度量，旨在避免提升度在某些情況下的誤導性結果。Zhang’s Metric 主要解決的是當兩個事件有不同的基數（即它們的單獨出現頻率差異很大）時，提升度可能無法準確反映它們之間的真實關聯，在事件基數差異較大時仍能有效評估項目之間的相關性。<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Zhang</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>⇒</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>∩</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>max</mo><mrow><mo stretchy="false" form="prefix">{</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>∩</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> \text{Zhang}(X\Rightarrow Y) = \frac{P(X \cap Y) - P(X)\times P(Y)}{\max{\{P(X \cap Y), P(X)\times P(Y)\}}} </annotation></semantics></math></li>
 <li>Zhang’s Metric 值的範圍在 [-1, 1] 之間，1 表示項目之間存在完美的正相關；0 表示項目之間不存在相關性；-1 表示存在完美的負相關。</li>
 </ul></li>
 </ul>
@@ -913,7 +884,7 @@ Lift: 2.0
 </section>
 <section id="大型購物車資料分析範例" class="level2">
 <h2 class="anchored" data-anchor-id="大型購物車資料分析範例">大型購物車資料分析範例</h2>
-<div id="93103924" class="cell" data-execution_count="21">
+<div id="bd4eea48" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>g_big <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries.csv'</span>, header<span class="op">=</span><span class="va">None</span>, delimiter<span class="op">=</span><span class="st">'*'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
