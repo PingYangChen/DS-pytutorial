@@ -144,12 +144,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>mlxtend</code>：適合需要更大靈活性、擴展性及處理大規模資料集的用戶，特別是在需要生成複雜規則或進行更深入的分析時。使用 <code>mlxtend</code> 時，數據需要轉換為 one-hot encoding 格式，在預處理階段多少會增加些操作步驟，但這樣的設計讓 <code>mlxtend</code> 可以是用於更多樣化的資料集。此外，其接口簡潔明瞭，支援以 <code>DataFrame</code> 形式輸出結果，方便後續的分析和視覺化操作。</li>
 </ul>
 <p>本節首先以較少量的購物車資料，說明這兩個套件的使用方式。</p>
-<div id="857cc211" class="cell" data-execution_count="1">
+<div id="39bc2a1e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>以 <code>pandas</code> 讀取講義附的購物車小資料 <code>groceries_small.csv</code>。</p>
-<div id="36d401f5" class="cell" data-execution_count="2">
+<div id="2a4bf6ce" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從指定的網址讀取 CSV 檔案，該檔案包含購物數據，並存入變數 g_small 中</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>g_small <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries_small.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small.columns)</span>
@@ -174,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>'TransactionID'</code>：帳單編號，編號一樣的資料屬於同一筆帳單。</li>
 <li><code>'Item'</code>：購物明細，一筆帳單有多筆品項時，以多列儲存。</li>
 </ul>
-<div id="3221873b" class="cell" data-execution_count="3">
+<div id="e6e12e98" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(g_small))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'TransactionID'</span>].unique())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -183,14 +183,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>整份資料有 24 筆購物紀錄，由 8 個帳單所構成。</p>
-<div id="1b0d41f8" class="cell" data-execution_count="4">
+<div id="16563ffc" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'Item'</span>].unique())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['T-Shirt' 'Pants' 'Jeans' 'Jersy' 'Socks' 'Basketball' 'Bottle' 'Shorts']</code></pre>
 </div>
 </div>
 <p>資料配的品項共有八種：<code>'T-Shirt'</code>、<code>'Pants'</code>、<code>'Jeans'</code>、<code>'Jersy'</code>、<code>'Socks'</code>、<code>'Basketball'</code>、<code>'Bottle'</code>、<code>'Shorts'</code>。長條圖 bar plot 呈現各品項的購買頻率，其中 <code>'Jersy'</code> 及 <code>'Basketball'</code> 的購買次數較高，各有 4 單購買此品項）。</p>
-<div id="3980023d" class="cell" data-execution_count="5">
+<div id="a9404a89" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_small[<span class="st">'Item'</span>].value_counts())</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視各品項的購買頻率</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -218,13 +218,13 @@ Name: count, dtype: int64</code></pre>
 <section id="關聯式分析-apyori-套件實作" class="level3">
 <h3 class="anchored" data-anchor-id="關聯式分析-apyori-套件實作">關聯式分析 <code>apyori</code> 套件實作</h3>
 <p>引入 <code>apyori</code> 套件。</p>
-<div id="6df230b3" class="cell" data-execution_count="6">
+<div id="04f02721" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> apyori</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>一般而言，python 套件開發的同時也會提供 API 文件供使用者查找套件功能及使用方法。然而，套件功能較單一的開發者卻未必會提供該文件，往往只呈現個操作範例在自己的網頁上，若想知道更細節的套件功能使用方法，在無文件輔助之下，可能僅能翻找原始碼中的註解。例如 <code>apyori</code> 的作者便只在自己的 Github 主頁上寫個範例，無細節使用說明 <a href="https://github.com/ymoch/apyori/tree/master">https://github.com/ymoch/apyori/tree/master</a>，但可耐心地從作者的原始碼中找到套件有哪些設定可以操作，如下圖。</p>
 <p><img src=".\fig/apyori_api.png" class="img-fluid"></p>
 <p><code>apyori</code> 輸入資料的格式為串列，串列的每個元素為「一筆帳單」。</p>
-<div id="85df3b02" class="cell" data-execution_count="7">
+<div id="44351650" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apyori 輸入資料的格式</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>[</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Item1'</span>, <span class="st">'Item2'</span>, <span class="st">'Item3'</span>],</span>
@@ -235,14 +235,14 @@ Name: count, dtype: int64</code></pre>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>對於剛才讀取的購物車小資料 <code>g_small</code>，我們首先得將這 8 筆帳單資料整理成如上格式，才能使用 <code>apyori</code> 進行關聯式分析，作法之一如下。</p>
-<div id="259b3ebf" class="cell" data-execution_count="8">
+<div id="44d6700a" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">### 欲使用 apyori 套件的資料前處理</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據 TransactionID 將數據進行分組，每組代表一個交易</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>gsm_group <span class="op">=</span> g_small.groupby(<span class="st">'TransactionID'</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 將每個交易中的購買項目列表化，生成交易列表，列表中的每個元素代表一次交易的所有項目</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>gsm_listed <span class="op">=</span> [gsm_group[<span class="st">'Item'</span>].get_group(ele).tolist() <span class="cf">for</span> ele <span class="kw">in</span> gsm_group.groups]</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>gsm_listed</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>[['T-Shirt',
   'Pants',
   'Jeans',
@@ -267,7 +267,7 @@ Name: count, dtype: int64</code></pre>
 <li><code>min_lift</code>: 關聯規則的最小提升度 (float)。</li>
 <li><code>max_length</code>: 關聯規則的最大項目集長度 (integer)。</li>
 </ul>
-<div id="fafcb566" class="cell" data-execution_count="9">
+<div id="5cbea2dc" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apyori 套件進行 Apriori 演算法分析，指定最小支持度、信賴度、提升度和最大項目組的長度</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>asso_rules <span class="op">=</span> apyori.apriori(transactions <span class="op">=</span> gsm_listed, </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            min_support<span class="op">=</span><span class="fl">0.2</span>, min_confidence<span class="op">=</span><span class="fl">0.2</span>, min_lift<span class="op">=</span><span class="dv">2</span>, max_length<span class="op">=</span><span class="dv">2</span></span>
@@ -277,18 +277,18 @@ Name: count, dtype: int64</code></pre>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 將產生的關聯規則轉換為串列，便於觀察結果及後續對逐項規則迭代處理</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>asso_rules_list <span class="op">=</span> <span class="bu">list</span>(asso_rules)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;generator object apriori at 0x000001984E608970&gt;</code></pre>
+<pre><code>&lt;generator object apriori at 0x0000013C710697E0&gt;</code></pre>
 </div>
 </div>
 <p>執行 <code>apyori.apriori</code> 後，會回傳一個套件開發者自定義的 RelationRecord 生成器，無法直接呼叫出來檢視或做其他利用。因此，我們得自行將 <code>apyori.apriori</code> 產出的結果轉換為串列，如上 <code>list(asso_rules)</code>。這時便可檢視串列內容，例如 print 出第一個元素來看看。</p>
-<div id="334a587e" class="cell" data-execution_count="10">
+<div id="2ab05288" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>asso_rules_list[<span class="dv">0</span>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="33">
 <pre><code>RelationRecord(items=frozenset({'Basketball', 'Socks'}), support=0.25, ordered_statistics=[OrderedStatistic(items_base=frozenset({'Basketball'}), items_add=frozenset({'Socks'}), confidence=0.5, lift=2.0), OrderedStatistic(items_base=frozenset({'Socks'}), items_add=frozenset({'Basketball'}), confidence=1.0, lift=2.0)])</code></pre>
 </div>
 </div>
 <p>輸出結果的第一個元素，看起來是針對一組項集（itemset），收錄對此項集計算產生的所有關聯規則結果，往下慢慢拆解可看到以下結構。</p>
-<div id="246d6f31" class="cell" data-execution_count="11">
+<div id="bfe8cc92" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="co"># itemset 項集 'Basketball', 'Socks'</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">1</span>]) <span class="co"># Support 支持度</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_list[<span class="dv">0</span>][<span class="dv">2</span>]) <span class="co"># 關聯規則列表</span></span>
@@ -313,7 +313,7 @@ frozenset({'Socks'})
 </div>
 </div>
 <p>弄清楚輸出結果的結構後，便可設計如何迭代處理每一條關聯規則，並輸出相關信息。</p>
-<div id="5fb9a2b4" class="cell" data-execution_count="12">
+<div id="9315b615" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 迭代處理每一條關聯規則，並輸出相關信息</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ele <span class="kw">in</span> asso_rules_list:</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pair <span class="op">=</span> ele[<span class="dv">0</span>] <span class="co"># 提取項目組</span></span>
@@ -340,7 +340,7 @@ Support: 0.25
 Confidence: 1.0
 Lift: 2.0
 ==================================
-['Pants', 'Bottle']
+['Bottle', 'Pants']
 ----------------------------------
 Rule: Bottle → Pants
 Support: 0.25
@@ -376,7 +376,7 @@ Support: 0.25
 Confidence: 1.0
 Lift: 2.6666666666666665
 ==================================
-['Jersy', 'Socks']
+['Socks', 'Jersy']
 ----------------------------------
 Rule: Jersy → Socks
 Support: 0.25
@@ -391,7 +391,7 @@ Lift: 2.0
 </div>
 </div>
 <p>或透過迭代處理將結果儲存成 <code>DataFrame</code>。</p>
-<div id="ac5c0a25" class="cell" data-execution_count="13">
+<div id="ed906038" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個空的 DataFrame，包含 'Rule', 'Support', 'Confidence', 'Lift' </span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 四個欄位，用於存儲關聯規則的資訊</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>asso_rules_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'Rule'</span>, <span class="st">'Support'</span>, <span class="st">'Confidence'</span>, <span class="st">'Lift'</span>])</span>
@@ -431,7 +431,7 @@ Lift: 2.0
 <li>根據 ‘Confidence’ 欄位對關聯規則進行排序，從高到低排列，並輸出結果。這樣可以找到信賴度最高的規則，表示這些規則在實際數據中具有更高的預測準確性。</li>
 <li>根據 ‘Lift’ 欄位對關聯規則進行排序，從高到低排列，並輸出結果。提升度表示規則中 X 和 Y 之間的關聯強度，排序後可以發現關聯性最強的規則。</li>
 </ul>
-<div id="fb7f7ae1" class="cell" data-execution_count="14">
+<div id="3a9273bd" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df.sort_values(<span class="st">'Confidence'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Rule  Support  Confidence      Lift
@@ -447,7 +447,7 @@ Lift: 2.0
 8       Jersy → Socks     0.25    0.500000  2.000000</code></pre>
 </div>
 </div>
-<div id="9c4431dc" class="cell" data-execution_count="15">
+<div id="f590870d" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(asso_rules_df.sort_values(<span class="st">'Lift'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Rule  Support  Confidence      Lift
@@ -468,20 +468,20 @@ Lift: 2.0
 <h3 class="anchored" data-anchor-id="關聯式分析-mlxtend-套件實作">關聯式分析 <code>mlxtend</code> 套件實作</h3>
 <p><code>mlxtend</code>（Machine Learning Extensions）是個多用途的 Python 機器學習套件。該套件以類似 <code>scikit-learn</code> 的語法風格擴展出一些分類器、迴歸器、特徵選擇等資料科學工具。此外，<code>mlxtend</code> 也是少數提供關聯規則挖掘模組的套件，如 Apriori 和 FP-Growth 演算法，因為其 I/O 設計較為泛用，加上對結構化資料輸入格式的要求，使其較適合從大型資料集中挖掘頻繁項目集與關聯規則。完整的使用說明 API 文件也能從官方網站找到，便於使用者執行資料分析工作 <a href="https://rasbt.github.io/mlxtend/">https://rasbt.github.io/mlxtend/</a>。</p>
 <p>在此，我們仍然使用講義附的購物車小資料 <code>groceries_small.csv</code> 示範 <code>mlxtend</code> 套件執行關聯式分析的使用方式與結果解讀。</p>
-<div id="5b420de7" class="cell" data-execution_count="16">
+<div id="f96f6598" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從 mlxtend 套件中匯入 apriori 演算法和關聯規則生成方法</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> association_rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>mlxtend</code> 的 <code>apriori</code> 關聯式分析函數輸入資料的格式為結構化資料，即表格型資料，資料的每一列為「一筆帳單」。對於購物車這種每筆帳單內品項數量不一的資料，可透過 One-hot encoding 來建構輸入資料。</p>
 <p>首先從原始資料的 <code>'Item'</code> 欄位透過 <code>pd.Dataframe.unique()</code> 取得資料的品項有哪些，使 One-hot encoded 的表格資料欄位數<strong>等於</strong>資料的品項個數。以下為示範程式，建立一個空表格，固定欄位為品項名稱。</p>
-<div id="ef8fe2fa" class="cell" data-execution_count="17">
+<div id="6caf04e5" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 提取所有不同的品項名稱，並將其存為串列</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>uni_items <span class="op">=</span> g_small[<span class="st">'Item'</span>].unique().tolist()</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個空的 DataFrame，欄位名稱為品項名稱，用來進行 one-hot encoding</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>g_small_encoded <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>uni_items)</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>g_small_encoded</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="40">
 <div>
 
 
@@ -507,7 +507,7 @@ Lift: 2.0
 </div>
 </div>
 <p>One-hot encoded 表格資料的一列為一筆帳單，當該帳單有 A 品項時，則在此列 A 品項欄位註記 <code>1</code>，反之，註記 <code>0</code>。示範程式如下，將原始資料依照帳單 <code>TransactionID</code> 分組後，透過迭代每筆帳單，依照帳單內容品項標記。</p>
-<div id="471dde14" class="cell" data-execution_count="18">
+<div id="00019c2e" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據交易 ID 將購物資料按交易進行分組</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>gsm_group <span class="op">=</span> g_small.groupby(<span class="st">'TransactionID'</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 將每個交易中的購買項目轉換為串列形式</span></span>
@@ -532,11 +532,11 @@ Lift: 2.0
 </div>
 </div>
 <p>使用 <code>mlxtend</code> 提供的 <code>apriori</code> 演算法，挖掘出頻繁項目集，在此例中，設定最小支持度為 0.2。</p>
-<div id="a1eea329" class="cell" data-execution_count="19">
+<div id="831854ff" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apriori 演算法來挖掘頻繁項目集，最小支持度為 0.2</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>Support_items <span class="op">=</span> apriori(g_small_encoded, min_support<span class="op">=</span><span class="fl">0.20</span>, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Support_items</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="42">
 <div>
 
 
@@ -602,17 +602,17 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">10</td>
 <td>0.250</td>
-<td>(Pants, Bottle)</td>
+<td>(Bottle, Pants)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">11</td>
 <td>0.250</td>
-<td>(Jeans, Bottle)</td>
+<td>(Bottle, Jeans)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">12</td>
 <td>0.250</td>
-<td>(Jersy, Socks)</td>
+<td>(Socks, Jersy)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">13</td>
@@ -642,27 +642,27 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">18</td>
 <td>0.250</td>
-<td>(Basketball, Bottle)</td>
+<td>(Bottle, Basketball)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">19</td>
 <td>0.250</td>
-<td>(Basketball, Shorts)</td>
+<td>(Shorts, Basketball)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">20</td>
 <td>0.250</td>
-<td>(Jeans, Pants, Bottle)</td>
+<td>(Bottle, Jeans, Pants)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">21</td>
 <td>0.250</td>
-<td>(Basketball, Jersy, Socks)</td>
+<td>(Basketball, Socks, Jersy)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">22</td>
 <td>0.250</td>
-<td>(Bottle, Jersy, Socks)</td>
+<td>(Bottle, Socks, Jersy)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">23</td>
@@ -672,12 +672,12 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">24</td>
 <td>0.250</td>
-<td>(Basketball, Bottle, Socks)</td>
+<td>(Bottle, Basketball, Socks)</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">25</td>
 <td>0.250</td>
-<td>(Bottle, Basketball, Jersy, Socks)</td>
+<td>(Bottle, Basketball, Socks, Jersy)</td>
 </tr>
 </tbody>
 </table>
@@ -686,12 +686,12 @@ Lift: 2.0
 </div>
 </div>
 <p>根據頻繁項目集生成關聯規則，對照前一節使用 <code>apyori</code> 套件生成規則需要自行編程，<code>mlxtend</code> 可直接透過指令產生關聯規則結果，並可指定用於排序、篩選的指標。在此例中，考慮以提升度（lift）為評估標準，提升度閾值設定為 1，表示只考慮那些提升度大於等於 1 的規則。</p>
-<div id="10c57cdb" class="cell" data-execution_count="20">
+<div id="a6b5ea17" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 根據頻繁項目集生成關聯規則，使用 'lift' 來作為評估指標，提升度閾值設為 1</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Association_Rules <span class="op">=</span> association_rules(Support_items, metric<span class="op">=</span><span class="st">'lift'</span>, min_threshold<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 檢視生成的關聯規則</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>Association_Rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="43">
 <div>
 
 
@@ -766,16 +766,16 @@ Lift: 2.0
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>(Pants)</td>
 <td>(Bottle)</td>
-<td>0.250</td>
+<td>(Pants)</td>
 <td>0.375</td>
+<td>0.250</td>
 <td>0.25</td>
-<td>1.000000</td>
+<td>0.666667</td>
 <td>2.666667</td>
 <td>0.156250</td>
-<td>inf</td>
-<td>0.833333</td>
+<td>2.250</td>
+<td>1.000000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -792,7 +792,7 @@ Lift: 2.0
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">63</td>
-<td>(Jersy, Socks)</td>
+<td>(Socks, Jersy)</td>
 <td>(Basketball, Bottle)</td>
 <td>0.250</td>
 <td>0.250</td>
@@ -806,7 +806,7 @@ Lift: 2.0
 <tr class="even">
 <td data-quarto-table-cell-role="th">64</td>
 <td>(Bottle)</td>
-<td>(Basketball, Jersy, Socks)</td>
+<td>(Basketball, Socks, Jersy)</td>
 <td>0.375</td>
 <td>0.250</td>
 <td>0.25</td>
@@ -819,7 +819,7 @@ Lift: 2.0
 <tr class="odd">
 <td data-quarto-table-cell-role="th">65</td>
 <td>(Basketball)</td>
-<td>(Jersy, Bottle, Socks)</td>
+<td>(Bottle, Socks, Jersy)</td>
 <td>0.500</td>
 <td>0.250</td>
 <td>0.25</td>
@@ -831,6 +831,19 @@ Lift: 2.0
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">66</td>
+<td>(Socks)</td>
+<td>(Basketball, Bottle, Jersy)</td>
+<td>0.250</td>
+<td>0.250</td>
+<td>0.25</td>
+<td>1.000000</td>
+<td>4.000000</td>
+<td>0.187500</td>
+<td>inf</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">67</td>
 <td>(Jersy)</td>
 <td>(Basketball, Bottle, Socks)</td>
 <td>0.500</td>
@@ -840,19 +853,6 @@ Lift: 2.0
 <td>2.000000</td>
 <td>0.125000</td>
 <td>1.500</td>
-<td>1.000000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">67</td>
-<td>(Socks)</td>
-<td>(Jersy, Basketball, Bottle)</td>
-<td>0.250</td>
-<td>0.250</td>
-<td>0.25</td>
-<td>1.000000</td>
-<td>4.000000</td>
-<td>0.187500</td>
-<td>inf</td>
 <td>1.000000</td>
 </tr>
 </tbody>
@@ -884,13 +884,436 @@ Lift: 2.0
 </section>
 <section id="大型購物車資料分析範例" class="level2">
 <h2 class="anchored" data-anchor-id="大型購物車資料分析範例">大型購物車資料分析範例</h2>
-<div id="bd4eea48" class="cell" data-execution_count="21">
+<p>資料為 9835 筆購物車帳單資料，品項多達 100 項以上。本節使用 <code>mlxtend</code> 套件完整示範如何產出關聯式規則報表，步驟如下：</p>
+<ol type="1">
+<li>資料讀取：程式從遠端讀取一個大型購物交易資料集，並計算所需的時間。</li>
+<li>資料預處理：將每筆交易轉換為 one-hot encoding 格式，標記購買的商品。</li>
+<li>Apriori 演算法：應用 apriori 演算法來找出頻繁項目集，並計算執行所花費的時間。</li>
+<li>關聯規則生成：基於頻繁項目集生成關聯規則，並計算生成規則的時間。</li>
+</ol>
+<div id="d454914d" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>g_big <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries.csv'</span>, header<span class="op">=</span><span class="va">None</span>, delimiter<span class="op">=</span><span class="st">'*'</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 從 mlxtend 套件中匯入 apriori 演算法和關聯規則生成方法</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> association_rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="大樂透獎號關聯式分析研究" class="level2">
-<h2 class="anchored" data-anchor-id="大樂透獎號關聯式分析研究">大樂透獎號關聯式分析研究</h2>
+<div id="154d786c" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄當前時間，用於計算讀取資料所花的時間</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>tic <span class="op">=</span> datetime.now()</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 從遠端網址讀取大型交易資料集，使用 '*' 作為分隔符，沒有標題</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>g_big <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries.csv'</span>, </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                    header<span class="op">=</span><span class="va">None</span>, delimiter<span class="op">=</span><span class="st">'*'</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄讀取資料完成後的時間</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>toc <span class="op">=</span> datetime.now()</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 計算讀取資料所花費的時間（以秒為單位）</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>elapsed_read_data <span class="op">=</span> (toc <span class="op">-</span> tic).total_seconds()</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出讀取資料的處理時間</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"[Process] Read big transaction data: </span><span class="sc">%.2f</span><span class="st"> seconds"</span> <span class="op">%</span> (elapsed_read_data))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[Process] Read big transaction data: 0.66 seconds</code></pre>
+</div>
+</div>
+<div id="3bcf57f3" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄當前時間，用於計算資料預處理時間</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>tic <span class="op">=</span> datetime.now()</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 將第 0 列的交易資料轉換為 numpy 陣列</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>trans_array <span class="op">=</span> g_big.loc[:, <span class="dv">0</span>].values</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 將交易資料按逗號分割，生成每筆交易的商品列表</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>trans_list <span class="op">=</span> [ele.split(<span class="st">','</span>) <span class="cf">for</span> ele <span class="kw">in</span> trans_array]</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 將所有交易的商品展開為一個列表，存入 all_items 中</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>all_items <span class="op">=</span> <span class="bu">sum</span>(trans_list, [])</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取所有商品的唯一值，並轉換為列表</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>uni_items <span class="op">=</span> np.unique(all_items).tolist()</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出資料集中交易數量和唯一商品數量</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are </span><span class="sc">%d</span><span class="st"> transactions in the dataset."</span> <span class="op">%</span> (<span class="bu">len</span>(trans_list)))</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are </span><span class="sc">%d</span><span class="st"> unique items in the dataset."</span> <span class="op">%</span> (<span class="bu">len</span>(uni_items)))</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 創建一個 DataFrame，欄位是唯一的商品名稱，初始化為 False，用於 one-hot encoding</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>g_big_encoded <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>uni_items)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(trans_list)):</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    g_big_encoded.loc[i] <span class="op">=</span> <span class="va">False</span>  <span class="co"># 初始化每一行為 False（表示未購買）</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    g_big_encoded.loc[i, trans_list[i]] <span class="op">=</span> <span class="va">True</span>  <span class="co"># 將購買的商品標記為 True</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄資料預處理結束時間</span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>toc <span class="op">=</span> datetime.now()</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 計算資料預處理所花費的時間（以秒為單位）</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>elapsed_data_preproc <span class="op">=</span> (toc <span class="op">-</span> tic).total_seconds()</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出資料預處理的處理時間</span></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"[Process] Pre-processed transaction data: </span><span class="sc">%.2f</span><span class="st"> seconds"</span> <span class="op">%</span> (elapsed_data_preproc))</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出經過 one-hot encoding 的前 15 筆資料</span></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_big_encoded.head(<span class="dv">15</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>There are 9835 transactions in the dataset.
+There are 169 unique items in the dataset.
+[Process] Pre-processed transaction data: 7.04 seconds
+    Instant food products  UHT-milk  abrasive cleaner  artif. sweetener  \
+0                   False     False             False             False   
+1                   False     False             False             False   
+2                   False     False             False             False   
+3                   False     False             False             False   
+4                   False     False             False             False   
+5                   False     False              True             False   
+6                   False     False             False             False   
+7                   False      True             False             False   
+8                   False     False             False             False   
+9                   False     False             False             False   
+10                  False     False             False             False   
+11                  False     False             False             False   
+12                  False     False             False             False   
+13                  False     False             False             False   
+14                  False     False             False             False   
+
+    baby cosmetics  baby food   bags  baking powder  bathroom cleaner   beef  \
+0            False      False  False          False             False  False   
+1            False      False  False          False             False  False   
+2            False      False  False          False             False  False   
+3            False      False  False          False             False  False   
+4            False      False  False          False             False  False   
+5            False      False  False          False             False  False   
+6            False      False  False          False             False  False   
+7            False      False  False          False             False  False   
+8            False      False  False          False             False  False   
+9            False      False  False          False             False  False   
+10           False      False  False          False             False  False   
+11           False      False  False          False             False  False   
+12           False      False  False          False             False   True   
+13           False      False  False          False             False  False   
+14           False      False  False          False             False  False   
+
+    ...  turkey  vinegar  waffles  whipped/sour cream  whisky  white bread  \
+0   ...   False    False    False               False   False        False   
+1   ...   False    False    False               False   False        False   
+2   ...   False    False    False               False   False        False   
+3   ...   False    False    False               False   False        False   
+4   ...   False    False    False               False   False        False   
+5   ...   False    False    False               False   False        False   
+6   ...   False    False    False               False   False        False   
+7   ...   False    False    False               False   False        False   
+8   ...   False    False    False               False   False        False   
+9   ...   False    False    False               False   False        False   
+10  ...   False    False    False               False   False         True   
+11  ...   False    False    False               False   False        False   
+12  ...   False    False    False               False   False        False   
+13  ...   False    False    False               False   False        False   
+14  ...   False    False    False               False   False        False   
+
+    white wine  whole milk  yogurt  zwieback  
+0        False       False   False     False  
+1        False       False    True     False  
+2        False        True   False     False  
+3        False       False    True     False  
+4        False        True   False     False  
+5        False        True    True     False  
+6        False       False   False     False  
+7        False       False   False     False  
+8        False       False   False     False  
+9        False        True   False     False  
+10       False       False   False     False  
+11       False        True    True     False  
+12       False       False   False     False  
+13       False       False   False     False  
+14       False       False   False     False  
+
+[15 rows x 169 columns]</code></pre>
+</div>
+</div>
+<div id="e93082c1" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄執行 apriori 演算法前的時間</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>tic <span class="op">=</span> datetime.now()</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 apriori 演算法挖掘頻繁項目集，設定最小支持度為 0.001</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>g_big_support_items <span class="op">=</span> apriori(g_big_encoded, min_support<span class="op">=</span><span class="fl">0.001</span>, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄執行 apriori 完成的時間</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>toc <span class="op">=</span> datetime.now()</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 計算執行 apriori 演算法所花費的時間（以秒為單位）</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>elapsed_apriori <span class="op">=</span> (toc <span class="op">-</span> tic).total_seconds()</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出執行 apriori 演算法的處理時間</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"[Process] Executed Apriori algorithm: </span><span class="sc">%.2f</span><span class="st"> seconds"</span> <span class="op">%</span> (elapsed_apriori))</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>g_big_support_items</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[Process] Executed Apriori algorithm: 4.84 seconds</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">support</th>
+<th data-quarto-table-cell-role="th">itemsets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.008033</td>
+<td>(Instant food products)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.033452</td>
+<td>(UHT-milk)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.003559</td>
+<td>(abrasive cleaner)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.003254</td>
+<td>(artif. sweetener)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.017692</td>
+<td>(baking powder)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13487</td>
+<td>0.001017</td>
+<td>(yogurt, root vegetables, other vegetables, ci...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13488</td>
+<td>0.001017</td>
+<td>(yogurt, root vegetables, other vegetables, wh...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13489</td>
+<td>0.001322</td>
+<td>(yogurt, root vegetables, other vegetables, pi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13490</td>
+<td>0.001322</td>
+<td>(yogurt, root vegetables, other vegetables, wh...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13491</td>
+<td>0.001118</td>
+<td>(yogurt, root vegetables, other vegetables, wh...</td>
+</tr>
+</tbody>
+</table>
+
+<p>13492 rows × 2 columns</p>
+</div>
+</div>
+</div>
+<div id="0e5bab97" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄生成關聯規則前的時間</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>tic <span class="op">=</span> datetime.now()</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 基於頻繁項目集生成關聯規則，使用信賴度（confidence）作為評估標準，最小信賴度閾值為 0.5</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>g_big_asso_rules <span class="op">=</span> association_rules(g_big_support_items, metric<span class="op">=</span><span class="st">'confidence'</span>, min_threshold<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 記錄生成關聯規則完成的時間</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>toc <span class="op">=</span> datetime.now()</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 計算生成關聯規則所花費的時間（以秒為單位）</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>elapsed_asso_rule <span class="op">=</span> (toc <span class="op">-</span> tic).total_seconds()</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 輸出生成關聯規則的處理時間</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"[Process] Produced Association Rules: </span><span class="sc">%.2f</span><span class="st"> seconds"</span> <span class="op">%</span> (elapsed_asso_rule))</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>g_big_asso_rules</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[Process] Produced Association Rules: 0.06 seconds</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">antecedents</th>
+<th data-quarto-table-cell-role="th">consequents</th>
+<th data-quarto-table-cell-role="th">antecedent support</th>
+<th data-quarto-table-cell-role="th">consequent support</th>
+<th data-quarto-table-cell-role="th">support</th>
+<th data-quarto-table-cell-role="th">confidence</th>
+<th data-quarto-table-cell-role="th">lift</th>
+<th data-quarto-table-cell-role="th">leverage</th>
+<th data-quarto-table-cell-role="th">conviction</th>
+<th data-quarto-table-cell-role="th">zhangs_metric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>(baking powder)</td>
+<td>(whole milk)</td>
+<td>0.017692</td>
+<td>0.255516</td>
+<td>0.009253</td>
+<td>0.522989</td>
+<td>2.046793</td>
+<td>0.004732</td>
+<td>1.560725</td>
+<td>0.520642</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>(cereals)</td>
+<td>(whole milk)</td>
+<td>0.005694</td>
+<td>0.255516</td>
+<td>0.003660</td>
+<td>0.642857</td>
+<td>2.515917</td>
+<td>0.002206</td>
+<td>2.084555</td>
+<td>0.605981</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>(cocoa drinks)</td>
+<td>(whole milk)</td>
+<td>0.002237</td>
+<td>0.255516</td>
+<td>0.001322</td>
+<td>0.590909</td>
+<td>2.312611</td>
+<td>0.000750</td>
+<td>1.819850</td>
+<td>0.568861</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>(cooking chocolate)</td>
+<td>(whole milk)</td>
+<td>0.002542</td>
+<td>0.255516</td>
+<td>0.001322</td>
+<td>0.520000</td>
+<td>2.035097</td>
+<td>0.000672</td>
+<td>1.551008</td>
+<td>0.509919</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>(honey)</td>
+<td>(whole milk)</td>
+<td>0.001525</td>
+<td>0.255516</td>
+<td>0.001118</td>
+<td>0.733333</td>
+<td>2.870009</td>
+<td>0.000729</td>
+<td>2.791815</td>
+<td>0.652564</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5824</td>
+<td>(yogurt, other vegetables, whole milk, tropica...</td>
+<td>(root vegetables)</td>
+<td>0.002542</td>
+<td>0.108998</td>
+<td>0.001322</td>
+<td>0.520000</td>
+<td>4.770709</td>
+<td>0.001045</td>
+<td>1.856253</td>
+<td>0.792402</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5825</td>
+<td>(root vegetables, other vegetables, whole milk...</td>
+<td>(yogurt)</td>
+<td>0.002034</td>
+<td>0.139502</td>
+<td>0.001322</td>
+<td>0.650000</td>
+<td>4.659439</td>
+<td>0.001038</td>
+<td>2.458566</td>
+<td>0.786982</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5826</td>
+<td>(yogurt, root vegetables, other vegetables, tr...</td>
+<td>(whole milk)</td>
+<td>0.001729</td>
+<td>0.255516</td>
+<td>0.001118</td>
+<td>0.647059</td>
+<td>2.532361</td>
+<td>0.000677</td>
+<td>2.109371</td>
+<td>0.606159</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5827</td>
+<td>(yogurt, root vegetables, whole milk, tropical...</td>
+<td>(other vegetables)</td>
+<td>0.001627</td>
+<td>0.193493</td>
+<td>0.001118</td>
+<td>0.687500</td>
+<td>3.553107</td>
+<td>0.000804</td>
+<td>2.580824</td>
+<td>0.719727</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5828</td>
+<td>(root vegetables, other vegetables, whole milk...</td>
+<td>(yogurt)</td>
+<td>0.001932</td>
+<td>0.139502</td>
+<td>0.001118</td>
+<td>0.578947</td>
+<td>4.150107</td>
+<td>0.000849</td>
+<td>2.043683</td>
+<td>0.760512</td>
+</tr>
+</tbody>
+</table>
+
+<p>5829 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<!--
+## 大樂透獎號關聯式分析研究
+-->
 </section>
 
 </main>

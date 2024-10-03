@@ -311,13 +311,115 @@ Association_Rules
 
 ## 大型購物車資料分析範例
 
+資料為 9835 筆購物車帳單資料，品項多達 100 項以上。本節使用 `mlxtend` 套件完整示範如何產出關聯式規則報表，步驟如下：
+
+1. 資料讀取：程式從遠端讀取一個大型購物交易資料集，並計算所需的時間。
+2. 資料預處理：將每筆交易轉換為 one-hot encoding 格式，標記購買的商品。
+3. Apriori 演算法：應用 apriori 演算法來找出頻繁項目集，並計算執行所花費的時間。
+4. 關聯規則生成：基於頻繁項目集生成關聯規則，並計算生成規則的時間。
+
 ```{python}
 import pandas as pd
-g_big = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries.csv', header=None, delimiter='*')
+import numpy as np
+from datetime import datetime
+# 從 mlxtend 套件中匯入 apriori 演算法和關聯規則生成方法
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
 ```
 
-## 大樂透獎號關聯式分析研究
+```{python}
+# 記錄當前時間，用於計算讀取資料所花的時間
+tic = datetime.now()
 
+# 從遠端網址讀取大型交易資料集，使用 '*' 作為分隔符，沒有標題
+g_big = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/groceries.csv', 
+                    header=None, delimiter='*')
+
+# 記錄讀取資料完成後的時間
+toc = datetime.now()
+# 計算讀取資料所花費的時間（以秒為單位）
+elapsed_read_data = (toc - tic).total_seconds()
+
+# 輸出讀取資料的處理時間
+print("[Process] Read big transaction data: %.2f seconds" % (elapsed_read_data))
+```
+
+
+```{python}
+# 記錄當前時間，用於計算資料預處理時間
+tic = datetime.now()
+
+# 將第 0 列的交易資料轉換為 numpy 陣列
+trans_array = g_big.loc[:, 0].values
+
+# 將交易資料按逗號分割，生成每筆交易的商品列表
+trans_list = [ele.split(',') for ele in trans_array]
+
+# 將所有交易的商品展開為一個列表，存入 all_items 中
+all_items = sum(trans_list, [])
+
+# 獲取所有商品的唯一值，並轉換為列表
+uni_items = np.unique(all_items).tolist()
+
+# 輸出資料集中交易數量和唯一商品數量
+print("There are %d transactions in the dataset." % (len(trans_list)))
+print("There are %d unique items in the dataset." % (len(uni_items)))
+
+# 創建一個 DataFrame，欄位是唯一的商品名稱，初始化為 False，用於 one-hot encoding
+g_big_encoded = pd.DataFrame(columns=uni_items)
+for i in range(len(trans_list)):
+    g_big_encoded.loc[i] = False  # 初始化每一行為 False（表示未購買）
+    g_big_encoded.loc[i, trans_list[i]] = True  # 將購買的商品標記為 True
+
+# 記錄資料預處理結束時間
+toc = datetime.now()
+# 計算資料預處理所花費的時間（以秒為單位）
+elapsed_data_preproc = (toc - tic).total_seconds()
+
+# 輸出資料預處理的處理時間
+print("[Process] Pre-processed transaction data: %.2f seconds" % (elapsed_data_preproc))
+
+# 輸出經過 one-hot encoding 的前 15 筆資料
+print(g_big_encoded.head(15))
+```
+
+```{python}
+# 記錄執行 apriori 演算法前的時間
+tic = datetime.now()
+
+# 使用 apriori 演算法挖掘頻繁項目集，設定最小支持度為 0.001
+g_big_support_items = apriori(g_big_encoded, min_support=0.001, use_colnames=True)
+
+# 記錄執行 apriori 完成的時間
+toc = datetime.now()
+# 計算執行 apriori 演算法所花費的時間（以秒為單位）
+elapsed_apriori = (toc - tic).total_seconds()
+
+# 輸出執行 apriori 演算法的處理時間
+print("[Process] Executed Apriori algorithm: %.2f seconds" % (elapsed_apriori))
+g_big_support_items
+```
+
+```{python}
+# 記錄生成關聯規則前的時間
+tic = datetime.now()
+
+# 基於頻繁項目集生成關聯規則，使用信賴度（confidence）作為評估標準，最小信賴度閾值為 0.5
+g_big_asso_rules = association_rules(g_big_support_items, metric='confidence', min_threshold=0.5)
+
+# 記錄生成關聯規則完成的時間
+toc = datetime.now()
+# 計算生成關聯規則所花費的時間（以秒為單位）
+elapsed_asso_rule = (toc - tic).total_seconds()
+
+# 輸出生成關聯規則的處理時間
+print("[Process] Produced Association Rules: %.2f seconds" % (elapsed_asso_rule))
+g_big_asso_rules
+```
+
+<!--
+## 大樂透獎號關聯式分析研究
+-->
 
 
 
