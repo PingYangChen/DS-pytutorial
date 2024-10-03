@@ -5,13 +5,105 @@ lang: zh-TW
 ---
 
 
-## Python
+## 關聯式分析簡介
+
+關聯式分析（Association Rule Mining）是一種資料挖掘技術，旨在從大型資料集中找出項目之間的有趣模式或關聯規則。它主要應用於交易數據中，例如市場籃分析，幫助零售商識別哪些產品常一起購買，進而優化銷售策略。
+
+關聯式規則的基本概念
+項目集：一組項目，通常是一個交易中的購買項目。
+例如：{麵包, 牛奶}
+支持度 (Support)：項目集在所有交易中出現的頻率。
+公式：
+支持度
+(
+𝐴
+)
+=
+(
+包含項目集
+𝐴
+的交易數
+)
+(
+總交易數
+)
+支持度(A)= 
+(總交易數)
+(包含項目集A的交易數)
+​
+ 
+信賴度 (Confidence)：當購買項目X時，購買項目Y的概率。
+公式：
+信賴度
+(
+𝑋
+⇒
+𝑌
+)
+=
+支持度
+(
+𝑋
+∪
+𝑌
+)
+支持度
+(
+𝑋
+)
+信賴度(X⇒Y)= 
+支持度(X)
+支持度(X∪Y)
+​
+ 
+提升度 (Lift)：在考慮項目Y的受歡迎程度下，項目X和Y一起購買的可能性。
+公式：
+提升度
+(
+𝑋
+⇒
+𝑌
+)
+=
+信賴度
+(
+𝑋
+⇒
+𝑌
+)
+支持度
+(
+𝑌
+)
+提升度(X⇒Y)= 
+支持度(Y)
+信賴度(X⇒Y)
+​
+ 
+Apriori演算法
+Apriori演算法是關聯式規則挖掘中最常見的方法之一，利用「自底向上」的方法來識別頻繁項目集。這個算法的核心思想是，若某個項目集是不頻繁的，則它的所有超集也必然是不頻繁的。Apriori演算法分為兩個主要步驟：
+
+頻繁項目集的尋找：找出支持度超過閾值的項目集。
+產生關聯規則：利用頻繁項目集來產生規則，並計算信賴度和提升度。
+這類分析廣泛應用於零售業的市場籃分析，幫助企業更好地理解客戶購物行為，從而優化銷售策略和產品擺放。
 
 ```{python}
+import pandas as pd
 from apyori import apriori
 ```
 
+```{python}
+market_data = [['T-Shirt','Pants','Jeans','Jersy','Socks','Basketball','Bottle','Shorts'],
+ ['T-Shirt','Jeans'],
+ ['Jersy','Basketball','Socks','Bottle'],
+ ['Jeans','Pants','Bottle'],
+ ['Shorts','Basketball'],
+ ['Shorts','Jersy'],
+ ['T-Shirt'],
+ ['Basketball','Jersy'],
+ ]
 
+```
 ```{python}
 ## Data 自行定義數據
 market_data = [['T-Shirt','Pants','Jeans','Jersy','Socks','Basketball','Bottle','Shorts'],
@@ -39,7 +131,6 @@ for product in association_results:
 ```
 
 ```{python}
-import pandas as pd
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 ```
@@ -59,3 +150,22 @@ market_data = {
 ```
 
 
+```{python}
+## 轉成DataFrame
+data = pd.DataFrame(market_data)
+## 讓DataFrame 能呈現的寬度大一點
+pd.options.display.max_colwidth = 100
+## 轉成數值編碼，目前都是字串的組合
+data_id = data.drop('Items', 1)
+data_items = data.Items.str.join(',')
+## 轉成數值
+data_items = data_items.str.get_dummies(',')
+## 接上Transaction ID
+data = data_id.join(data_items)
+## 計算支持度 Support
+Support_items = apriori(data[['T-Shirt','Pants','Jeans','Jersy','Socks','Basketball','Bottle','Shorts']], min_support=0.20, use_colnames = True)
+## 計算關聯規則 Association Rule
+Association_Rules = association_rules(Support_items, metric = 'lift', min_threshold=1)
+
+Association_Rules
+```

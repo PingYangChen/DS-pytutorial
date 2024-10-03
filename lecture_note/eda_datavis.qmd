@@ -1,6 +1,8 @@
 ---
 title: "Data Visualization with Seaborn"
-format: html
+format: 
+    html:
+        html-math-method: katex
 lang: zh-TW
 ---
 
