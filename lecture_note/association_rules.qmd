@@ -2,7 +2,7 @@
 title: "關聯式分析 Association Rules"
 format: 
     html:
-        html-math-method: katex
+        html-math-method: mathjax
 lang: zh-TW
 ---
 
