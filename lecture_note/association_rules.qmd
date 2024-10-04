@@ -417,11 +417,14 @@ print("[Process] Produced Association Rules: %.2f seconds" % (elapsed_asso_rule)
 g_big_asso_rules
 ```
 
-<!--
 ## 大樂透獎號關聯式分析研究
--->
 
-
-
+```{python}
+import pandas as pd
+import numpy as np
+from datetime import datetime
+# 從 TaiwanLottery 模組中匯入 TaiwanLotteryCrawler，用於抓取台灣樂透數據
+from TaiwanLottery import TaiwanLotteryCrawler  
+```
 
 
