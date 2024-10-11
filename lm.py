@@ -51,12 +51,68 @@ slr_sm = sm.OLS(y, sm.add_constant(x1)).fit()
 # 顯示迴歸模型摘要
 slr_sm.summary()
 
+# 繪製 Q-Q 圖（Quantile-Quantile plot），用來檢查殘差是否符合常態分佈
+fig = sm.qqplot(slr_sm.resid, fit=True, line="45")
+fig.show()
+
+
+# 繪製模型的擬合值與殘差之間的關係圖，用於檢查模型的殘差
+fig = plt.figure(figsize=(5, 5))
+ax = plt.subplot(1, 1, 1)
+ax.plot(slr_sm.fittedvalues, slr_sm.resid, marker='.', linestyle='', color='#1f5ff2') 
+ax.set_xlabel("fittedvalues", fontsize=16)  # 設置X軸標籤為擬合值
+ax.set_ylabel("resid", fontsize=16)  # 設置Y軸標籤為殘差
+fig.tight_layout()
+fig.show()
+
+# 進行 Breusch-Pagan 檢定，用來檢查殘差的異質變異性
+# 異質變異性指的是殘差的變異是否隨自變數的變化而改變，如果殘差的變異不一致，模型可能不適合。
+slr_bptest = sm.stats.diagnostic.het_breuschpagan(slr_sm.resid, sm.add_constant(x1))
+# 輸出 Breusch-Pagan 檢定結果
+print(slr_bptest)
+
+
+# 建立多項式迴歸模型，將自變數擴展為 TV 和 TV 的平方項
+x1s = np.vstack((x1, x1**2)).transpose()
+ploy_sm = sm.OLS(np.sqrt(y), sm.add_constant(x1s)).fit()
+
+# 繪製 Q-Q 圖（Quantile-Quantile plot），用來檢查殘差是否符合常態分佈
+fig = sm.qqplot(ploy_sm.resid, fit=True, line="45")
+fig.show()
+
+# 繪製多項式模型的擬合值與殘差之間的關係圖
+fig = plt.figure(figsize=(5, 5))
+ax = plt.subplot(1, 1, 1)
+ax.plot(ploy_sm.fittedvalues, ploy_sm.resid, marker='.', linestyle='', color='#1f5ff2') 
+ax.set_xlabel("fittedvalues", fontsize=16)  
+ax.set_ylabel("resid", fontsize=16)  
+fig.tight_layout()
+fig.show()
+
+
+
 # 進行多元線性迴歸，將 TV、radio 和 newspaper 的廣告費用設為自變數
 x = adv_df[['TV', 'radio', 'newspaper']].values
 mlr_sm = sm.OLS(y, sm.add_constant(x)).fit()
 
 # 顯示多元線性迴歸模型摘要
 mlr_sm.summary()
+
+
+# 繪製多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈
+fig = sm.qqplot(mlr_sm.resid, fit=True, line="45")
+fig.show()
+# 繪製多元線性迴歸模型的擬合值與殘差的關係圖
+fig = plt.figure(figsize=(5, 5))
+ax = plt.subplot(1, 1, 1)
+ax.plot(mlr_sm.fittedvalues, mlr_sm.resid, marker='.', linestyle='', color='#1f5ff2') 
+ax.set_xlabel("fittedvalues", fontsize=16)  
+ax.set_ylabel("resid", fontsize=16)  
+fig.tight_layout()
+fig.show()
+
+
+
 
 # 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000
 x_new = np.array([[1, 100000, 20000, 1000]], dtype=float)
@@ -65,7 +121,7 @@ x_new = np.array([[1, 100000, 20000, 1000]], dtype=float)
 mlr_sm.predict(x_new)
 
 
-# 獲取預測的詳細結果
+# 獲取預測的詳細結果，包括信賴區間等
 mlr_sm_pred = mlr_sm.get_prediction(x_new)
 mlr_sm_pred.summary_frame()
 
