@@ -122,19 +122,32 @@ x_new = np.array([[1, 100000, 20000, 1000]], dtype=float)
 mlr_sm.predict(x_new)
 
 
+
 # 獲取預測的詳細結果，包括信賴區間等
 mlr_sm_pred = mlr_sm.get_prediction(x_new)
 mlr_sm_pred.summary_frame()
 
+
+
+from copy import deepcopy
+x2fi = deepcopy(adv_df[['TV', 'radio']])
+x2fi['TV:radio'] = x2fi['TV']*x2fi['radio']
+lr2fi_sm = sm.OLS(y, sm.add_constant(x2fi)).fit()
+lr2fi_sm.summary()
+
+
+
+
 # 僅使用 'TV' 進行迴歸分析，計算 R 平方與調整後的 R 平方
-x1 = adv_df['TV'].values
+x1 = adv_df['TV']
 slr_sm = sm.OLS(y, sm.add_constant(x1)).fit()
 slr_sm.rsquared  # R 平方
 slr_sm.rsquared_adj  # 調整後的 R 平方
 
 # 使用 'TV' 和 'radio' 進行多元迴歸分析
-x1x2 = adv_df[['TV', 'radio']].values
+x1x2 = adv_df[['TV', 'radio']]
 mlr2_sm = sm.OLS(y, sm.add_constant(x1x2)).fit()
+mlr2_sm.summary()
 mlr2_sm.rsquared  # R 平方
 mlr2_sm.rsquared_adj  # 調整後的 R 平方
 
@@ -143,6 +156,11 @@ x = adv_df[['TV', 'radio', 'newspaper']].values
 mlr_sm = sm.OLS(y, sm.add_constant(x)).fit()
 mlr_sm.rsquared  # R 平方
 mlr_sm.rsquared_adj  # 調整後的 R 平方
+
+
+
+
+
 
 # 使用 sklearn 進行線性迴歸
 from sklearn.linear_model import LinearRegression
@@ -169,3 +187,100 @@ x_new = np.array([[100000, 20000, 1000]], dtype=float)
 
 # 使用訓練數據進行預測
 mdl_sk.predict(x_new)
+
+
+
+# 匯入必要的套件
+import os  # 用於作業系統相關的操作
+import pandas as pd  # 用於處理和分析資料的資料框架工具
+import numpy as np  # 用於數學計算，特別是陣列處理
+from matplotlib import pyplot as plt  # 用於繪製圖表
+
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+cre_df.head(5)
+len(cre_df)
+cre_var = cre_df.columns
+cre_df[cre_var[1:]].describe()
+
+import statsmodels.api as sm
+
+y = cre_df['Balance']
+
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Own'], drop_first=True, dtype=int)
+
+x = cre_df_dummy[['Own_Yes']]
+
+slr_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示迴歸模型摘要
+slr_sm.summary()
+
+
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Region'], drop_first=True, dtype=int)
+cre_df_dummy.columns
+x = cre_df_dummy[['Region_South', 'Region_West']]
+
+slr_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示迴歸模型摘要
+slr_sm.summary()
+
+
+
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Student'], drop_first=True, dtype=int)
+cre_df_dummy.columns
+x = cre_df_dummy[['Income', 'Student_Yes']]
+
+lr_main_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示迴歸模型摘要
+lr_main_sm.summary()
+
+from copy import deepcopy
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Student'], drop_first=True, dtype=int)
+cre_df_dummy.columns
+x = deepcopy(cre_df_dummy[['Income', 'Student_Yes']])
+x['Income:Student_Yes'] = x['Income']*x['Student_Yes']
+lr_twofi_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示迴歸模型摘要
+lr_twofi_sm.summary()
+
+
+
+
+import pandas as pd
+import statsmodels.api as sm
+# 從網路讀取 Default 資料集並載入至 pandas DataFrame
+def_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Default.csv')
+# 顯示資料集的總行數
+len(def_df)
+# 顯示資料集的前 5 行
+def_df.head(5)
+# 將分類變數 'default' 和 'student' 轉換為虛擬變數（dummy variables），並刪除第一個類別以避免多重共線性
+# drop_first=True 表示將刪除第一個類別，dtype=int 將類別轉換為整數
+def_df_dummy = pd.get_dummies(def_df, columns=['default', 'student'], drop_first=True, dtype=int)
+# 設定目標變數 y 為 default_Yes，表示是否發生違約
+y = def_df_dummy['default_Yes']
+# 設定自變數 x 為 'balance'，表示信用卡餘額
+x = def_df_dummy[['balance']]
+# 建立邏輯斯迴歸模型（Logistic Regression），並使用 statsmodels 進行擬合
+logit_sm = sm.Logit(y, sm.add_constant(x)).fit()
+# 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
+logit_sm.summary()
+
+
+# 設定自變數 x 為 'student'，表示是否為學生身份
+x2 = def_df_dummy[['student_Yes']]
+# 建立邏輯斯迴歸模型（Logistic Regression），並使用 statsmodels 進行擬合
+logit_sm_2 = sm.Logit(y, sm.add_constant(x2)).fit()
+# 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
+logit_sm_2.summary()
+
+
+x3 = def_df_dummy[['balance', 'income', 'student_Yes']]
+# 建立邏輯斯迴歸模型（Logistic Regression），並使用 statsmodels 進行擬合
+logit_sm_3 = sm.Logit(y, sm.add_constant(x3)).fit()
+# 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
+logit_sm_3.summary()
+
+
+def_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/hsbdemo.csv')
+
+

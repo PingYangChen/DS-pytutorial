@@ -72,13 +72,13 @@ fig.show()
 # 匯入 statsmodels 用於統計建模
 import statsmodels.api as sm
 # 將 'sales' 欄位的值存為目標變數 y
-y = adv_df['sales'].values
+y = adv_df['sales']
 ```
 
 接下來，我們要進行簡單線性迴歸分析。將 `TV` 廣告費用作為自變數，並嘗試建立一個迴歸模型。
 ```{python}
 # 將 'TV' 欄位的值存為自變數 x1
-x1 = adv_df['TV'].values
+x1 = adv_df[['TV']]
 ```
 
 我們將使用 **statsmodels** 進行線性迴歸，並生成模型的摘要，這將告訴我們模型的參數和統計顯著性。
@@ -133,8 +133,17 @@ print(slr_bptest)
 #| message: false
 #| fig-align: 'center'
 # 建立多項式迴歸模型，將自變數擴展為 TV 和 TV 的平方項
-x1s = np.vstack((x1, x1**2)).transpose()
+from copy import deepcopy
+x1s = deepcopy(x1)
+x1s['TV2'] = x1['TV']**2
 ploy_sm = sm.OLS(np.sqrt(y), sm.add_constant(x1s)).fit()
+# 顯示迴歸模型摘要
+ploy_sm.summary()
+```
+```{python}
+#| warning: false
+#| message: false
+#| fig-align: 'center'
 # 繪製 Q-Q 圖（Quantile-Quantile plot），用來檢查殘差是否符合常態分佈
 fig = sm.qqplot(ploy_sm.resid, fit=True, line="45")
 fig.show()
@@ -151,7 +160,7 @@ fig.show()
 現在，我們進行多元線性迴歸。這次我們使用 `TV`、`radio` 和 `newspaper` 廣告費用作為自變數，來預測銷售額。
 ```{python}
 # 進行多元線性迴歸，將 TV、radio 和 newspaper 的廣告費用設為自變數
-x = adv_df[['TV', 'radio', 'newspaper']].values
+x = adv_df[['TV', 'radio', 'newspaper']]
 ```
 
 建立多元線性迴歸模型，並顯示模型的摘要來檢查所有自變數對銷售額的影響。
@@ -182,7 +191,7 @@ fig.show()
 接著，我們嘗試預測一個新的觀察值，假設某個新的廣告費用分配（`TV`: 100000、`radio`: 20000、`newspaper`: 1000），我們將使用模型來預測銷售額。
 ```{python}
 # 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000
-x_new = np.array([[1, 100000, 20000, 1000]], dtype=float)
+x_new = pd.DataFrame(data=[{'const': 1, 'TV': 100000, 'radio': 20000, 'newspaper': 1000}])
 # 使用多元線性迴歸模型進行預測
 mlr_sm.predict(x_new)
 ```
@@ -194,6 +203,60 @@ mlr_sm_pred = mlr_sm.get_prediction(x_new)
 mlr_sm_pred.summary_frame()
 ```
 
+```{python}
+# 使用 ‘TV’ 和 ‘radio‘ 及交互作用 ‘TV:radio‘ 進行多元迴歸分析
+from copy import deepcopy
+x2fi = deepcopy(adv_df[['TV', 'radio']])
+x2fi['TV:radio'] = x2fi['TV']*x2fi['radio']
+lr2fi_sm = sm.OLS(y, sm.add_constant(x2fi)).fit()
+lr2fi_sm.summary()
+```
+
+```{python}
+#| warning: false
+#| message: false
+#| fig-align: 'center'
+# 繪製多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈
+fig = sm.qqplot(lr2fi_sm.resid, fit=True, line="45")
+fig.show()
+# 繪製多元線性迴歸模型的擬合值與殘差的關係圖
+fig = plt.figure(figsize=(5, 5))
+ax = plt.subplot(1, 1, 1)
+ax.plot(lr2fi_sm.fittedvalues, lr2fi_sm.resid, marker='.', linestyle='', color='#A00000') 
+ax.set_xlabel("fittedvalues", fontsize=16)  
+ax.set_ylabel("resid", fontsize=16)  
+fig.tight_layout()
+fig.show()
+```
+
+
+```{python}
+# 使用 ‘TV’ 和 ‘radio‘ 及交互作用 ‘TV:radio‘ 對 sales**2 進行多元迴歸分析
+from copy import deepcopy
+x2fi = deepcopy(adv_df[['TV', 'radio']])
+x2fi['TV:radio'] = x2fi['TV']*x2fi['radio']
+lrsq2fi_sm = sm.OLS(y**2, sm.add_constant(x2fi)).fit()
+lrsq2fi_sm.summary()
+```
+
+```{python}
+#| warning: false
+#| message: false
+#| fig-align: 'center'
+# 繪製多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈
+fig = sm.qqplot(lrsq2fi_sm.resid, fit=True, line="45")
+fig.show()
+# 繪製多元線性迴歸模型的擬合值與殘差的關係圖
+fig = plt.figure(figsize=(5, 5))
+ax = plt.subplot(1, 1, 1)
+ax.plot(lrsq2fi_sm.fittedvalues, lrsq2fi_sm.resid, marker='.', linestyle='', color='#A00000') 
+ax.set_xlabel("fittedvalues", fontsize=16)  
+ax.set_ylabel("resid", fontsize=16)  
+fig.tight_layout()
+fig.show()
+```
+
+
 ### Scikit-learn
 現在，我們切換到使用 **sklearn** 進行線性迴歸，這是另一個流行的迴歸分析工具。首先，匯入 `LinearRegression。`
 ```{python}
@@ -204,9 +267,9 @@ from sklearn.linear_model import LinearRegression
 同樣，我們定義自變數和目標變數，這裡我們使用 `TV`、`radio` 和 `newspaper` 廣告費用作為自變數，銷售額作為目標變數。
 ```{python}
 # 自變數為 TV, radio 和 newspaper
-x = adv_df[['TV', 'radio', 'newspaper']].values
+x = adv_df[['TV', 'radio', 'newspaper']]
 # 目標變數為 sales
-y = adv_df['sales'].values
+y = adv_df['sales']
 ```
 
 建立線性迴歸模型並進行擬合，這會訓練模型來預測銷售額。
@@ -221,15 +284,17 @@ mdl_sk.fit(x, y)
 我們可以獲取模型的截距和每個變數的係數，這些係數告訴我們每增加一單位廣告費用時，銷售額的變化量。
 ```{python}
 # 獲取截距項
-mdl_sk.intercept_
+print(mdl_sk.intercept_)
 # 獲取迴歸係數
-mdl_sk.coef_
+print(mdl_sk.coef_)
 ```
 
 最後，我們使用 `sklearn` 模型來預測同樣的新觀察值（`TV`: 100000、`radio`: 20000、`newspaper`: 1000），並查看預測結果。
 ```{python}
+#| warning: false
+#| message: false
 # 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000
-x_new = np.array([[100000, 20000, 1000]], dtype=float)
+x_new = pd.DataFrame(data=[{'TV': 100000, 'radio': 20000, 'newspaper': 1000}])
 # 使用多元線性迴歸模型進行預測
 mdl_sk.predict(x_new)
 ```

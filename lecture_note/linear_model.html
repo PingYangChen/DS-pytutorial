@@ -102,11 +102,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="linear-regression" class="level2">
 <h2 class="anchored" data-anchor-id="linear-regression">Linear Regression</h2>
 <p>在開始之前，請確保你安裝了必要的 Python 套件，如 <strong>statsmodels</strong> 和 <strong>scikit-learn</strong>。你可以使用以下命令安裝：</p>
-<div id="0d952408" class="cell" data-execution_count="1">
+<div id="8886e80a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install statsmodels scikit<span class="op">-</span>learn </span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>首先，我們需要匯入分析和繪圖所需的套件。</p>
-<div id="ebbfc924" class="cell" data-execution_count="2">
+<div id="bb9c9428" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 匯入必要的套件</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os  <span class="co"># 用於作業系統相關的操作</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># 用於處理和分析資料的資料框架工具</span></span>
@@ -114,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt  <span class="co"># 用於繪製圖表</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>接下來，我們會從網路讀取一個 CSV 檔案，這份檔案包含了不同廣告費用（<code>TV</code>、<code>radio</code>、<code>newspaper</code>）對銷售額的影響。這是我們的資料集，會用來進行後續的分析。</p>
-<div id="a28aae1d" class="cell" data-execution_count="3">
+<div id="f8dd165f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 從網路讀取 CSV 檔案並載入至 pandas DataFrame</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>adv_df <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Advertising.csv'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示資料集的前 5 行</span></span>
@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>adv_var <span class="op">=</span> adv_df.columns</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示 TV、radio 和 newspaper 的統計摘要（不包含第一個欄位）</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>adv_df[adv_var[<span class="dv">1</span>:]].describe()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <div>
 
 
@@ -203,7 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>接下來，我們會用 <code>matplotlib</code> 繪製圖表，將 <code>TV</code>、<code>radio</code> 和 <code>newspaper</code> 的廣告費用與銷售額進行視覺化分析。這有助於我們理解不同變數之間的關係。</p>
-<div id="0601871f" class="cell" data-execution_count="4">
+<div id="586480f7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立圖表，設置大小為12x5英吋</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 在第一個子圖中繪製 TV 廣告費用與銷售額的關係圖</span></span>
@@ -236,30 +236,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="statsmodels" class="level3">
 <h3 class="anchored" data-anchor-id="statsmodels">Statsmodels</h3>
 <p>現在，我們將使用 <strong>statsmodels</strong> 進行統計建模。首先，將目標變數 <code>sales</code> 存儲為變數 <code>y</code>。</p>
-<div id="6fd203dd" class="cell" data-execution_count="5">
+<div id="4a3da9ef" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 匯入 statsmodels 用於統計建模</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 將 'sales' 欄位的值存為目標變數 y</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> adv_df[<span class="st">'sales'</span>].values</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> adv_df[<span class="st">'sales'</span>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>接下來，我們要進行簡單線性迴歸分析。將 <code>TV</code> 廣告費用作為自變數，並嘗試建立一個迴歸模型。</p>
-<div id="acdf7aa8" class="cell" data-execution_count="6">
+<div id="570f8ff9" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 將 'TV' 欄位的值存為自變數 x1</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> adv_df[<span class="st">'TV'</span>].values</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> adv_df[[<span class="st">'TV'</span>]]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>我們將使用 <strong>statsmodels</strong> 進行線性迴歸，並生成模型的摘要，這將告訴我們模型的參數和統計顯著性。</p>
-<div id="8a0a0eb0" class="cell" data-execution_count="7">
+<div id="a0e4a846" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 statsmodels 進行簡單線性迴歸，並建立模型</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>slr_sm <span class="op">=</span> sm.OLS(y, sm.add_constant(x1)).fit()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示迴歸模型摘要</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>slr_sm.summary()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Dep. Variable:</td>
-<td>y</td>
+<td>sales</td>
 <td data-quarto-table-cell-role="th">R-squared:</td>
 <td>0.612</td>
 </tr>
@@ -277,13 +277,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Sat, 12 Oct 2024</td>
+<td>Thu, 17 Oct 2024</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>1.47e-42</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>00:30:36</td>
+<td>20:39:34</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-519.05</td>
 </tr>
@@ -336,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>7.935</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">x1</td>
+<td data-quarto-table-cell-role="th">TV</td>
 <td>0.0475</td>
 <td>0.003</td>
 <td>17.668</td>
@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>我們將繪製一個 Q-Q 圖（Quantile-Quantile plot），用來檢查簡單線性迴歸模型的殘差是否符合常態分佈。如果數據點沿著對角線分佈，則表明殘差符合常態性假設。</p>
-<div id="610b6ddf" class="cell" data-message="false" data-execution_count="8">
+<div id="0ca2806a" class="cell" data-message="false" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製 Q-Q 圖（Quantile-Quantile plot），用來檢查殘差是否符合常態分佈</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sm.qqplot(slr_sm.resid, fit<span class="op">=</span><span class="va">True</span>, line<span class="op">=</span><span class="st">"45"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -393,7 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>繪製模型的擬合值與殘差之間的關係圖。這個圖表有助於檢查模型的殘差是否具有隨機分佈。理想情況下，殘差應該均勻分佈在零附近，沒有明顯的模式。</p>
-<div id="ebd44712" class="cell" data-message="false" data-execution_count="9">
+<div id="f9c93411" class="cell" data-message="false" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製模型的擬合值與殘差之間的關係圖，用於檢查模型的殘差</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
@@ -411,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>het_breuschpagan</code> 是一種檢查異質變異性的檢定方法。如果模型的殘差具有異質變異性，表示模型不符合假設。 檢定結果會包括四個值，依序分別是：Lagrange Multiplier (LM) 檢定統計量、LM p 值、F 檢定統計量、F p 值。 以下結果顯示 F 檢定統計量的 p 值極小，表示殘差具有異質變異性。</p>
-<div id="cd8f7456" class="cell" data-execution_count="10">
+<div id="e39b0b7e" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 進行 Breusch-Pagan 檢定，用來檢查殘差的異質變異性</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 異質變異性指的是殘差的變異是否隨自變數的變化而改變，如果殘差的變異不一致，模型可能不適合。</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>slr_bptest <span class="op">=</span> sm.stats.diagnostic.het_breuschpagan(slr_sm.resid, sm.add_constant(x1))</span>
@@ -423,54 +423,194 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>更多線性模型診斷之統計檢定可參考 <a href="https://www.statsmodels.org/stable/stats.html#module-statsmodels.stats.stattools">https://www.statsmodels.org/stable/stats.html#module-statsmodels.stats.stattools</a></p>
 <p>上圖看似擬合值與殘差之間存在二次關係，試進行多項式迴歸分析，這裡將 TV 的平方項加入模型，以捕捉自變數和目標變數之間的非線性關係，並繪製 Q-Q 圖以及擬合值與殘差間關係圖來檢查多項式迴歸模型的殘差是否符合模型假設。</p>
-<div id="9c8ee384" class="cell" data-message="false" data-execution_count="11">
+<div id="230c6681" class="cell" data-message="false" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立多項式迴歸模型，將自變數擴展為 TV 和 TV 的平方項</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x1s <span class="op">=</span> np.vstack((x1, x1<span class="op">**</span><span class="dv">2</span>)).transpose()</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ploy_sm <span class="op">=</span> sm.OLS(np.sqrt(y), sm.add_constant(x1s)).fit()</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製 Q-Q 圖（Quantile-Quantile plot），用來檢查殘差是否符合常態分佈</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sm.qqplot(ploy_sm.resid, fit<span class="op">=</span><span class="va">True</span>, line<span class="op">=</span><span class="st">"45"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製多項式模型的擬合值與殘差之間的關係圖</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>ax.plot(ploy_sm.fittedvalues, ploy_sm.resid, marker<span class="op">=</span><span class="st">'.'</span>, linestyle<span class="op">=</span><span class="st">''</span>, color<span class="op">=</span><span class="st">'#A00000'</span>) </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"fittedvalues"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"resid"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="linear_model_files/figure-html/cell-12-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="587" height="429"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="linear_model_files/figure-html/cell-12-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="471" height="471"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>現在，我們進行多元線性迴歸。這次我們使用 <code>TV</code>、<code>radio</code> 和 <code>newspaper</code> 廣告費用作為自變數，來預測銷售額。</p>
-<div id="98ddbcf5" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 進行多元線性迴歸，將 TV、radio 和 newspaper 的廣告費用設為自變數</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> adv_df[[<span class="st">'TV'</span>, <span class="st">'radio'</span>, <span class="st">'newspaper'</span>]].values</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>建立多元線性迴歸模型，並顯示模型的摘要來檢查所有自變數對銷售額的影響。</p>
-<div id="f43e09b9" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立多元線性迴歸模型</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mlr_sm <span class="op">=</span> sm.OLS(y, sm.add_constant(x)).fit()</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示多元線性迴歸模型摘要</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>mlr_sm.summary()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x1s <span class="op">=</span> deepcopy(x1)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x1s[<span class="st">'TV2'</span>] <span class="op">=</span> x1[<span class="st">'TV'</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ploy_sm <span class="op">=</span> sm.OLS(np.sqrt(y), sm.add_constant(x1s)).fit()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示迴歸模型摘要</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ploy_sm.summary()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
 <table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Dep. Variable:</td>
-<td>y</td>
+<td>sales</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.658</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.655</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>189.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Thu, 17 Oct 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>1.18e-46</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>20:39:34</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-107.37</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>200</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>220.7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>197</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>230.6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>2</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">const</td>
+<td>2.4754</td>
+<td>0.085</td>
+<td>29.141</td>
+<td>0.000</td>
+<td>2.308</td>
+<td>2.643</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TV</td>
+<td>0.0116</td>
+<td>0.001</td>
+<td>8.509</td>
+<td>0.000</td>
+<td>0.009</td>
+<td>0.014</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">TV2</td>
+<td>-1.748e-05</td>
+<td>4.58e-06</td>
+<td>-3.813</td>
+<td>0.000</td>
+<td>-2.65e-05</td>
+<td>-8.44e-06</td>
+</tr>
+</tbody>
+</table>
+
+
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>4.253</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>1.896</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.119</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>3.683</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>-0.245</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.159</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>2.552</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>1.11e+05</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.11e+05. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div id="78d5293e" class="cell" data-message="false" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製 Q-Q 圖（Quantile-Quantile plot），用來檢查殘差是否符合常態分佈</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sm.qqplot(ploy_sm.resid, fit<span class="op">=</span><span class="va">True</span>, line<span class="op">=</span><span class="st">"45"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製多項式模型的擬合值與殘差之間的關係圖</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ax.plot(ploy_sm.fittedvalues, ploy_sm.resid, marker<span class="op">=</span><span class="st">'.'</span>, linestyle<span class="op">=</span><span class="st">''</span>, color<span class="op">=</span><span class="st">'#A00000'</span>) </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"fittedvalues"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"resid"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="linear_model_files/figure-html/cell-13-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="587" height="429"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="linear_model_files/figure-html/cell-13-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="471" height="471"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>現在，我們進行多元線性迴歸。這次我們使用 <code>TV</code>、<code>radio</code> 和 <code>newspaper</code> 廣告費用作為自變數，來預測銷售額。</p>
+<div id="77d92b93" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 進行多元線性迴歸，將 TV、radio 和 newspaper 的廣告費用設為自變數</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> adv_df[[<span class="st">'TV'</span>, <span class="st">'radio'</span>, <span class="st">'newspaper'</span>]]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>建立多元線性迴歸模型，並顯示模型的摘要來檢查所有自變數對銷售額的影響。</p>
+<div id="77faf4d8" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立多元線性迴歸模型</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mlr_sm <span class="op">=</span> sm.OLS(y, sm.add_constant(x)).fit()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 顯示多元線性迴歸模型摘要</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>mlr_sm.summary()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>sales</td>
 <td data-quarto-table-cell-role="th">R-squared:</td>
 <td>0.897</td>
 </tr>
@@ -488,13 +628,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Sat, 12 Oct 2024</td>
+<td>Thu, 17 Oct 2024</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>1.58e-96</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>00:30:37</td>
+<td>20:39:34</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-386.18</td>
 </tr>
@@ -547,7 +687,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>3.554</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">x1</td>
+<td data-quarto-table-cell-role="th">TV</td>
 <td>0.0458</td>
 <td>0.001</td>
 <td>32.809</td>
@@ -556,7 +696,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0.049</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">x2</td>
+<td data-quarto-table-cell-role="th">radio</td>
 <td>0.1885</td>
 <td>0.009</td>
 <td>21.893</td>
@@ -565,7 +705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0.206</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">x3</td>
+<td data-quarto-table-cell-role="th">newspaper</td>
 <td>-0.0010</td>
 <td>0.006</td>
 <td>-0.177</td>
@@ -608,49 +748,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 </div>
 </div>
-<div id="b9da187e" class="cell" data-message="false" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sm.qqplot(mlr_sm.resid, fit<span class="op">=</span><span class="va">True</span>, line<span class="op">=</span><span class="st">"45"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製多元線性迴歸模型的擬合值與殘差的關係圖</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ax.plot(mlr_sm.fittedvalues, mlr_sm.resid, marker<span class="op">=</span><span class="st">'.'</span>, linestyle<span class="op">=</span><span class="st">''</span>, color<span class="op">=</span><span class="st">'#A00000'</span>) </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"fittedvalues"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"resid"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="af9188d2" class="cell" data-message="false" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sm.qqplot(mlr_sm.resid, fit<span class="op">=</span><span class="va">True</span>, line<span class="op">=</span><span class="st">"45"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 繪製多元線性迴歸模型的擬合值與殘差的關係圖</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>ax.plot(mlr_sm.fittedvalues, mlr_sm.resid, marker<span class="op">=</span><span class="st">'.'</span>, linestyle<span class="op">=</span><span class="st">''</span>, color<span class="op">=</span><span class="st">'#A00000'</span>) </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"fittedvalues"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"resid"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)  </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="linear_model_files/figure-html/cell-15-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="587" height="429"></p>
+<p><img src="linear_model_files/figure-html/cell-16-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="587" height="429"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="linear_model_files/figure-html/cell-15-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="471" height="471"></p>
+<p><img src="linear_model_files/figure-html/cell-16-output-2.png" class="quarto-figure quarto-figure-center figure-img" width="471" height="471"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>接著，我們嘗試預測一個新的觀察值，假設某個新的廣告費用分配（<code>TV</code>: 100000、<code>radio</code>: 20000、<code>newspaper</code>: 1000），我們將使用模型來預測銷售額。</p>
-<div id="d9dfd13a" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">100000</span>, <span class="dv">20000</span>, <span class="dv">1000</span>]], dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用多元線性迴歸模型進行預測</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>mlr_sm.predict(x_new)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="34">
-<pre><code>array([8348.96628023])</code></pre>
+<div id="565f2e16" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>[{<span class="st">'const'</span>: <span class="dv">1</span>, <span class="st">'TV'</span>: <span class="dv">100000</span>, <span class="st">'radio'</span>: <span class="dv">20000</span>, <span class="st">'newspaper'</span>: <span class="dv">1000</span>}])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用多元線性迴歸模型進行預測</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mlr_sm.predict(x_new)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>0    8348.96628
+dtype: float64</code></pre>
 </div>
 </div>
 <p>我們可以進一步查看預測的詳細結果，包含預測值的區間範圍等。</p>
-<div id="9e3455e3" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取預測的詳細結果</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mlr_sm_pred <span class="op">=</span> mlr_sm.get_prediction(x_new)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>mlr_sm_pred.summary_frame()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div id="d007bbfe" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取預測的詳細結果</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mlr_sm_pred <span class="op">=</span> mlr_sm.get_prediction(x_new)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>mlr_sm_pred.summary_frame()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
 <div>
 
 
@@ -686,24 +827,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scikit-learn" class="level3">
 <h3 class="anchored" data-anchor-id="scikit-learn">Scikit-learn</h3>
 <p>現在，我們切換到使用 <strong>sklearn</strong> 進行線性迴歸，這是另一個流行的迴歸分析工具。首先，匯入 <code>LinearRegression。</code></p>
-<div id="c9b3321d" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 sklearn 進行線性迴歸</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8206416c" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 sklearn 進行線性迴歸</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>同樣，我們定義自變數和目標變數，這裡我們使用 <code>TV</code>、<code>radio</code> 和 <code>newspaper</code> 廣告費用作為自變數，銷售額作為目標變數。</p>
-<div id="2afbc5bf" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 自變數為 TV, radio 和 newspaper</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> adv_df[[<span class="st">'TV'</span>, <span class="st">'radio'</span>, <span class="st">'newspaper'</span>]].values</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 目標變數為 sales</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> adv_df[<span class="st">'sales'</span>].values</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="aefb8754" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 自變數為 TV, radio 和 newspaper</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> adv_df[[<span class="st">'TV'</span>, <span class="st">'radio'</span>, <span class="st">'newspaper'</span>]]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 目標變數為 sales</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> adv_df[<span class="st">'sales'</span>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>建立線性迴歸模型並進行擬合，這會訓練模型來預測銷售額。</p>
-<div id="ce255f24" class="cell" data-message="false" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立線性迴歸模型</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mdl_sk <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 sklearn 進行模型擬合</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>mdl_sk.fit(x, y)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div id="78d51552" class="cell" data-message="false" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立線性迴歸模型</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mdl_sk <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 sklearn 進行模型擬合</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mdl_sk.fit(x, y)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
 <style>#sk-container-id-2 {
   /* Definition of color scheme common for light and dark mode */
   --sklearn-color-text: black;
@@ -1112,22 +1253,22 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <p>我們可以獲取模型的截距和每個變數的係數，這些係數告訴我們每增加一單位廣告費用時，銷售額的變化量。</p>
-<div id="861aa5d7" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取截距項</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mdl_sk.intercept_</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取迴歸係數</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mdl_sk.coef_</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div id="45451953" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取截距項</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mdl_sk.intercept_</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 獲取迴歸係數</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>mdl_sk.coef_</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
 <pre><code>array([ 0.04576465,  0.18853002, -0.00103749])</code></pre>
 </div>
 </div>
 <p>最後，我們使用 <code>sklearn</code> 模型來預測同樣的新觀察值（<code>TV</code>: 100000、<code>radio</code>: 20000、<code>newspaper</code>: 1000），並查看預測結果。</p>
-<div id="9c5febb8" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="op">=</span> np.array([[<span class="dv">100000</span>, <span class="dv">20000</span>, <span class="dv">1000</span>]], dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用多元線性迴歸模型進行預測</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>mdl_sk.predict(x_new)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="40">
+<div id="b959394c" class="cell" data-message="false" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 預測一個新的觀察值，廣告費用分別是 TV: 100000, radio: 20000, newspaper: 1000</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>[{<span class="st">'TV'</span>: <span class="dv">100000</span>, <span class="st">'radio'</span>: <span class="dv">20000</span>, <span class="st">'newspaper'</span>: <span class="dv">1000</span>}])</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用多元線性迴歸模型進行預測</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>mdl_sk.predict(x_new)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
 <pre><code>array([8348.96628023])</code></pre>
 </div>
 </div>
