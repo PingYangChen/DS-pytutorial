@@ -281,6 +281,31 @@ logit_sm_3 = sm.Logit(y, sm.add_constant(x3)).fit()
 logit_sm_3.summary()
 
 
-def_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/hsbdemo.csv')
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於進行數學運算和數據操作
+from sklearn.linear_model import LogisticRegression  # 用於執行邏輯斯迴歸的機器學習模型
+# 從網路讀取 hsb demo 資料集並載入至 pandas DataFrame
+hsb_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/hsbdemo.csv')
+
+pd.crosstab(index=hsb_df['ses'], columns=hsb_df['prog'])
+
+# 使用 pd.get_dummies 將分類變數 'prog' 和 'ses' 轉換為虛擬變數（dummy variables）
+# drop_first=False 表示不刪除任何類別，以便保留所有的分類變數
+hsb_df_dummy = pd.get_dummies(hsb_df, columns=['prog', 'ses'], drop_first=False, dtype=int)
+# 設定目標變數 y 為 'prog' 欄位，這個欄位包含學生的課程類型
+y = hsb_df['prog'].values
+# 設定自變數 x 為虛擬變數 'ses_middle', 'ses_high'（社會經濟地位），以及 'write'（寫作成績）
+x = hsb_df_dummy[['ses_middle', 'ses_high', 'write']].values
+# 建立 LogisticRegression 模型，無懲罰項（penalty=None），使用截距項，最多進行 1000 次迭代以保證收斂
+logit_sk = LogisticRegression(penalty=None, fit_intercept=True, max_iter=1000)
+# 使用自變數 x 和目標變數 y 來訓練邏輯斯迴歸模型
+logit_sk.fit(x, y)
+# 列出邏輯斯迴歸模型的目標類別，顯示模型預測的分類
+print(logit_sk.classes_)
+# 輸出邏輯斯迴歸模型的截距項，這是模型的常數項
+print(logit_sk.intercept_)
+# 輸出邏輯斯迴歸模型的迴歸係數，這些係數表示每個自變數對目標變數的影響
+print(logit_sk.coef_)
+
 
 
