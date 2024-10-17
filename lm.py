@@ -47,7 +47,8 @@ y = adv_df['sales'].values
 x1 = adv_df['TV'].values
 
 # 使用 statsmodels 進行簡單線性迴歸，並建立模型
-slr_sm = sm.OLS(y, sm.add_constant(x1)).fit()
+slr_sm_tmp = sm.OLS(y, sm.add_constant(x1))
+slr_sm = slr_sm_tmp.fit()
 # 顯示迴歸模型摘要
 slr_sm.summary()
 
