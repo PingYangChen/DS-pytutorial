@@ -6,14 +6,23 @@ format:
 lang: zh-TW
 ---
 
+# 前言
 
-## Linear Regression
+
+在 Python 中，**statsmodels** 和 **scikit-learn** 是兩個常用於迴歸分析的套件，但各自有不同的設計理念、功能和使用方式。
+
+**statsmodels** 以統計學為核心，強調統計推論與模型診斷。**statsmodels** 提供詳細的統計檢定工具，除了計算迴歸係數，還支持詳細的假設檢定、信賴區間、異方差檢驗、自相關檢驗等，用於推論和模型診斷。在套件使用上，使用者需要明確指定模型（如 `OLS` 或 `Logit`），並使用 `.fit()` 方法來建立模型，模型擬合後，可透過 `.summary()` 輸出結果物件，其內容包含豐富的統計資料，如 $R$ 平方值、係數估計、標準誤差、$t$ 檢定的 $p$ 值、95% 信賴區間等，並可使用 `.predict()` 進行預測。
+
+**scikit-learn** 以機器學習為核心，不提供統計檢定或模型診斷功能，主要側重於模型的準確性、精度和其他預測性能評估，較適用於大規模的數據處理和預測問題。除了迴歸分析，**scikit-learn** 還提供了大量機器學習方法，包括各種迴歸器與分類器、聚類分析、數據降維等功能。在套件使用上，**scikit-learn** 的 API 非常統一且簡單，使用者只需導入對應的模型（如 `LinearRegression` 或 `LogisticRegression`），使用 `.fit()` 方法來訓練模型，並通過 `.predict()` 進行預測。
 
 在開始之前，請確保你安裝了必要的 Python 套件，如 **statsmodels** 和 **scikit-learn**。你可以使用以下命令安裝：
 ```{python}
 #| eval: false
 pip install statsmodels scikit-learn 
 ```
+
+
+# 迴歸模型 Python 示範
 
 首先，我們需要匯入分析和繪圖所需的套件。
 ```{python}
@@ -24,7 +33,7 @@ import numpy as np  # 用於數學計算，特別是陣列處理
 from matplotlib import pyplot as plt  # 用於繪製圖表
 ```
 
-接下來，我們會從網路讀取一個 CSV 檔案，這份檔案包含了不同廣告費用（`TV`、`radio`、`newspaper`）對銷售額的影響。這是我們的資料集，會用來進行後續的分析。
+接下來，我們讀取範例 CSV 檔案，這份檔案包含了不同廣告費用（`TV`、`radio`、`newspaper`）對銷售額（`sales`）的影響。這是我們的資料集，會用來進行後續的迴歸建模示範。
 ```{python}
 # 從網路讀取 CSV 檔案並載入至 pandas DataFrame
 adv_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Advertising.csv')
@@ -42,6 +51,7 @@ adv_df[adv_var[1:]].describe()
 ```{python}
 #| warning: false
 #| fig-align: 'center'
+# 這段程式碼會生成一組圖表，用來顯示 TV、radio 和 newspaper 廣告費用與銷售額之間的關係。這有助於直觀地觀察變數之間的相關性。
 # 建立圖表，設置大小為12x5英吋
 fig = plt.figure(figsize=(8, 3))
 # 在第一個子圖中繪製 TV 廣告費用與銷售額的關係圖
@@ -65,9 +75,11 @@ fig.tight_layout()
 fig.show()
 ```
 
-### Statsmodels
+## 簡單線性迴歸模型 Simple Linear Regression
 
-現在，我們將使用 **statsmodels** 進行統計建模。首先，將目標變數 `sales` 存儲為變數 `y`。
+### 以 **statsmodels** 建立簡單線性迴歸模型
+
+首先，我們用 **statsmodels** 進行統計建模，學習 **statsmodels** 的使用方式。首先，將目標變數 `sales` 存儲為變數 `y`。
 ```{python}
 # 匯入 statsmodels 用於統計建模
 import statsmodels.api as sm
@@ -83,6 +95,7 @@ x1 = adv_df[['TV']]
 
 我們將使用 **statsmodels** 進行線性迴歸，並生成模型的摘要，這將告訴我們模型的參數和統計顯著性。
 ```{python}
+#| message: false
 # 使用 statsmodels 進行簡單線性迴歸，並建立模型
 slr_sm = sm.OLS(y, sm.add_constant(x1)).fit()
 # 顯示迴歸模型摘要
@@ -127,6 +140,22 @@ print(slr_bptest)
 更多線性模型診斷之統計檢定可參考 [https://www.statsmodels.org/stable/stats.html#module-statsmodels.stats.stattools](https://www.statsmodels.org/stable/stats.html#module-statsmodels.stats.stattools)
 
 
+這段程式碼用來預測一個新的觀察值，其 `TV` 廣告費用為 100000。透過多元線性迴歸模型，我們可以根據這個新的 `TV` 廣告費用數據，預測對應的銷售額。
+```{python}
+# 預測一個新的觀察值，廣告費用分別是 TV: 100000
+x_new = pd.DataFrame(data=[{'const': 1, 'TV': 100000}])
+# 使用多元線性迴歸模型進行預測
+slr_sm.predict(x_new)
+```
+
+我們可以進一步查看預測的詳細結果，包含預測值的區間範圍等。
+```{python}
+# 獲取預測的詳細結果
+slr_sm_pred = slr_sm.get_prediction(x_new)
+slr_sm_pred.summary_frame()
+```
+
+<!--
 上圖看似擬合值與殘差之間存在二次關係，試進行多項式迴歸分析，這裡將 TV 的平方項加入模型，以捕捉自變數和目標變數之間的非線性關係，並繪製 Q-Q 圖以及擬合值與殘差間關係圖來檢查多項式迴歸模型的殘差是否符合模型假設。
 ```{python}
 #| warning: false
@@ -156,6 +185,56 @@ ax.set_ylabel("resid", fontsize=16)
 fig.tight_layout()
 fig.show()
 ```
+-->
+
+### 以 **scikit-learn** 建立簡單線性迴歸模型
+
+現在，我們切換到使用 **scikit-learn** 進行線性迴歸，首先，匯入 `LinearRegression。`
+```{python}
+# 使用 sklearn 進行線性迴歸
+from sklearn.linear_model import LinearRegression
+```
+
+同樣，我們定義自變數和目標變數，這裡我們使用 `TV` 廣告費用作為自變數，銷售額作為目標變數。
+```{python}
+# 自變數為 TV, radio 和 newspaper
+x = adv_df[['TV']]
+# 目標變數為 sales
+y = adv_df['sales']
+```
+
+建立線性迴歸模型並進行擬合，這會訓練模型來預測銷售額。
+```{python}
+#| message: false
+# 建立線性迴歸模型
+slr_sk = LinearRegression(fit_intercept=True)
+# 使用 sklearn 進行模型擬合
+slr_sk.fit(x, y)
+```
+
+我們可以獲取模型的截距和每個變數的係數，這些係數告訴我們每增加一單位 `TV` 廣告費用時，銷售額的變化量。
+```{python}
+# 獲取截距項
+print(slr_sk.intercept_)
+# 獲取迴歸係數
+print(slr_sk.coef_)
+```
+
+最後，我們使用 `sklearn` 模型來預測同樣的新觀察值（`TV`: 100000），並查看預測結果。
+```{python}
+#| warning: false
+#| message: false
+# 預測一個新的觀察值，廣告費用分別是 TV: 100000
+x_new = pd.DataFrame(data=[{'TV': 100000}])
+# 使用多元線性迴歸模型進行預測
+slr_sk.predict(x_new)
+```
+
+
+
+## 複迴歸模型 Multiple Linear Regression
+
+### 以 **statsmodels** 建立複迴歸模型
 
 現在，我們進行多元線性迴歸。這次我們使用 `TV`、`radio` 和 `newspaper` 廣告費用作為自變數，來預測銷售額。
 ```{python}
@@ -171,6 +250,7 @@ mlr_sm = sm.OLS(y, sm.add_constant(x)).fit()
 mlr_sm.summary()
 ```
 
+這段程式碼會繪製 Q-Q 圖（Quantile-Quantile plot）來檢查多元線性迴歸模型的殘差是否符合常態分佈。如果數據點沿對角線排列，表示殘差符合常態性假設。接著，程式碼會繪製模型的擬合值與殘差之間的關係圖，用來檢查模型的擬合效果。理想情況下，殘差應該隨機分佈，沒有明顯的模式，這樣可以確認模型的適配性。
 ```{python}
 #| warning: false
 #| message: false
@@ -203,23 +283,45 @@ mlr_sm_pred = mlr_sm.get_prediction(x_new)
 mlr_sm_pred.summary_frame()
 ```
 
+### 在 **statsmodels** 下進行資料前處理
+
+除了將各資料欄位作為自變數外，可對變數做各種轉換使之成為新變數，例如取兩個變數的 **交互作用** 作為新的自變數。
+
+這段程式碼使用 `deepcopy` 將 `TV` 和 `radio` 欄位複製到一個新的資料框 `x2fi`，並新增一個交互作用項 `TV:radio`，這個項是 `TV` 和 `radio` 廣告費用的乘積。這個交互作用項用來檢查兩個變數之間的聯合效果是否對銷售額有額外的影響。
 ```{python}
-# 使用 ‘TV’ 和 ‘radio‘ 及交互作用 ‘TV:radio‘ 進行多元迴歸分析
+#| warning: false
+#| message: false
+# 從 copy 模組中匯入 deepcopy 函數，用來做資料的深拷貝
 from copy import deepcopy
+# 使用 deepcopy 將 'TV' 和 'radio' 欄位從 adv_df 資料框中複製到 x2fi
+# 深拷貝確保拷貝後的資料框與原始資料框是獨立的，修改 x2fi 不會影響 adv_df
 x2fi = deepcopy(adv_df[['TV', 'radio']])
-x2fi['TV:radio'] = x2fi['TV']*x2fi['radio']
+# 新增一個交互作用項 'TV:radio'，這項是 TV 和 radio 廣告費用的乘積，用於檢查它們之間的交互作用
+x2fi['TV:radio'] = x2fi['TV'] * x2fi['radio']
+print(x2fi.head(5))
+```
+
+這段程式碼使用 **statsmodels** 建立一個包含 `TV`、`radio` 和它們交互作用項的多元線性迴歸模型。透過這個模型，我們可以檢查這些變數及其交互作用對銷售額的影響。最後顯示模型的統計摘要，來評估各變數的顯著性和模型的擬合度。
+```{python}
+#| warning: false
+#| message: false
+# 使用 statsmodels 進行多元線性迴歸分析，其中包含 TV、radio 和它們的交互作用項
+# sm.add_constant() 用來在模型中加入常數項（截距）
+# 建立包含交互作用項的線性迴歸模型，並進行擬合
 lr2fi_sm = sm.OLS(y, sm.add_constant(x2fi)).fit()
+# 顯示包含交互作用項的回歸模型的統計摘要
 lr2fi_sm.summary()
 ```
 
+<!--
 ```{python}
 #| warning: false
 #| message: false
 #| fig-align: 'center'
-# 繪製多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈
+# 繪製含交互作用項的多元線性迴歸模型的 Q-Q 圖來檢查殘差是否符合常態分佈
 fig = sm.qqplot(lr2fi_sm.resid, fit=True, line="45")
 fig.show()
-# 繪製多元線性迴歸模型的擬合值與殘差的關係圖
+# 繪製含交互作用項的多元線性迴歸模型的擬合值與殘差的關係圖
 fig = plt.figure(figsize=(5, 5))
 ax = plt.subplot(1, 1, 1)
 ax.plot(lr2fi_sm.fittedvalues, lr2fi_sm.resid, marker='.', linestyle='', color='#A00000') 
@@ -228,8 +330,10 @@ ax.set_ylabel("resid", fontsize=16)
 fig.tight_layout()
 fig.show()
 ```
+-->
 
 
+<!--
 ```{python}
 # 使用 ‘TV’ 和 ‘radio‘ 及交互作用 ‘TV:radio‘ 對 sales**2 進行多元迴歸分析
 from copy import deepcopy
@@ -255,10 +359,96 @@ ax.set_ylabel("resid", fontsize=16)
 fig.tight_layout()
 fig.show()
 ```
+-->
 
 
-### Scikit-learn
-現在，我們切換到使用 **sklearn** 進行線性迴歸，這是另一個流行的迴歸分析工具。首先，匯入 `LinearRegression。`
+另外一種常用的變數變換方式為 **encoding**，針對類別型的欄位予以編碼，使其轉換為數值型的虛擬變數（dummy variables）以納入迴歸模型分析。
+
+我們以信用卡持有人資料的 Credit.csv 檔案進行示範。首先對多個分類變數（如 `Own`、`Region`、`Student`）進行虛擬變數轉換（dummy encoding），並對其影響信用卡餘額（`Balance`）的作用進行檢驗。最後，再加入數值型變數與虛擬變數的交互作用項進行迴歸分析，檢查收入（`income`）與學生身份（`Student`）的聯合效果。
+
+這段程式碼從網路讀取信用卡持有人資料的 `Credit.csv` 資料集，並顯示資料的前 5 行。接著計算資料的總行數並顯示各欄位的統計摘要，這有助於我們了解資料的基本結構，如信用卡餘額、收入和年齡等變數的分佈。
+```{python}
+#| warning: false
+#| message: false
+# 從網路讀取 Credit 資料集並載入至 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+# 顯示資料集的前 5 行
+cre_df.head(5)
+# 計算資料集的總行數
+len(cre_df)
+# 儲存資料集中的欄位名稱
+cre_var = cre_df.columns
+# 顯示 Balance、Income、Age 等欄位的統計摘要（不包括第一個欄位 'ID'）
+cre_df[cre_var[1:]].describe()
+```
+
+這段程式碼將 'Balance'（信用卡餘額）設為目標變數 y，後續的迴歸模型將用來預測這個變數的值。
+```{python}
+#| warning: false
+#| message: false
+# 設定目標變數 y 為 'Balance' 欄位（信用卡餘額）
+y = cre_df['Balance']
+```
+
+這段程式碼使用 `pd.get_dummies` 將 `Own` 這個分類變數轉換為虛擬變數，表示是否擁有房屋。這樣我們就能在迴歸分析中使用該變數來預測信用卡餘額。最後顯示轉換後資料框中的欄位名稱，確認虛擬變數轉換是否成功。
+```{python}
+#| warning: false
+#| message: false
+# 設定目標變數 y 為 'Balance' 欄位（信用卡餘額）
+y = cre_df['Balance']
+# 使用 pd.get_dummies 將分類變數 'Own' 轉換為虛擬變數（dummy variables），只保留一個類別 'Own_Yes'
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Own'], drop_first=True, dtype=int)
+# 顯示轉換後資料框中的欄位名稱
+print(cre_df_dummy.columns)
+# 顯示轉換後資料框中的前 5 行
+print(cre_df_dummy.head(5))
+```
+
+這段程式碼使用 `Own_Yes`（是否擁有房屋）作為自變數，建立線性迴歸模型來預測信用卡餘額。模型擬合後，顯示統計摘要，檢查是否擁有房屋對信用卡餘額的影響。
+```{python}
+#| warning: false
+#| message: false
+# 設定自變數 x 為 'Own_Yes'，表示是否擁有房屋
+x = cre_df_dummy[['Own_Yes']]
+# 建立線性迴歸模型並進行擬合，使用自變數 'Own_Yes' 預測 'Balance'
+slr_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示線性迴歸模型的統計摘要，包含係數估計和模型統計信息
+slr_sm.summary()
+```
+
+這段程式碼使用 `pd.get_dummies` 將 '`Region`' 分區變數轉換為虛擬變數，並使用 `Region_South` 和 `Region_West` 作為自變數，檢查不同區域對信用卡餘額的影響。最後顯示模型的統計摘要來檢查各區域的影響力。
+```{python}
+#| warning: false
+#| message: false
+# 使用 pd.get_dummies 將分類變數 'Region' 轉換為虛擬變數，包含 'Region_South' 和 'Region_West'
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Region'], drop_first=True, dtype=int)
+# 設定自變數 x 為 'Region_South' 和 'Region_West'，分別表示來自南部和西部的地區
+x = cre_df_dummy[['Region_South', 'Region_West']]
+# 使用線性迴歸模型來檢驗區域對信用卡餘額的影響
+slr_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示區域變數對信用卡餘額影響的迴歸模型統計摘要
+slr_sm.summary()
+```
+
+這段程式碼將 `Student` 變數轉換為虛擬變數 `Student_Yes`，用來表示是否為學生。接著，使用收入（`Income`）和學生身份（`Student_Yes`）作為自變數，建立線性迴歸模型來預測信用卡餘額。最後顯示回歸模型的統計摘要，以檢查收入和學生身份對信用卡餘額的影響。
+```{python}
+#| warning: false
+#| message: false
+# 使用 pd.get_dummies 將分類變數 'Student' 轉換為虛擬變數，保留 'Student_Yes'
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Student'], drop_first=True, dtype=int)
+# 設定自變數 x 為 'Income' 和 'Student_Yes'，檢查收入和是否為學生對信用卡餘額的影響
+x = cre_df_dummy[['Income', 'Student_Yes']]
+# 建立線性迴歸模型，使用收入和是否為學生預測信用卡餘額
+lr_main_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示收入和學生身份對信用卡餘額影響的迴歸模型統計摘要
+lr_main_sm.summary()
+```
+
+
+
+### 以 **scikit-learn** 建立複迴歸模型
+
+現在，我們切換到使用 **sklearn** 進行線性迴歸，首先匯入 `LinearRegression`。
 ```{python}
 # 使用 sklearn 進行線性迴歸
 from sklearn.linear_model import LinearRegression
@@ -299,3 +489,161 @@ x_new = pd.DataFrame(data=[{'TV': 100000, 'radio': 20000, 'newspaper': 1000}])
 mdl_sk.predict(x_new)
 ```
 
+
+
+# 邏輯斯迴歸模型 Python 示範
+
+### 以 **statsmodels** 建立邏輯斯迴歸模型
+
+這段程式碼從網路讀取信用卡持有人違約的資料集，並載入為 **pandas** `DataFrame`。接著顯示資料集的總行數和前 5 行資料，幫助我們了解資料的基本結構。
+```{python}
+#| warning: false
+#| message: false
+import pandas as pd
+import statsmodels.api as sm
+# 從網路讀取 Default 資料集並載入至 pandas DataFrame
+def_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Default.csv')
+# 顯示資料集的總行數
+len(def_df)
+# 顯示資料集的前 5 行
+def_df.head(5)
+```
+
+這段程式碼將 `default` 和 `student` 這兩個分類變數轉換為虛擬變數，並刪除第一個類別以避免多重共線性。這是為了讓分類變數可以在迴歸模型中使用。
+```{python}
+#| warning: false
+#| message: false
+# 將分類變數 'default' 和 'student' 轉換為虛擬變數（dummy variables），並刪除第一個類別以避免多重共線性
+# drop_first=True 表示將刪除第一個類別，dtype=int 將類別轉換為整數
+def_df_dummy = pd.get_dummies(def_df, columns=['default', 'student'], drop_first=True, dtype=int)
+# 設定目標變數 y 為 default_Yes，表示是否發生違約
+y = def_df_dummy['default_Yes']
+```
+
+這段程式碼建立了一個邏輯斯迴歸模型，將 `balance`（信用卡餘額）作為自變數，來預測違約的可能性。並顯示模型的統計摘要，檢查自變數與目標變數的關聯性。
+```{python}
+#| warning: false
+#| message: false
+# 設定自變數 x 為 'balance'，表示信用卡餘額
+x = def_df_dummy[['balance']]
+# 建立邏輯斯迴歸模型（Logistic Regression），並使用 statsmodels 進行擬合
+# 使用 statsmodels 進行邏輯斯迴歸分析，並建立模型
+logit_sm = sm.Logit(y, sm.add_constant(x)).fit()
+# 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
+logit_sm.summary()
+```
+
+這段程式碼使用 `student` 是否為學生這一變數作為自變數，來檢查學生身份是否會影響違約的可能性。並顯示模型的統計摘要，了解這一變數的影響。
+```{python}
+#| warning: false
+#| message: false
+# 設定自變數 x 為 'student'，表示是否為學生身份
+x2 = def_df_dummy[['student_Yes']]
+# 建立邏輯斯迴歸模型（Logistic Regression），並使用 statsmodels 進行擬合
+logit_sm_2 = sm.Logit(y, sm.add_constant(x2)).fit()
+# 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
+logit_sm_2.summary()
+```
+
+這段程式碼使用 `balance`、`income` 和 `student` 這三個變數作為自變數，建立一個多元邏輯斯迴歸模型，檢查這些變數聯合對違約的影響。顯示模型摘要以檢查各變數的影響程度。
+```{python}
+#| warning: false
+#| message: false
+x3 = def_df_dummy[['balance', 'income', 'student_Yes']]
+# 建立邏輯斯迴歸模型（Logistic Regression），並使用 statsmodels 進行擬合
+logit_sm_3 = sm.Logit(y, sm.add_constant(x3)).fit()
+# 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
+logit_sm_3.summary()
+```
+
+### 以 **scikit-learn** 建立邏輯斯迴歸模型
+
+這段程式碼匯入 **pandas** 和 **numpy** 來進行資料處理，並且匯入 **sklearn** 的 `LogisticRegression` 模型，這是用於執行邏輯斯迴歸的機器學習工具。
+```{python}
+#| warning: false
+#| message: false
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於進行數學運算和數據操作
+from sklearn.linear_model import LogisticRegression  # 用於執行邏輯斯迴歸的機器學習模型
+```
+
+這段程式碼將 `default` 和 `student` 這兩個分類變數轉換為虛擬變數，並設定 `balance`、`income` 和 `student_Yes` 作為自變數，違約 `default_Yes` 作為目標變數。
+```{python}
+#| warning: false
+#| message: false
+def_df_dummy = pd.get_dummies(def_df, columns=['default', 'student'], drop_first=True, dtype=int)
+# 設定目標變數 y 為 default_Yes，表示是否發生違約
+y = def_df_dummy['default_Yes'].values
+x = def_df_dummy[['balance', 'income', 'student_Yes']].values
+```
+
+這段程式碼建立一個 `LogisticRegression` 模型，並使用無懲罰項的設定。模型的最大迭代次數設置為 1000，然後使用資料進行模型訓練，來預測目標變數（是否違約）。
+```{python}
+#| warning: false
+#| message: false
+# 建立 LogisticRegression 模型，無懲罰項（penalty=None），使用截距項，最多進行 1000 次迭代以保證收斂
+logit_sk = LogisticRegression(penalty=None, fit_intercept=True, max_iter=1000)
+# 使用自變數 x 和目標變數 y 來訓練邏輯斯迴歸模型
+logit_sk.fit(x, y)
+```
+
+這段程式碼輸出模型的截距項與迴歸係數。截距項代表模型的常數值，而迴歸係數顯示每個自變數對於預測目標變數的影響。
+```{python}
+#| warning: false
+#| message: false
+# 輸出邏輯斯迴歸模型的截距項，這是模型的常數項
+print(logit_sk.intercept_)
+# 輸出邏輯斯迴歸模型的迴歸係數，這些係數表示每個自變數對目標變數的影響
+print(logit_sk.coef_)
+```
+
+
+### 以 **scikit-learn** 建立 **多分類** 邏輯斯迴歸模型
+
+這段程式碼匯入 **pandas** 和 **numpy** 來進行資料處理，並且匯入 **sklearn** 的 `LogisticRegression` 模組，這是用於執行邏輯斯迴歸的機器學習工具。程式碼從網路讀取一份名為 `hsbdemo.csv` 的資料集，並載入為 **pandas** `DataFrame`。然後，顯示資料集的大小和前 5 行，讓我們快速了解資料的結構。
+```{python}
+#| warning: false
+#| message: false
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於進行數學運算和數據操作
+from sklearn.linear_model import LogisticRegression  # 用於執行邏輯斯迴歸的機器學習模型
+# 從網路讀取 hsb demo 資料集並載入至 pandas DataFrame
+hsb_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/hsbdemo.csv')
+print(len(hsb_df))
+print(hsb_df.head(5))
+```
+
+這段程式碼使用 `pd.get_dummies` 將 `prog`（學生的課程類型）和 `ses`（社會經濟地位）這兩個分類變數轉換為虛擬變數，讓這些變數可以在迴歸模型中使用。然後，將 `prog`（課程類型）設為目標變數，`ses_middle`（中等社會經濟地位）、`ses_high`（高等社會經濟地位）、`write`（寫作成績）設為自變數。
+```{python}
+#| warning: false
+#| message: false
+# 使用 pd.get_dummies 將分類變數 'prog' 和 'ses' 轉換為虛擬變數（dummy variables）
+# drop_first=False 表示不刪除任何類別，以便保留所有的分類變數
+hsb_df_dummy = pd.get_dummies(hsb_df, columns=['prog', 'ses'], drop_first=False, dtype=int)
+# 設定目標變數 y 為 'prog' 欄位，這個欄位包含學生的課程類型
+y = hsb_df['prog'].values
+# 設定自變數 x 為虛擬變數 'ses_middle', 'ses_high'（社會經濟地位），以及 'write'（寫作成績）
+x = hsb_df_dummy[['ses_middle', 'ses_high', 'write']].values
+```
+
+這段程式碼建立一個 `LogisticRegression` 模型，並使用無懲罰項（`penalty=None`）的設定。模型的最大迭代次數設置為 1000，然後使用資料進行模型訓練，來預測多個類別的課程類型。
+```{python}
+#| warning: false
+#| message: false
+# 建立 LogisticRegression 模型，無懲罰項（penalty=None），使用截距項，最多進行 1000 次迭代以保證收斂
+logit_sk = LogisticRegression(penalty=None, fit_intercept=True, max_iter=1000)
+# 使用自變數 x 和目標變數 y 來訓練邏輯斯迴歸模型
+logit_sk.fit(x, y)
+```
+
+這段程式碼列出模型所預測的分類類別，並輸出模型的截距項與迴歸係數。截距項代表模型的常數值，而迴歸係數顯示每個自變數對於預測目標變數的影響。
+```{python}
+#| warning: false
+#| message: false
+# 列出邏輯斯迴歸模型的目標類別，顯示模型預測的分類
+print(logit_sk.classes_)
+# 輸出邏輯斯迴歸模型的截距項，這是模型的常數項
+print(logit_sk.intercept_)
+# 輸出邏輯斯迴歸模型的迴歸係數，這些係數表示每個自變數對目標變數的影響
+print(logit_sk.coef_)
+```

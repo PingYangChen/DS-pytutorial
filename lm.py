@@ -189,57 +189,70 @@ x_new = np.array([[100000, 20000, 1000]], dtype=float)
 mdl_sk.predict(x_new)
 
 
-
 # 匯入必要的套件
-import os  # 用於作業系統相關的操作
-import pandas as pd  # 用於處理和分析資料的資料框架工具
-import numpy as np  # 用於數學計算，特別是陣列處理
-from matplotlib import pyplot as plt  # 用於繪製圖表
+import os  # 用於處理作業系統的操作，例如文件路徑管理
+import pandas as pd  # 用於資料處理和分析的資料框架工具
+import numpy as np  # 用於數學計算，特別是陣列操作和數據處理
+from matplotlib import pyplot as plt  # 用於資料的視覺化繪圖
 
+# 從網路讀取 Credit 資料集並載入至 pandas DataFrame
 cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+# 顯示資料集的前 5 行
 cre_df.head(5)
+# 計算資料集的總行數
 len(cre_df)
+# 儲存資料集中的欄位名稱
 cre_var = cre_df.columns
+# 顯示 Balance、Income、Age 等欄位的統計摘要（不包括第一個欄位 'ID'）
 cre_df[cre_var[1:]].describe()
 
+# 匯入 statsmodels 模組用於統計建模
 import statsmodels.api as sm
 
+# 設定目標變數 y 為 'Balance' 欄位（信用卡餘額）
 y = cre_df['Balance']
-
+# 使用 pd.get_dummies 將分類變數 'Own' 轉換為虛擬變數（dummy variables），只保留一個類別 'Own_Yes'
 cre_df_dummy = pd.get_dummies(cre_df, columns=['Own'], drop_first=True, dtype=int)
-
+# 顯示轉換後資料框中的欄位名稱
+cre_df_dummy.columns
+# 設定自變數 x 為 'Own_Yes'，表示是否擁有房屋
 x = cre_df_dummy[['Own_Yes']]
-
+# 建立線性迴歸模型並進行擬合，使用自變數 'Own_Yes' 預測 'Balance'
 slr_sm = sm.OLS(y, sm.add_constant(x)).fit()
-# 顯示迴歸模型摘要
+# 顯示線性迴歸模型的統計摘要，包含係數估計和模型統計信息
 slr_sm.summary()
 
-
+# 使用 pd.get_dummies 將分類變數 'Region' 轉換為虛擬變數，包含 'Region_South' 和 'Region_West'
 cre_df_dummy = pd.get_dummies(cre_df, columns=['Region'], drop_first=True, dtype=int)
-cre_df_dummy.columns
+# 設定自變數 x 為 'Region_South' 和 'Region_West'，分別表示來自南部和西部的地區
 x = cre_df_dummy[['Region_South', 'Region_West']]
-
+# 使用線性迴歸模型來檢驗區域對信用卡餘額的影響
 slr_sm = sm.OLS(y, sm.add_constant(x)).fit()
-# 顯示迴歸模型摘要
+# 顯示區域變數對信用卡餘額影響的迴歸模型統計摘要
 slr_sm.summary()
 
-
-
+# 使用 pd.get_dummies 將分類變數 'Student' 轉換為虛擬變數，保留 'Student_Yes'
 cre_df_dummy = pd.get_dummies(cre_df, columns=['Student'], drop_first=True, dtype=int)
-cre_df_dummy.columns
+# 設定自變數 x 為 'Income' 和 'Student_Yes'，檢查收入和是否為學生對信用卡餘額的影響
 x = cre_df_dummy[['Income', 'Student_Yes']]
-
+# 建立線性迴歸模型，使用收入和是否為學生預測信用卡餘額
 lr_main_sm = sm.OLS(y, sm.add_constant(x)).fit()
-# 顯示迴歸模型摘要
+# 顯示收入和學生身份對信用卡餘額影響的迴歸模型統計摘要
 lr_main_sm.summary()
 
+# 匯入 deepcopy 函數，用來做資料的深拷貝
 from copy import deepcopy
+# 使用 pd.get_dummies 將分類變數 'Student' 轉換為虛擬變數，保留 'Student_Yes'
 cre_df_dummy = pd.get_dummies(cre_df, columns=['Student'], drop_first=True, dtype=int)
+# 顯示轉換後的資料框中的欄位名稱
 cre_df_dummy.columns
+# 使用 deepcopy 將 'Income' 和 'Student_Yes' 拷貝到新的資料框 x，確保修改 x 時不會影響原資料框
 x = deepcopy(cre_df_dummy[['Income', 'Student_Yes']])
-x['Income:Student_Yes'] = x['Income']*x['Student_Yes']
+# 新增一個交互作用項 'Income:Student_Yes'，表示收入和學生身份之間的交互作用
+x['Income:Student_Yes'] = x['Income'] * x['Student_Yes']
+# 建立線性迴歸模型，包含收入、學生身份和它們的交互作用項
 lr_twofi_sm = sm.OLS(y, sm.add_constant(x)).fit()
-# 顯示迴歸模型摘要
+# 顯示收入、學生身份及其交互作用對信用卡餘額影響的迴歸模型統計摘要
 lr_twofi_sm.summary()
 
 
@@ -279,6 +292,23 @@ x3 = def_df_dummy[['balance', 'income', 'student_Yes']]
 logit_sm_3 = sm.Logit(y, sm.add_constant(x3)).fit()
 # 顯示邏輯斯迴歸模型的摘要結果，包含係數估計和模型統計信息
 logit_sm_3.summary()
+
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於進行數學運算和數據操作
+from sklearn.linear_model import LogisticRegression  # 用於執行邏輯斯迴歸的機器學習模型
+def_df_dummy = pd.get_dummies(def_df, columns=['default', 'student'], drop_first=True, dtype=int)
+# 設定目標變數 y 為 default_Yes，表示是否發生違約
+y = def_df_dummy['default_Yes'].values
+x = def_df_dummy[['balance', 'income', 'student_Yes']].values
+# 建立 LogisticRegression 模型，無懲罰項（penalty=None），使用截距項，最多進行 1000 次迭代以保證收斂
+logit_sk = LogisticRegression(penalty=None, fit_intercept=True, max_iter=1000)
+# 使用自變數 x 和目標變數 y 來訓練邏輯斯迴歸模型
+logit_sk.fit(x, y)
+# 輸出邏輯斯迴歸模型的截距項，這是模型的常數項
+print(logit_sk.intercept_)
+# 輸出邏輯斯迴歸模型的迴歸係數，這些係數表示每個自變數對目標變數的影響
+print(logit_sk.coef_)
+
 
 
 import pandas as pd  # 用於處理資料的資料框架工具
