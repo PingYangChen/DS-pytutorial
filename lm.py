@@ -353,4 +353,275 @@ print(logit_sk.coef_)
 
 import pandas as pd 
 import numpy as np 
-from sklearn.linear_model import LogisticRegression
+import seaborn as sns
+from matplotlib import pyplot as plt
+
+import statsmodels.api as sm
+
+
+adv_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Advertising.csv')
+# 匯入必要的套件
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於數學運算和數據操作
+import statsmodels.api as sm  # 用於統計建模和迴歸分析
+
+# 從網路讀取信用卡資料集並載入為 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+
+# 顯示資料集的前 5 行，讓我們快速了解資料的結構
+cre_df.head(5)
+
+# 設定目標變數 y 為 'Balance'（信用卡餘額）
+y = cre_df['Balance']
+
+# 以 'Limit'（信用額度）作為自變數，進行簡單線性迴歸分析
+x1 = cre_df[['Limit']]
+cre_ols_1_sm = sm.OLS(y, sm.add_constant(x1)).fit()
+# 顯示使用 'Limit' 變數進行的線性迴歸分析的統計摘要
+cre_ols_1_sm.summary()
+
+# 以 'Rating'（信用評級）作為自變數，進行簡單線性迴歸分析
+x2 = cre_df[['Rating']]
+cre_ols_2_sm = sm.OLS(y, sm.add_constant(x2)).fit()
+# 顯示使用 'Rating' 變數進行的線性迴歸分析的統計摘要
+cre_ols_2_sm.summary()
+
+# 以 'Limit' 和 'Rating' 兩個變數作為自變數，進行多元線性迴歸分析
+x = cre_df[['Limit', 'Rating']]
+cre_ols_12_sm = sm.OLS(y, sm.add_constant(x)).fit()
+# 顯示使用 'Limit' 和 'Rating' 兩個變數進行的多元線性迴歸分析的統計摘要
+cre_ols_12_sm.summary()
+
+
+# 匯入必要的套件
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於數學運算和數據處理
+import statsmodels.api as sm  # 用於統計建模和迴歸分析
+
+# 從網路讀取 Default 資料集並載入為 pandas DataFrame
+def_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Default.csv')
+
+# 顯示資料集的前 5 行，快速了解資料的結構
+def_df.head(5)
+
+# 將 'default' 和 'student' 這兩個分類變數轉換為虛擬變數
+# drop_first=True 表示刪除第一個類別，以避免多重共線性
+def_df_dummy = pd.get_dummies(def_df, columns=['default', 'student'], drop_first=True, dtype=int)
+
+# 設定目標變數 y 為 'default_Yes'，表示是否發生違約
+y = def_df_dummy['default_Yes']
+
+# 以 'balance' 作為自變數，進行邏輯斯迴歸分析
+x1 = def_df_dummy[['balance']]
+logit_1_sm = sm.Logit(y, sm.add_constant(x1)).fit()
+# 顯示使用 'balance' 進行的邏輯斯迴歸模型的統計摘要
+logit_1_sm.summary()
+
+# 以 'student_Yes'（是否為學生身份）作為自變數，進行邏輯斯迴歸分析
+x2 = def_df_dummy[['student_Yes']]
+logit_2_sm = sm.Logit(y, sm.add_constant(x2)).fit()
+# 顯示使用 'student_Yes' 進行的邏輯斯迴歸模型的統計摘要
+logit_2_sm.summary()
+
+# 以 'balance' 和 'student_Yes' 兩個變數作為自變數，進行多元邏輯斯迴歸分析
+x = def_df_dummy[['balance', 'student_Yes']]
+logit_12_sm = sm.Logit(y, sm.add_constant(x)).fit()
+# 顯示使用 'balance' 和 'student_Yes' 進行的多元邏輯斯迴歸模型的統計摘要
+logit_12_sm.summary()
+
+
+
+
+'''
+lkm_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/leukemia.csv')
+lkm_df[['V1', 'V2', 'V3', 'V4', 'V5', 'V7130']].head(6)
+y = lkm_df['V7130']
+x = lkm_df[['V%d' % (k+1) for k in range(40)]]
+logit_sm = sm.Logit(y, sm.add_constant(x)).fit()
+logit_sm.summary()
+logit_sm.t_test()
+'''
+
+# 匯入必要的套件
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於進行數學運算和數據操作
+from statsmodels.stats.outliers_influence import variance_inflation_factor  # 用於計算方差膨脹因子的函數
+
+# 從網路讀取信用卡資料集並載入為 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+
+# 選擇資料集中我們感興趣的變數作為自變數，包括 'Age', 'Limit' 和 'Rating'
+cre_x_df = cre_df[['Age', 'Limit', 'Rating']]
+# 建立一個空的 DataFrame 來儲存方差膨脹因子（VIF）和對應的變數名稱
+cre_vif = pd.DataFrame()
+cre_vif["feature"] = cre_x_df.columns  # 將變數名稱添加到 DataFrame 中
+# 計算每個變數的方差膨脹因子（VIF），並將結果存儲在一個列表中
+cre_vif_value = [variance_inflation_factor(cre_x_df.values, i) for i in range(len(cre_x_df.columns))]
+# 將計算得出的 VIF 值添加到 DataFrame 中
+cre_vif["VIF"] = cre_vif_value
+
+
+'''
+https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SequentialFeatureSelector.html#sklearn.feature_selection.SequentialFeatureSelector
+https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+'''
+
+
+# 匯入必要的套件
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於數學運算和數據處理
+import statsmodels.api as sm  # 用於統計建模和迴歸分析
+from sklearn.linear_model import LinearRegression  # 用於執行線性迴歸的機器學習模型
+from sklearn.feature_selection import SequentialFeatureSelector  # 用於進行逐步特徵選擇
+
+# 從網路讀取信用卡資料集並載入為 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+
+# 將 'Own', 'Student', 'Married' 和 'Region' 這些分類變數轉換為虛擬變數，並刪除第一個類別以避免多重共線性
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Own', 'Student', 'Married', 'Region'], drop_first=True, dtype=int)
+
+# 設定目標變數 y 為 'Balance'（信用卡餘額）
+y = cre_df_dummy['Balance']
+
+# 設定自變數 x，為所有欄位（不包含 'Balance' 欄位）
+x = cre_df_dummy[np.setdiff1d(cre_df_dummy.columns, 'Balance').tolist()]
+
+# 建立 LinearRegression 模型作為基礎模型
+lm_sk = LinearRegression()
+
+# 使用前向逐步特徵選擇，來自動選擇變數
+lm_forw = SequentialFeatureSelector(lm_sk, direction='forward')
+lm_forw.fit(x, y)
+
+# 獲取前向選擇後選擇的變數
+lm_forw.get_support()  # 返回選擇的變數布林掩碼
+lm_forw.get_feature_names_out()  # 返回選擇的變數名稱
+
+# 使用 statsmodels 進行線性迴歸分析，並顯示前向選擇後的回歸模型摘要
+xf = x[lm_forw.get_feature_names_out()]  # 根據選擇的變數生成新的自變數資料框
+lm_f_sm = sm.OLS(y, sm.add_constant(xf)).fit()
+lm_f_sm.summary()
+
+# 使用後向逐步特徵選擇，來自動選擇變數
+lm_back = SequentialFeatureSelector(lm_sk, direction='backward')
+lm_back.fit(x, y)
+
+# 獲取後向選擇後選擇的變數
+lm_back.get_support()  # 返回選擇的變數布林掩碼
+lm_back.get_feature_names_out()  # 返回選擇的變數名稱
+
+# 使用 statsmodels 進行線性迴歸分析，並顯示後向選擇後的回歸模型摘要
+xb = x[lm_back.get_feature_names_out()]  # 根據選擇的變數生成新的自變數資料框
+lm_b_sm = sm.OLS(y, sm.add_constant(xb)).fit()
+lm_b_sm.summary()
+
+
+# 匯入必要的套件
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於數學運算和數據處理
+from sklearn.preprocessing import StandardScaler  # 用於進行資料標準化
+from sklearn.linear_model import RidgeCV  # 用於進行 Ridge 回歸的交叉驗證
+from sklearn.linear_model import LassoCV  # 用於進行 Lasso 回歸的交叉驗證
+from sklearn.linear_model import ElasticNetCV  # 用於進行 ElasticNet 回歸的交叉驗證
+
+# 從網路讀取信用卡資料集並載入為 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+
+# 將 'Own', 'Student', 'Married' 和 'Region' 這些分類變數轉換為虛擬變數，並刪除第一個類別以避免多重共線性
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Own', 'Student', 'Married', 'Region'], drop_first=True, dtype=int)
+
+# 設定目標變數 y 為 'Balance'（信用卡餘額）
+y = cre_df_dummy['Balance']
+
+# 設定自變數 x，為所有欄位（不包含 'Balance' 欄位）
+x = cre_df_dummy[np.setdiff1d(cre_df_dummy.columns, 'Balance').tolist()]
+
+# 對自變數進行標準化，使每個變數的平均值為 0，標準差為 1
+scaler = StandardScaler()
+scaler.fit(x)
+x_standard = scaler.transform(x)
+
+# 設定一組 alpha 值，用於進行交叉驗證
+alpha_vec = 2**np.linspace(-5, 5, 100)
+
+# 使用 Ridge 回歸進行交叉驗證，選擇最合適的 alpha 值
+ridge = RidgeCV(alphas=alpha_vec, fit_intercept=True, cv=5)
+ridge.fit(x_standard, y)
+ridge.intercept_ # 模型的截距項
+# 將 Ridge 模型的迴歸係數轉換為 pandas DataFrame 格式並顯示
+ridge_coef = pd.DataFrame({'var': x.columns, 'coef': ridge.coef_})
+print(ridge_coef)
+
+# 使用 Lasso 回歸進行交叉驗證，選擇最合適的 alpha 值
+lasso = LassoCV(alphas=alpha_vec, fit_intercept=True, cv=5)
+lasso.fit(x_standard, y)
+lasso.intercept_ # 模型的截距項
+# 將 Lasso 模型的迴歸係數轉換為 pandas DataFrame 格式並顯示
+lasso_coef = pd.DataFrame({'var': x.columns, 'coef': lasso.coef_})
+print(lasso_coef)
+
+# 使用 ElasticNet（彈性網絡回歸）進行交叉驗證，l1_ratio 設為 0.3，選擇最合適的 alpha 值
+enet3 = ElasticNetCV(alphas=alpha_vec, l1_ratio=0.3, fit_intercept=True, cv=5)
+enet3.fit(x_standard, y)
+enet3.intercept_ # 模型的截距項
+# 將 ElasticNet 模型的迴歸係數轉換為 pandas DataFrame 格式並顯示
+enet3_coef = pd.DataFrame({'var': x.columns, 'coef': enet3.coef_})
+print(enet3_coef)
+
+
+'''
+import statsmodels.api as sm
+ridge_sm = sm.OLS(y, sm.add_constant(x)).fit_regularized(method='elastic_net', L1_wt=0.3, alpha=1, refit=True)
+ridge_sm.summary()
+'''
+
+
+# 匯入必要的套件
+import pandas as pd  # 用於資料操作的資料框架工具
+import numpy as np  # 用於數學計算和數據處理
+from sklearn.preprocessing import StandardScaler # 用於標準化前處理的套件
+from sklearn.decomposition import PCA  # 用於主成分分析的套件
+from sklearn.linear_model import LinearRegression  # 用於線性迴歸的模型
+
+# 從網路讀取信用卡資料集並載入為 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+
+# 將 'Own', 'Student', 'Married' 和 'Region' 這些分類變數轉換為虛擬變數，並刪除第一個類別以避免多重共線性
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Own', 'Student', 'Married', 'Region'], drop_first=True, dtype=int)
+
+# 設定目標變數 y 為 'Balance'（信用卡餘額）
+y = cre_df_dummy['Balance']
+
+# 設定自變數 x，為所有欄位（不包含 'Balance' 欄位）
+x = cre_df_dummy[np.setdiff1d(cre_df_dummy.columns, 'Balance').tolist()]
+
+# 對自變數進行標準化，使每個變數的平均值為 0，標準差為 1
+scaler = StandardScaler()
+scaler.fit(x)
+x_standard = scaler.transform(x)
+
+# 進行主成分分析（PCA），以將高維度的自變數降維
+decomp = PCA()
+decomp.fit(x_standard)
+
+# 計算每個主成分解釋的變異比例的累積和，並打印出結果
+print(np.cumsum(decomp.explained_variance_ratio_))
+
+# 找出累積變異比例達到 90% 所需的最少主成分數量
+npc = min(np.where(np.cumsum(decomp.explained_variance_ratio_) >= 0.9)[0]) + 1
+
+# 使用主成分數量 npc 對自變數進行降維投影
+x_proj = decomp.transform(x_standard)[:, :npc]
+
+# 使用降維後的自變數進行線性迴歸分析（使用 sklearn）
+lm_sk = LinearRegression(fit_intercept=True)
+lm_sk.fit(x_proj, y)
+# 獲取截距項
+lm_sk.intercept_
+# 獲取迴歸係數
+lm_sk.coef_
+
+# 使用 statsmodels 進行線性迴歸分析，以獲取更詳細的統計資訊
+lm_sm = sm.OLS(y, sm.add_constant(x_proj)).fit()
+# 顯示線性迴歸模型的統計摘要
+lm_sm.summary()

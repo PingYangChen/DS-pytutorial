@@ -489,6 +489,232 @@ x_new = pd.DataFrame(data=[{'TV': 100000, 'radio': 20000, 'newspaper': 1000}])
 mdl_sk.predict(x_new)
 ```
 
+## 迴歸模型的選模問題
+
+在這個範例中，我們將示範如何在進行迴歸分析時進行模型選擇。這裡涵蓋了逐步迴歸、正規化迴歸和主成分迴歸的不同方法，並展示如何在 Python 中進行實作。
+
+首先，我們匯入處理資料所需的 pandas 和 numpy 套件：
+```{python}
+#| warning: false
+#| message: false
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於數學運算和數據處理
+```
+
+接著，我們讀取信用卡資料集，並對其進行資料的預處理。
+```{python}
+#| warning: false
+#| message: false
+# 從網路讀取信用卡資料集並載入為 pandas DataFrame
+cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
+# 將 'Own', 'Student', 'Married' 和 'Region' 這些分類變數轉換為虛擬變數，並刪除第一個類別以避免多重共線性
+cre_df_dummy = pd.get_dummies(cre_df, columns=['Own', 'Student', 'Married', 'Region'], drop_first=True, dtype=int)
+# 設定目標變數 y 為 'Balance'（信用卡餘額）
+y = cre_df_dummy['Balance']
+```
+
+在這裡，我們將目標變數設定為 `Balance`（信用卡餘額），並轉換所有的分類變數為虛擬變數，以便在後續的模型分析中使用。
+```{python}
+#| warning: false
+#| message: false
+# 設定自變數 x，為所有欄位（不包含 'Balance' 欄位）
+x = cre_df_dummy[np.setdiff1d(cre_df_dummy.columns, 'Balance').tolist()]
+print(x.columns)
+```
+此步驟定義了我們的自變數集合，排除了目標變數 `Balance`。
+
+### 逐步迴歸
+
+接下來，我們進行逐步迴歸。逐步迴歸是模型選擇的一種方法，用來自動選擇對模型最有影響的變數。我們匯入逐步特徵選擇和統計建模所需的套件，準備進行前向和後向的特徵選擇。
+```{python}
+#| warning: false
+#| message: false
+import statsmodels.api as sm  # 用於統計建模和迴歸分析
+from sklearn.linear_model import LinearRegression  # 用於執行線性迴歸的機器學習模型
+from sklearn.feature_selection import SequentialFeatureSelector  # 用於進行逐步特徵選擇
+```
+
+這段程式碼利用前向逐步選擇來自動選擇變數，然後顯示選擇後的變數。
+```{python}
+#| warning: false
+#| message: false
+# 建立 LinearRegression 模型作為基礎模型
+lm_sk = LinearRegression()
+# 使用前向逐步特徵選擇，來自動選擇變數
+lm_forw = SequentialFeatureSelector(lm_sk, direction='forward')
+lm_forw.fit(x, y)
+# 獲取前向選擇後選擇的變數
+lm_forw.get_feature_names_out()  # 返回選擇的變數名稱
+```
+
+這段程式碼基於前向選擇後的變數，進行線性迴歸分析，並顯示模型的統計摘要。
+```{python}
+#| warning: false
+#| message: false
+# 使用 statsmodels 進行線性迴歸分析，並顯示前向選擇後的回歸模型摘要
+xf = x[lm_forw.get_feature_names_out()]  # 根據選擇的變數生成新的自變數資料框
+lm_f_sm = sm.OLS(y, sm.add_constant(xf)).fit()
+lm_f_sm.summary()
+```
+
+後向逐步選擇則是從包含所有變數的模型開始，逐一剔除變數，顯示選擇後的變數。
+```{python}
+#| warning: false
+#| message: false
+# 建立 LinearRegression 模型作為基礎模型
+lm_sk = LinearRegression()
+# 使用後向逐步特徵選擇，來自動選擇變數
+lm_back = SequentialFeatureSelector(lm_sk, direction='backward')
+lm_back.fit(x, y)
+# 獲取後向選擇後選擇的變數
+lm_back.get_feature_names_out()  # 返回選擇的變數名稱
+```
+
+基於後向選擇後的變數進行線性迴歸分析，並顯示統計摘要。
+```{python}
+#| warning: false
+#| message: false
+# 使用 statsmodels 進行線性迴歸分析，並顯示後向選擇後的回歸模型摘要
+xb = x[lm_back.get_feature_names_out()]  # 根據選擇的變數生成新的自變數資料框
+lm_b_sm = sm.OLS(y, sm.add_constant(xb)).fit()
+lm_b_sm.summary()
+```
+
+
+### 正規化迴歸
+
+正規化迴歸是一種處理共線性問題的方式，通過在損失函數中添加懲罰項來限制模型的複雜度。我們匯入資料標準化和三種正規化迴歸方法：`Ridge`、`Lasso` 和 `ElasticNet`。
+```{python}
+#| warning: false
+#| message: false
+from sklearn.preprocessing import StandardScaler  # 用於進行資料標準化
+from sklearn.linear_model import RidgeCV  # 用於進行 Ridge 回歸的交叉驗證
+from sklearn.linear_model import LassoCV  # 用於進行 Lasso 回歸的交叉驗證
+from sklearn.linear_model import ElasticNetCV  # 用於進行 ElasticNet 回歸的交叉驗證
+```
+
+我們首先對資料進行標準化，這是正規化迴歸的一個前處理步驟。
+```{python}
+#| warning: false
+#| message: false
+# 對自變數進行標準化，使每個變數的平均值為 0，標準差為 1
+scaler = StandardScaler()
+scaler.fit(x)
+x_standard = scaler.transform(x)
+```
+
+```{python}
+#| warning: false
+#| message: false
+# 設定一組 alpha 值，用於進行交叉驗證
+alpha_vec = 2**np.linspace(-5, 5, 100)
+```
+
+這段程式碼利用 `Ridge` 回歸進行交叉驗證，選擇最佳的懲罰參數 `alpha`，並顯示變數的迴歸係數。
+```{python}
+#| warning: false
+#| message: false
+# 使用 Ridge 回歸進行交叉驗證，選擇最合適的 alpha 值
+ridge = RidgeCV(alphas=alpha_vec, fit_intercept=True, cv=5)
+ridge.fit(x_standard, y)
+ridge.intercept_ # 模型的截距項
+# 將 Ridge 模型的迴歸係數轉換為 pandas DataFrame 格式並顯示
+ridge_coef = pd.DataFrame({'var': x.columns, 'coef': ridge.coef_})
+print(ridge_coef)
+```
+
+這段程式碼使用 `Lasso` 回歸進行交叉驗證，選擇最佳的懲罰參數 `alpha`，並顯示變數的迴歸係數。
+```{python}
+#| warning: false
+#| message: false
+# 使用 Lasso 回歸進行交叉驗證，選擇最合適的 alpha 值
+lasso = LassoCV(alphas=alpha_vec, fit_intercept=True, cv=5)
+lasso.fit(x_standard, y)
+lasso.intercept_ # 模型的截距項
+# 將 Lasso 模型的迴歸係數轉換為 pandas DataFrame 格式並顯示
+lasso_coef = pd.DataFrame({'var': x.columns, 'coef': lasso.coef_})
+print(lasso_coef)
+```
+
+這段程式碼使用 `ElasticNet` 進行交叉驗證，在指定 `l1_ratio=0.3` 下，選擇最佳的懲罰參數 `alpha`，並顯示變數的迴歸係數。
+```{python}
+#| warning: false
+#| message: false
+# 使用 ElasticNet（彈性網絡回歸）進行交叉驗證，l1_ratio 設為 0.3，選擇最合適的 alpha 值
+enet3 = ElasticNetCV(alphas=alpha_vec, l1_ratio=0.3, fit_intercept=True, cv=5)
+enet3.fit(x_standard, y)
+enet3.intercept_ # 模型的截距項
+# 將 ElasticNet 模型的迴歸係數轉換為 pandas DataFrame 格式並顯示
+enet3_coef = pd.DataFrame({'var': x.columns, 'coef': enet3.coef_})
+print(enet3_coef)
+```
+
+
+### 主成分迴歸
+
+主成分迴歸是一種將高維度資料降維後進行迴歸分析的方法。我們匯入進行資料標準化、主成分分析（PCA）和線性迴歸分析所需的套件。
+
+```{python}
+#| warning: false
+#| message: false
+from sklearn.preprocessing import StandardScaler # 用於標準化前處理的套件
+from sklearn.decomposition import PCA  # 用於主成分分析的套件
+from sklearn.linear_model import LinearRegression  # 用於線性迴歸的模型
+```
+
+再次對資料進行標準化，這是進行主成分分析的必要步驟。
+```{python}
+#| warning: false
+#| message: false
+# 對自變數進行標準化，使每個變數的平均值為 0，標準差為 1
+scaler = StandardScaler()
+scaler.fit(x)
+x_standard = scaler.transform(x)
+```
+
+進行主成分分析並計算每個主成分的累積解釋變異比例，以幫助我們決定保留多少個主成分。
+```{python}
+#| warning: false
+#| message: false
+# 進行主成分分析（PCA），以將高維度的自變數降維
+decomp = PCA()
+decomp.fit(x_standard)
+# 計算每個主成分解釋的變異比例的累積和，並打印出結果
+print(np.cumsum(decomp.explained_variance_ratio_))
+```
+
+選擇能夠解釋至少 90% 變異的最少主成分數量，並將資料投影到選擇的主成分上。
+```{python}
+#| warning: false
+#| message: false
+# 找出累積變異比例達到 90% 所需的最少主成分數量
+npc = min(np.where(np.cumsum(decomp.explained_variance_ratio_) >= 0.9)[0]) + 1
+# 使用主成分數量 npc 對自變數進行降維投影
+x_proj = decomp.transform(x_standard)[:, :npc]
+```
+
+使用 sklearn 進行線性迴歸分析，獲取模型的截距和迴歸係數。
+```{python}
+#| warning: false
+#| message: false
+# 使用降維後的自變數進行線性迴歸分析（使用 sklearn）
+lm_sk = LinearRegression(fit_intercept=True)
+lm_sk.fit(x_proj, y)
+# 獲取截距項
+lm_sk.intercept_
+# 獲取迴歸係數
+lm_sk.coef_
+```
+
+使用 statsmodels 進行更詳細的線性迴歸分析，以便顯示完整的統計摘要。
+```{python}
+#| warning: false
+#| message: false
+# 使用 statsmodels 進行線性迴歸分析，以獲取更詳細的統計資訊
+lm_sm = sm.OLS(y, sm.add_constant(x_proj)).fit()
+# 顯示線性迴歸模型的統計摘要
+lm_sm.summary()
+```
 
 
 # 邏輯斯迴歸模型 Python 示範
