@@ -43,12 +43,15 @@ import statsmodels.api as sm
 # 將 'sales' 欄位的值存為目標變數 y
 y = adv_df['sales'].values
 
+adv_df['sales']
+adv_df['sales'].values
+
 # 將 'TV' 欄位的值存為自變數 x1
-x1 = adv_df['TV'].values
+x1 = adv_df['TV']
+
 
 # 使用 statsmodels 進行簡單線性迴歸，並建立模型
-slr_sm_tmp = sm.OLS(y, sm.add_constant(x1))
-slr_sm = slr_sm_tmp.fit()
+slr_sm = sm.OLS(y, sm.add_constant(x1)).fit()
 # 顯示迴歸模型摘要
 slr_sm.summary()
 
@@ -213,6 +216,13 @@ import statsmodels.api as sm
 y = cre_df['Balance']
 # 使用 pd.get_dummies 將分類變數 'Own' 轉換為虛擬變數（dummy variables），只保留一個類別 'Own_Yes'
 cre_df_dummy = pd.get_dummies(cre_df, columns=['Own'], drop_first=True, dtype=int)
+
+
+pd.get_dummies(cre_df, columns=['Own'], drop_first=False, dtype=int)
+
+pd.get_dummies(cre_df, columns=['Own', 'Student', 'Region'], drop_first=True, dtype=int)
+
+
 # 顯示轉換後資料框中的欄位名稱
 cre_df_dummy.columns
 # 設定自變數 x 為 'Own_Yes'，表示是否擁有房屋
