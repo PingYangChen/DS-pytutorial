@@ -575,18 +575,17 @@ ridge_sm = sm.OLS(y, sm.add_constant(x)).fit_regularized(method='elastic_net', L
 ridge_sm.summary()
 '''
 
-
 # 匯入必要的套件
-import pandas as pd  # 用於資料操作的資料框架工具
-import numpy as np  # 用於數學計算和數據處理
-from sklearn.preprocessing import StandardScaler # 用於標準化前處理的套件
-from sklearn.decomposition import PCA  # 用於主成分分析的套件
-from sklearn.linear_model import LinearRegression  # 用於線性迴歸的模型
+import pandas as pd  # 用於處理資料的資料框架工具
+import numpy as np  # 用於數學運算和數據處理
+from sklearn.preprocessing import StandardScaler  # 用於資料標準化處理的工具
+from sklearn.decomposition import PCA  # 用於主成分分析的工具
+from sklearn.linear_model import LinearRegression  # 用於執行線性迴歸的機器學習模型
 
 # 從網路讀取信用卡資料集並載入為 pandas DataFrame
 cre_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/Credit.csv')
 
-# 將 'Own', 'Student', 'Married' 和 'Region' 這些分類變數轉換為虛擬變數，並刪除第一個類別以避免多重共線性
+# 將 'Own', 'Student', 'Married' 和 'Region' 這些分類變數轉換為虛擬變數（dummy variables），並刪除第一個類別以避免多重共線性
 cre_df_dummy = pd.get_dummies(cre_df, columns=['Own', 'Student', 'Married', 'Region'], drop_first=True, dtype=int)
 
 # 設定目標變數 y 為 'Balance'（信用卡餘額）
@@ -595,30 +594,32 @@ y = cre_df_dummy['Balance']
 # 設定自變數 x，為所有欄位（不包含 'Balance' 欄位）
 x = cre_df_dummy[np.setdiff1d(cre_df_dummy.columns, 'Balance').tolist()]
 
-# 對自變數進行標準化，使每個變數的平均值為 0，標準差為 1
+# 對自變數進行標準化處理，使每個變數的平均值為 0，標準差為 1
 scaler = StandardScaler()
 scaler.fit(x)
 x_standard = scaler.transform(x)
 
-# 進行主成分分析（PCA），以將高維度的自變數降維
+# 建立 PCA（主成分分析）模型，並對標準化後的自變數進行擬合
 decomp = PCA()
 decomp.fit(x_standard)
 
-# 計算每個主成分解釋的變異比例的累積和，並打印出結果
+# 計算並打印出每個主成分的累積解釋變異比例
 print(np.cumsum(decomp.explained_variance_ratio_))
 
-# 找出累積變異比例達到 90% 所需的最少主成分數量
+# 找出累積解釋變異比例達到 90% 所需的最少主成分數量
 npc = min(np.where(np.cumsum(decomp.explained_variance_ratio_) >= 0.9)[0]) + 1
 
-# 使用主成分數量 npc 對自變數進行降維投影
+# 將自變數轉換為前 npc 個主成分的投影資料
 x_proj = decomp.transform(x_standard)[:, :npc]
 
-# 使用降維後的自變數進行線性迴歸分析（使用 sklearn）
+# 使用 sklearn 建立線性迴歸模型，並對降維後的自變數進行擬合
 lm_sk = LinearRegression(fit_intercept=True)
 lm_sk.fit(x_proj, y)
-# 獲取截距項
+
+# 獲取線性迴歸模型的截距項
 lm_sk.intercept_
-# 獲取迴歸係數
+
+# 獲取線性迴歸模型的迴歸係數
 lm_sk.coef_
 
 # 使用 statsmodels 進行線性迴歸分析，以獲取更詳細的統計資訊

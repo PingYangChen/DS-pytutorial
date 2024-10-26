@@ -3,6 +3,7 @@ title: "Linear Models"
 format: 
     html:
         html-math-method: mathml
+        toc: true
 lang: zh-TW
 ---
 
