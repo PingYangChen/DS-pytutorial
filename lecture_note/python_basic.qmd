@@ -1,6 +1,8 @@
 ---
 title: "Basic Python Review"
-format: html
+format: 
+    html:
+        toc: true
 lang: zh-TW
 ---
 

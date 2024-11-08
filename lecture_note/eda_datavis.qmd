@@ -2,7 +2,8 @@
 title: "Data Visualization with Seaborn"
 format: 
     html:
-        html-math-method: mathjax
+        html-math-method: mathml
+        toc: true
 lang: zh-TW
 ---
 
