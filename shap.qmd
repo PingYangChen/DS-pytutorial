@@ -1,0 +1,66 @@
+---
+title: "SHAP"
+format: 
+    html:
+        html-math-method: mathml
+        toc: true
+lang: zh-TW
+---
+
+
+
+```{python}
+# 匯入必要的套件
+import os  # 用於作業系統相關的操作
+import pandas as pd  # 用於處理和分析資料的資料框架工具
+import numpy as np  # 用於數學計算，特別是陣列處理
+from matplotlib import pyplot as plt  # 用於繪製圖表
+```
+
+```{python}
+import dalex
+```
+
+```{python}
+def explainer_regression_prediction_func(model, df):
+  out = model.predictValues(df, verbose=False)
+  return out['value']
+
+def explainer_regression_residual_func(model, df, y):
+  out = model.predictValues(df, verbose=False)
+  return y - out['value']
+
+expl = dalex.Explainer(model=self.model, data=self.model.used_df[self.model.all_vars],
+                        y=pd.DataFrame({'.y': self.model.y}), model_type='regression',
+                        predict_function=explainer_regression_prediction_func,
+                        residual_function=explainer_regression_residual_func)
+expl.model_diagnostics()
+self.explainer = expl
+
+def shap(self, df = None):
+    if df is None:
+        df = self.model.used_df
+    #
+    shap_result = [None for i in range(len(df))]
+    for i in range(len(df)):
+        try:
+        shap_obj = self.explainer.predict_parts(df[self.model.all_vars].iloc[i], type='shap', B=10, random_state=0)
+        shap_df = pd.DataFrame(columns=['name', 'value', 'min', 'q1', 'median', 'q3', 'max', 'mean', 'abs_mean'])
+        x_vars = np.unique(shap_obj.result['variable_name'])
+        for j in range(len(x_vars)):
+            tmp = deepcopy(shap_obj.result.loc[shap_obj.result['variable_name'] == x_vars[j],])
+            scores = tmp.loc[tmp['B'] > 0, 'contribution'].values
+            score_sign = 1.0
+            if np.all(scores < 0):
+            scores = np.abs(scores)
+            score_sign = -1.0
+            x_value = tmp.loc[tmp['B'] == 0, 'variable_value'].values[0]
+            shap_df.loc[j] = [x_vars[j], x_value] + (score_sign * np.quantile(scores, [0., .25, .5, .75, 1.])).tolist() + [score_sign * np.mean(scores),np.mean(scores)]
+        shap_df.sort_values('abs_mean', ascending=False, inplace=True, ignore_index=True)
+        shap_df.replace(np.nan, None, inplace=True)
+        shap_result[i] = shap_df.drop(columns=['abs_mean']).to_dict(orient='records')
+        except Exception as exp:
+        logger.exception(exp)
+        pass
+    return shap_result
+```
