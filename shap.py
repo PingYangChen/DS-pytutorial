@@ -1,94 +1,43 @@
----
-title: "Instance-level Variable Attributions"
-format: 
-    html:
-        html-math-method: mathml
-        toc: true
-        self-contained: true
-lang: zh-TW
----
-
-資料描述了員工的特徵及其離職情況，以下是欄位的說明：
-
-Attrition: 員工是否離職（"Yes" 表示離職，"No" 表示未離職）。
-Age: 員工年齡。
-Gender: 員工性別。
-TotalWorkingYears: 總工作年數。
-YearsInCurrentRole: 在當前職位上的工作年數。
-YearsSinceLastPromotion: 自上次晉升以來的年數。
-DistanceFromHome: 通勤距離（與家庭的距離）。
-JobLevel: 職位等級。
-MonthlyIncome: 每月收入。
-PercentSalaryHike: 薪資漲幅百分比。
-TrainingTimesLastYear: 去年接受培訓的次數。
-StockOptionLevel: 股票期權等級。
-EnvironmentSatisfaction: 對工作環境的滿意度（數值表示，1-4）。
-JobInvolvement: 工作參與度（數值表示，1-4）。
-JobSatisfaction: 對工作的滿意度（數值表示，1-4）。
-RelationshipSatisfaction: 與同事或上司的關係滿意度（數值表示，1-4）。
-WorkLifeBalance: 工作與生活的平衡程度（數值表示，1-4）。
-
-```{python}
 # 匯入必要的套件
-import os  # 用於作業系統相關的操作
-from copy import deepcopy
-import pandas as pd  # 用於處理和分析資料的資料框架工具
-import numpy as np  # 用於數學計算，特別是陣列處理
-from matplotlib import pyplot as plt  # 用於繪製圖表
-```
+import os  # 用於執行與作業系統相關的操作，例如檔案路徑管理
+from copy import deepcopy  # 用於深層複製物件，確保原始物件不受修改影響
+import pandas as pd  # 用於處理與分析資料的資料框架工具
+import numpy as np  # 用於數學運算與陣列操作
+from matplotlib import pyplot as plt  # 用於繪製數據圖表
 
-```{python}
-# 從網路讀取 CSV 檔案並載入至 pandas DataFrame
+# 從指定路徑讀取 CSV 檔案並載入至 pandas DataFrame
 att_df = pd.read_csv('D:/attrition.csv')  # 讀取名為 attrition.csv 的資料集
 # 顯示資料集的前 5 行，用於檢查資料格式與內容
 print(att_df.head(5))
 # 計算資料集的總行數，確認資料量
 print(len(att_df))
-```
 
-
-```{python}
 # 篩選出類別型變數（判斷首筆資料的型別是否為字串）
 categ_vars = [ele for ele in att_df.columns if type(att_df[ele].loc[0]) == type('is string')]
+
 # 將類別變數轉換為虛擬變數（Dummy Variables），方便後續建模
 att_df_dummy = pd.get_dummies(att_df, columns=categ_vars, drop_first=True, dtype=int)
-```
+# 查看轉換後資料的欄位名稱
+att_df_dummy.columns
 
-```{python}
 # 定義目標變數 y 和特徵變數 x
 y = att_df_dummy['Attrition_Yes']  # 目標變數（員工是否離職）
 x = att_df_dummy[np.setdiff1d(att_df_dummy.columns, ['Attrition_Yes']).tolist()]  # 排除目標變數後的特徵變數
-```
 
-```{python}
-#| message: false
 # 匯入 XGBoost 套件並建立分類模型
 import xgboost as xgb
 mdl = xgb.XGBClassifier(n_estimators=20)  # 設定樹的數量為 20
 mdl.fit(x, y)  # 使用特徵變數與目標變數訓練模型
-```
 
-
-```{python}
 # 匯入 dalex 套件，便於模型解釋
 import dalex
-```
-
-```{python}
-mdl.predict(x.iloc[[0]])
-```
-
-
-```{python}
 # 建立模型解釋器，指定模型類型為分類（classification）
 expl = dalex.Explainer(model=mdl, data=x, y=y, model_type='classification')
 expl.model_diagnostics()  # 獲取模型的診斷結果
 
 # 使用 SHAP（SHapley Additive exPlanations）解釋模型結果
 shap_result = expl.predict_parts(x.iloc[[0]], type='shap', B=10, random_state=0).result
-```
 
-```{python}
 # 初始化 DataFrame，儲存 SHAP 分數與對應變數資訊
 shap_df = pd.DataFrame(columns=['name', 'value', 'mean'])
 # 獲取所有變數的名稱
@@ -104,17 +53,7 @@ for j in range(len(x_vars)):
 shap_df['abs_mean'] = np.abs(shap_df['mean'])  # 計算貢獻值的絕對平均值
 shap_df.sort_values('abs_mean', ascending=False, inplace=True, ignore_index=True)  # 按絕對值降序排序
 shap_df.replace(np.nan, None, inplace=True)  # 替換遺漏值為 None
-```
 
-```{python}
-print(shap_df)
-```
-
-
-```{python}
-#| fig.align: center
-#| warning: false
-#| message: false
 # 建立變數名稱與對應值的表示，方便繪圖標籤
 var_name_val = ['%s=%s' % (shap_df['name'].iloc[k], shap_df['value'].iloc[k]) for k in range(len(shap_df))]
 shap_draw_order = np.flip(np.arange(len(shap_df)))  # 定義繪圖順序
@@ -134,4 +73,3 @@ ax.set_xlim((-shap_ext, shap_ext))  # 設定 x 軸範圍
 ax.set_ylim((np.min(shap_draw_order)-.5, np.max(shap_draw_order)+.5))  # 設定 y 軸範圍
 fig.tight_layout()  # 自動調整圖形布局
 fig.show()  # 顯示圖形
-```
