@@ -8,25 +8,25 @@ format:
 lang: zh-TW
 ---
 
-資料描述了員工的特徵及其離職情況，以下是欄位的說明：
+此資料描述員工的基本資料、工作情況、與職場問卷調查分數，欲分析員工離職的可能性以及影響離職的關鍵因素，以下是資料欄位的說明：
 
-Attrition: 員工是否離職（"Yes" 表示離職，"No" 表示未離職）。
-Age: 員工年齡。
-Gender: 員工性別。
-TotalWorkingYears: 總工作年數。
-YearsInCurrentRole: 在當前職位上的工作年數。
-YearsSinceLastPromotion: 自上次晉升以來的年數。
-DistanceFromHome: 通勤距離（與家庭的距離）。
-JobLevel: 職位等級。
-MonthlyIncome: 每月收入。
-PercentSalaryHike: 薪資漲幅百分比。
-TrainingTimesLastYear: 去年接受培訓的次數。
-StockOptionLevel: 股票期權等級。
-EnvironmentSatisfaction: 對工作環境的滿意度（數值表示，1-4）。
-JobInvolvement: 工作參與度（數值表示，1-4）。
-JobSatisfaction: 對工作的滿意度（數值表示，1-4）。
-RelationshipSatisfaction: 與同事或上司的關係滿意度（數值表示，1-4）。
-WorkLifeBalance: 工作與生活的平衡程度（數值表示，1-4）。
+- `Attrition`: 員工是否離職（"Yes" 表示離職，"No" 表示未離職）為反應變數。
+- `Age`: 員工年齡。
+- `Gender`: 員工性別。
+- `TotalWorkingYears`: 總工作年數。
+- `YearsInCurrentRole`: 在當前職位上的工作年數。
+- `YearsSinceLastPromotion`: 自上次晉升以來的年數。
+- `DistanceFromHome`: 通勤距離。
+- `JobLevel`: 職位等級。
+- `MonthlyIncome`: 每月收入。
+- `PercentSalaryHike`: 薪資漲幅百分比。
+- `TrainingTimesLastYear`: 去年接受培訓的次數。
+- `StockOptionLevel`: 股票期權等級。
+- `EnvironmentSatisfaction`: 對工作環境的滿意度（數值表示，`1`-`4`）。
+- `JobInvolvement`: 工作參與度（數值表示，`1`-`4`）。
+- `JobSatisfaction`: 對工作的滿意度（數值表示，`1`-`4`）。
+- `RelationshipSatisfaction`: 與同事或上司的關係滿意度（數值表示，`1`-`4`）。
+- `WorkLifeBalance`: 工作與生活的平衡程度（數值表示，`1`-`4`）。
 
 ```{python}
 # 匯入必要的套件
@@ -37,15 +37,18 @@ import numpy as np  # 用於數學計算，特別是陣列處理
 from matplotlib import pyplot as plt  # 用於繪製圖表
 ```
 
+讀取並預覽資料。
+
 ```{python}
 # 從網路讀取 CSV 檔案並載入至 pandas DataFrame
-att_df = pd.read_csv('D:/attrition.csv')  # 讀取名為 attrition.csv 的資料集
+att_df = pd.read_csv('https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/sample_data/attrition.csv')  # 讀取名為 attrition.csv 的資料集
 # 顯示資料集的前 5 行，用於檢查資料格式與內容
 print(att_df.head(5))
 # 計算資料集的總行數，確認資料量
 print(len(att_df))
 ```
 
+資料中有類別型資料，先將其轉換為虛擬變數。
 
 ```{python}
 # 篩選出類別型變數（判斷首筆資料的型別是否為字串）
@@ -53,6 +56,8 @@ categ_vars = [ele for ele in att_df.columns if type(att_df[ele].loc[0]) == type(
 # 將類別變數轉換為虛擬變數（Dummy Variables），方便後續建模
 att_df_dummy = pd.get_dummies(att_df, columns=categ_vars, drop_first=True, dtype=int)
 ```
+
+建立分類器模型，在此以 XGBoost 為例，可自由切換其他 scikit-learn 樣式的分類器。
 
 ```{python}
 # 定義目標變數 y 和特徵變數 x
@@ -74,10 +79,15 @@ mdl.fit(x, y)  # 使用特徵變數與目標變數訓練模型
 import dalex
 ```
 
+### 檢視資料中第一位同仁是否有離職意願，並推測可能原因
+
+取第一位同仁的資料，丟入模型預測
+
 ```{python}
 mdl.predict(x.iloc[[0]])
 ```
 
+預測結果為 `0`，表示該員工無離職意願。以下使用 DALEX 模型解釋器計算 SHAP，推測該員工願意繼續做的原因。
 
 ```{python}
 # 建立模型解釋器，指定模型類型為分類（classification）
@@ -110,7 +120,7 @@ shap_df.replace(np.nan, None, inplace=True)  # 替換遺漏值為 None
 print(shap_df)
 ```
 
-
+以下為視覺化 SHAP 值的常用方法，紅色長條為使反應變數向 `1` 傾斜的推力（想離職的動力），綠色長條為使反應變數向 `0` 傾斜的拉力（願意繼續待的考量）。
 ```{python}
 #| fig.align: center
 #| warning: false
@@ -127,6 +137,65 @@ fig = plt.figure(figsize=(8, 6))  # 定義圖形大小
 ax = plt.subplot(1, 1, 1)  # 建立子圖
 ax.barh(shap_draw_order[shap_pos_loc], shap_df['mean'].iloc[shap_pos_loc].tolist(), color='#f57878')  # 繪製正貢獻值條形圖
 ax.barh(shap_draw_order[shap_neg_loc], shap_df['mean'].iloc[shap_neg_loc].tolist(), color='#a0e695')  # 繪製負貢獻值條形圖
+ax.vlines(0, np.min(shap_draw_order)-1, np.max(shap_draw_order)+1)  # 繪製中心垂直線
+ax.set_yticks(shap_draw_order)  # 設定 y 軸刻度
+ax.set_yticklabels(var_name_val)  # 設定 y 軸標籤為變數名稱與值
+ax.set_xlim((-shap_ext, shap_ext))  # 設定 x 軸範圍
+ax.set_ylim((np.min(shap_draw_order)-.5, np.max(shap_draw_order)+.5))  # 設定 y 軸範圍
+fig.tight_layout()  # 自動調整圖形布局
+fig.show()  # 顯示圖形
+```
+
+### 檢視資料中第 21 位同仁是否有離職意願，並推測可能原因
+
+取第 21 位同仁的資料，丟入模型預測 
+
+```{python}
+mdl.predict(x.iloc[[21]])
+```
+
+預測結果為 `1`，表示該員工有離職意願。使用 DALEX 模型解釋器計算 SHAP，推測該員工可能的離職的原因。
+
+```{python}
+# 使用 SHAP（SHapley Additive exPlanations）解釋模型結果
+shap_result_21 = expl.predict_parts(x.iloc[[21]], type='shap', B=10, random_state=0).result
+
+# 初始化 DataFrame，儲存 SHAP 分數與對應變數資訊
+shap_df_21 = pd.DataFrame(columns=['name', 'value', 'mean'])
+# 獲取所有變數的名稱
+x_vars = np.unique(shap_result_21['variable_name'])
+# 遍歷每個變數並計算其 SHAP 分數的平均值
+for j in range(len(x_vars)):
+    tmp = deepcopy(shap_result_21.loc[shap_result_21['variable_name'] == x_vars[j],])  # 深層複製當前變數的數據
+    scores = tmp.loc[tmp['B'] > 0, 'contribution'].values  # 提取貢獻值（僅包含 B > 0 的行）
+    x_value = tmp.loc[tmp['B'] == 0, 'variable_value'].values[0]  # 提取變數值
+    shap_df_21.loc[j] = [x_vars[j], x_value] + [np.mean(scores)]  # 將變數名稱、值與平均貢獻值存入 DataFrame
+
+# 計算 SHAP 平均值的絕對值並進行排序
+shap_df_21['abs_mean'] = np.abs(shap_df_21['mean'])  # 計算貢獻值的絕對平均值
+shap_df_21.sort_values('abs_mean', ascending=False, inplace=True, ignore_index=True)  # 按絕對值降序排序
+shap_df_21.replace(np.nan, None, inplace=True)  # 替換遺漏值為 None
+```
+
+以下為第 21 位同仁 SHAP 值的視覺化結果，紅色長條為使反應變數向 `1` 傾斜的推力（想離職的動力），綠色長條為使反應變數向 `0` 傾斜的拉力（願意繼續待的考量）。
+
+```{python}
+#| echo: false
+#| fig.align: center
+#| warning: false
+#| message: false
+# 建立變數名稱與對應值的表示，方便繪圖標籤
+var_name_val = ['%s=%s' % (shap_df_21['name'].iloc[k], shap_df_21['value'].iloc[k]) for k in range(len(shap_df_21))]
+shap_draw_order = np.flip(np.arange(len(shap_df_21)))  # 定義繪圖順序
+shap_pos_loc = np.where(shap_df_21['mean'] >= 0)  # 找出 SHAP 貢獻值為正的位置
+shap_neg_loc = np.where(shap_df_21['mean'] < 0)  # 找出 SHAP 貢獻值為負的位置
+shap_ext = np.max(np.abs(shap_df_21['mean'])) * 1.1  # 定義繪圖的 x 軸範圍（略大於最大值）
+
+# 繪製 SHAP 條形圖
+fig = plt.figure(figsize=(8, 6))  # 定義圖形大小
+ax = plt.subplot(1, 1, 1)  # 建立子圖
+ax.barh(shap_draw_order[shap_pos_loc], shap_df_21['mean'].iloc[shap_pos_loc].tolist(), color='#f57878')  # 繪製正貢獻值條形圖
+ax.barh(shap_draw_order[shap_neg_loc], shap_df_21['mean'].iloc[shap_neg_loc].tolist(), color='#a0e695')  # 繪製負貢獻值條形圖
 ax.vlines(0, np.min(shap_draw_order)-1, np.max(shap_draw_order)+1)  # 繪製中心垂直線
 ax.set_yticks(shap_draw_order)  # 設定 y 軸刻度
 ax.set_yticklabels(var_name_val)  # 設定 y 軸標籤為變數名稱與值
