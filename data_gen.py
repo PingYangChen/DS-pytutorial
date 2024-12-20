@@ -50,9 +50,9 @@ for i in range(n):
     if i < 330:
         dftmp['consumption'] = gen()
     elif i > 410:
-        dftmp['consumption'] = genf()
-    else:
         dftmp['consumption'] = gen()
+    else:
+        dftmp['consumption'] = genf()
     df = pd.concat([df, dftmp], axis = 0)
     df.reset_index(drop=True, inplace=True)
 
