@@ -29,6 +29,9 @@ import xgboost as xgb
 mdl = xgb.XGBClassifier(n_estimators=20)  # 設定樹的數量為 20
 mdl.fit(x, y)  # 使用特徵變數與目標變數訓練模型
 
+np.where(mdl.predict(x) ==1)
+
+
 # 匯入 dalex 套件，便於模型解釋
 import dalex
 # 建立模型解釋器，指定模型類型為分類（classification）

@@ -1,0 +1,25 @@
+---
+title: "資料探勘 期末考答案卷"
+author: "陳秉洋"
+format: 
+    html:
+        html-math-method: mathml
+        toc: true
+        self-contained: true
+lang: zh-TW
+---
+
+# 第一題
+
+```{python}
+
+```
+
+# 第二題
+
+# 第三題
+
+# 第四題
+
+# 第五題
+
