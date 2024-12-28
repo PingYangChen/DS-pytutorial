@@ -9,17 +9,43 @@ format:
 lang: zh-TW
 ---
 
+```{python}
+import pandas as pd
+```
+
 # 第一題
 
 ```{python}
-
+df1 = pd.read_csv("https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/final_exam_data/01/titanic.csv")
+print(df1.shape)
 ```
 
 # 第二題
 
+```{python}
+df2 = pd.read_csv("https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/final_exam_data/02/consumption.csv")
+print(df2.shape)
+```
+
 # 第三題
+
+```{python}
+df3 = pd.read_csv("https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/final_exam_data/03/default.csv")
+print(df3.shape)
+```
+
 
 # 第四題
 
+```{python}
+df4 = pd.read_csv("https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/final_exam_data/04/wine.csv")
+print(df4.shape)
+```
+
 # 第五題
+
+```{python}
+df5 = pd.read_csv("https://raw.githubusercontent.com/PingYangChen/DS-pytutorial/refs/heads/main/final_exam_data/05/housing.csv")
+print(df5.shape)
+```
 
