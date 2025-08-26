@@ -10,7 +10,7 @@ from mlxtend.frequent_patterns import association_rules
 mset = ['%02d' % (k+1) for k in range(12)]
 
 lotto_list = []
-for yyy in ['2023', '2024']:
+for yyy in ['2023', '2024', '2025']:
   for mmm in mset:
     lottery = TaiwanLotteryCrawler()
     result = lottery.lotto649([yyy, mmm])
@@ -20,6 +20,7 @@ lotto_df = pd.DataFrame(lotto_list)
 lotto_df.sort_values('開獎日期', inplace=True)
 print(lotto_df)
 
+lotto_df.to_csv('D:/lott0_2023-202503037.csv', index=False, encoding='utf-8-sig')
 
 lotto_df['獎號'].tolist()
 
